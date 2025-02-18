@@ -1,0 +1,222 @@
+:root {
+  --vh: 100%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    overflow: hidden;
+  }
+
+  .festival-container {
+    width: 375px;
+    height: calc(var(--vh, 1vh) * 100);
+    background: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0px 300px;
+  }
+
+  /* 입력 필드 그룹 */
+  .room-group {
+    width: calc(100% - 32px); /* 왼쪽, 오른쪽 16dp 마진 유지 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+    min-height: 0;
+    margin-bottom: 10px;
+  }
+
+  /* 축제 이름들 */
+  .room-wrapper {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  /* 축제 리스트 필드 */
+  .room-field {
+    height: auto;
+    border-radius: 11px;
+    background: #F3F3F6;
+    border: none;
+    padding: 16px;
+    margin: 10px 0px;
+  }
+
+  .logo {
+    width: calc(100% - 140px);
+    height: auto;
+    flex-shrink: 0;
+    margin-top: 64px;
+    margin-bottom: 39px;
+    }
+  
+  .progress-circle {
+    width: 31px;
+    height: 31px;
+    background-color: #FF6F61;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .title {
+    font: body_semi_17;
+    font-weight: 700;
+    color: #171717;
+    margin: 20px 0;
+  }
+  
+  /* 입력 필드 그룹 */
+  .invite-group {
+    width: calc(100% - 32px); /* 왼쪽, 오른쪽 16dp 마진 유지 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  /* 입력 필드 라벨 */
+  .input-label {
+    font-family: Pretendard;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 23.8px */
+    color: #171717; /* ✅ 기본 텍스트 색상 (gray06) */
+    display: flex;
+    align-items: center;
+    margin: 10px 7px;
+  }
+  
+  .input-label .required {
+    color: #FF6F61; /* ✅ 별표 색상 (main_coral) */
+    margin-left: 4px;
+  }
+  
+  
+  /* 입력 필드 */
+  .input-field {
+    width: inherit;  /* 부모인 .invite-group 기준으로 가득 채움 */
+    height: auto;
+    border-radius: 11px;
+    background: #F3F3F6;
+    border: none;
+    padding: 16px;
+  }
+  
+  /* 닉네임 입력 필드 + 중복 확인 버튼 */
+  .nickname-wrapper {
+    width: inherit;
+    height: auto;
+    background: #F3F3F6;
+    border-radius: 11px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    padding: 16px;
+    align-items: center;
+  }
+  
+  .nickname-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-right: 100px; /* 중복확인 버튼과 간격 확보 */
+  }
+  
+  .duplicate-check {
+    font: body_semi_13;
+    width: 88px;
+    height: 32px;
+    border-radius: 9px;
+    background: #D5D5DE;
+    border: none;
+    color: #FFFFFF;
+    cursor: not-allowed;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  
+  /* 닉네임 유효할 때 활성화 */
+  .duplicate-check.active {
+    background: #FF6F61;
+    cursor: pointer;
+  }
+  
+  /* 오류 메시지 */
+  .input-error {
+    font-size: 12px;
+    color: #FF6F61;
+    margin-top: 5px;
+  }
+  
+  /* 입력 설명 */
+  .input-description {
+    font: cap_reg_11;
+    font-size: 11px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
+  /* 성별 선택 버튼 */
+  .gender-container {
+    display: flex;
+    width: 100%;
+    gap: 13px;
+  }
+  
+  .gender-btn {
+    flex: 1; /* 버튼의 크기를 동일하게 설정 */
+    height: 50px;
+    border-radius: 11px;
+    border: none;
+    cursor: pointer;
+    background: #F3F3F6;
+    font: body_semi_15;
+    color: #7B7C87;
+  }
+  
+  
+  .gender-btn.selected {
+    background: #FF6F61;
+    color: white;
+  }
+  
+  /* 다음 버튼 */
+  .next-btn {
+    width: 100%;
+    height: 54px;
+    border-radius: 9px;
+    background: #D5D5DE;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .next-btn.active {
+    background: #FF6F61;
+    color: white;
+  }
+  
