@@ -24,5 +24,8 @@
   justify-content: center;
   align-items: center;
 }
+.App {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
 
