@@ -9,6 +9,13 @@
   --secondary-color: #2ecc71;
   --background-color: #f5f5f5;
   --text-color: #333;
+  --alert-red: #ff3636;
+  --alert-blue: #477bff;
+  --kakao-yellow: #fee500;
+  --main-coral: #ff6f61;
+  --sub-coral: #ff998f;
+  --light-coral: #ffe6e4;
+  
 }
 .container {
   padding: 0px 24px 0px 24px;
