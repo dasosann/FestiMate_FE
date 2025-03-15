@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import InfoPage from './components/InfoPage';
 import FestivalPage from './components/FestivalPage';
 import MainPage from './pages/Main/MainPage';
+import InputCode from './pages/Main/InputCode';
 
 function setScreenSize() {
   const vh = window.innerHeight * 0.009;
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/info" element={<InfoPage />} />
         <Route path="/enterFestival" element={<FestivalPage />} />
         <Route path="/mainPage" element={<MainPage />} />
+        <Route path="/festivalCode" element={<InputCode />} />
       </Routes>
     </Router>
   );
