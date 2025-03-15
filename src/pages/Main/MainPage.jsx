@@ -5,6 +5,8 @@ const MainPage = () => {
   const [selectedProgressMenu, setSelectedProgressMenu] = useState("진행");
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchFestivals = async () => {
@@ -38,7 +40,7 @@ const MainPage = () => {
     <div style={{ height: '100vh', position:'relative' }}>
       <M.HeaderDiv>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
-        <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" />
+        <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={()=>setIsMenuOpen(true)} />
       </M.HeaderDiv>
       <M.ParticipateDiv>
         <span style={{ color: '#ff6f61' }}>가대 고윤정</span>
@@ -87,6 +89,28 @@ const MainPage = () => {
         </M.MainDiv>
         <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" />
       </M.MainWrapper>
+      {isMenuOpen && <M.Overlay onClick={()=>setIsMenuOpen(false)}/>}
+      <M.SideDrawer isOpen={isMenuOpen}>
+          <M.CloseButton src='/assets/Main/close-button.svg' alt="닫기" onClick={() => setIsMenuOpen(false)}/>
+          <img src="/assets/Main/user-icon.svg  " alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
+          <M.DrawerUserName>가대 고윤정님</M.DrawerUserName>
+        <M.DrawerBody>
+          <M.LogoutBtn onClick={()=>setIsLogoutModalOpen(true)}>로그아웃</M.LogoutBtn>
+        </M.DrawerBody>
+      </M.SideDrawer>
+      {isLogoutModalOpen && (
+        <M.ModalOverlay onClick={() => setIsLogoutModalOpen(false)} />
+      )}
+      {/* (2) 실제 로그아웃 모달 */}
+      <M.LogoutModal isOpen={isLogoutModalOpen}>
+        <M.LogoutConfirmP>
+          로그아웃 하시겠습니까?
+        </M.LogoutConfirmP>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <M.ConfirmLogoutButton color="#7b7c87" backgroundColor="#E6E6EB" onClick={() => setIsLogoutModalOpen(false)}>취소</M.ConfirmLogoutButton>
+          <M.ConfirmLogoutButton color="#fff" backgroundColor="#3a3c42">확인</M.ConfirmLogoutButton>
+        </div>
+      </M.LogoutModal>
     </div>
   );
 };
