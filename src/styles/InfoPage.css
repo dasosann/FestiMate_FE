@@ -38,7 +38,6 @@ html, body {
 }
 
 .title {
-  font: body_semi_17;
   font-weight: 700;
   color: #171717;
   margin: 20px 0;
@@ -104,7 +103,6 @@ html, body {
 }
 
 .duplicate-check {
-  font: body_semi_13;
   width: 88px;
   height: 32px;
   border-radius: 9px;
@@ -153,7 +151,6 @@ html, body {
   border: none;
   cursor: pointer;
   background: #F3F3F6;
-  font: body_semi_15;
   color: #7B7C87;
 }
 
