@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import M from '../../styles/pages/Main/MainPageStyle';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
   const [selectedProgressMenu, setSelectedProgressMenu] = useState("진행");
@@ -7,7 +8,7 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
+  const navigate =useNavigate();
   useEffect(() => {
     const fetchFestivals = async () => {
       setLoading(true);
@@ -87,7 +88,7 @@ const MainPage = () => {
             ))
           )}
         </M.MainDiv>
-        <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" />
+        <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" onClick={()=>navigate("/festivalcode")} />
       </M.MainWrapper>
       {isMenuOpen && <M.Overlay onClick={()=>setIsMenuOpen(false)}/>}
       <M.SideDrawer isOpen={isMenuOpen}>

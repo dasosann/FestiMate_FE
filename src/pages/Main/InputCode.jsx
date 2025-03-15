@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import I from '../../styles/pages/Main/InputCodeStyle'
+import { useNavigate } from 'react-router-dom';
 const InputCode = () => {
     const [codeValue, setCodeValue] = useState('');
     const [isError, setIsError] = useState(false); // 에러 상태 (코드가 올바르지 않을 때 true)
+    const navigate =useNavigate();
     const handleChange = (e) => {
         setCodeValue(e.target.value);
       };
@@ -46,7 +48,7 @@ const InputCode = () => {
     return (
         <div>
             <I.HeaderDiv>
-                <img src="/assets/Main/back-arrow.svg" alt="뒤로" />
+                <img src="/assets/Main/back-arrow.svg" alt="뒤로" onClick={()=>navigate("/mainpage")} />
             </I.HeaderDiv>
             <I.BodyDiv>
                 <I.TitleDiv>페스티벌 입장하기</I.TitleDiv>
