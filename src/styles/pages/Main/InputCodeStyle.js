@@ -10,7 +10,7 @@ I.HeaderDiv = styled.div`
 I.BodyDiv=styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 16px 48px 16px;
+    padding: 0 16px 64px 16px;
     gap: 12px;
     height: calc(100vh - 43px);
 `
@@ -36,13 +36,14 @@ I.CodeInput =styled.input`
     font-weight: 600;
     color: #3a3c42;
     padding: 15px 11px;
-    border: 1px solid ${({ hasText }) => (hasText ? "#ff3636" : "#e6e6eb")};
+    border: 1px solid ${({ isError }) => (isError ? "#ff3636" : "#e6e6eb")};
     border-radius: 7px;
     &::placeholder{
         font-size: 13px;
         line-height: 140%;
         color: #d5d5de;
     }
+    
 `
 I.CodeSubmitButton = styled.button`
     width: 100%;
@@ -54,6 +55,7 @@ I.CodeSubmitButton = styled.button`
     font-weight: 600;
     color: #fff;
     margin-top: auto;
+    
 `
 
 export default I;
