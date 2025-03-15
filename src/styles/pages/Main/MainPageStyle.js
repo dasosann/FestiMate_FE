@@ -58,7 +58,7 @@ M.PlusImg = styled.img`
     height: 57px;
     cursor: pointer;
     position: absolute;
-    bottom: calc(21px + env(safe-area-inset-bottom));
+    bottom: calc(41px + env(safe-area-inset-bottom));
     right: 13px;
 `
 M.MainWrapper = styled.div`
