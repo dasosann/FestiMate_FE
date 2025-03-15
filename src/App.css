@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
+  padding: 0px 24px 0px 24px;
   text-align: center;
 }
 :root {
@@ -25,7 +25,16 @@
   background-color: #FFFAFB;
   align-items: center;
 }
-
+@media (max-width: 768px) {
+  .container {
+    background-size: cover;
+    margin: 0px;
+  }
+    .header,
+    .content {
+      width: 100%;
+    }
+}
 .flexCenter {
   display: flex;
   justify-content: center;
