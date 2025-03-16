@@ -19,7 +19,7 @@ body, html {
   width: 100%;
   max-width: 1024px; /* 모바일 최대 크기 */
   height: 100vh;
-  margin: 0 auto;
+  margin: 0;
   overflow: hidden;
 }
 

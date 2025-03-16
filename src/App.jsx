@@ -2,7 +2,7 @@ import React ,{ useEffect }from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SplashScreen from './components/SplashScreen';
 import LoginPage from './components/LoginPage';
-import InfoPage from './components/InfoPage';
+import InfoPage from './components/InfoPage/InfoPage';
 import FestivalPage from './components/FestivalPage';
 import MainPage from './pages/Main/MainPage';
 import './App.css';

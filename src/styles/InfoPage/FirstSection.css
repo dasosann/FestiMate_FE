@@ -1,0 +1,99 @@
+
+.info-container {
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.point-color {
+    color: var(--main-coral);
+}
+
+.info-phrase {
+    width: 100%;
+    font-size: 18px;
+    font-weight: var(--bold);
+    color: black;
+    text-align: left;
+    margin: 15px 0;
+}
+
+.info-explain {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: var(--medium);
+    color: var(--gray04);
+}
+
+.info-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin: 0 20px;
+}
+
+.info-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.info-input-title {
+    width: 100%;
+    margin-right: auto;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.info-input {
+    width: 100%;
+    border: 1px solid var(--gray03);
+    background-color: white;
+    font-size: 13px;
+    font-weight: var(--semibold);
+    height: 50px;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+input::placeholder {
+    color: var(--gray03);
+}
+
+.nickname-check-button {
+    position: absolute;
+    right: 10px;  /* 컨테이너의 오른쪽에서 10px */
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background-color: var(--main-coral);
+    color: white;
+    font-weight: var(--semibold);
+    font-size: 13px;
+    width: 80px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.nickname-len {
+    width:100%;
+    text-align: right;
+    font-size: 11px;
+    font-weight: var(--medium);
+    color: var(--gray05);
+    padding: 5px;
+}
