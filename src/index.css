@@ -19,10 +19,9 @@ body, html {
   width: 100%;
   max-width: 430px; /* 모바일 최대 크기 */
   height: 100dvh;
-  margin: 0 auto; 
+  margin: 0;
   /*원래 vh였는데 dvh로 제가 변경했습니다 */
-  /* height: 100vh;
-  margin: 0; */
+  /* height: 100vh; */
   overflow: hidden;
 }
 
