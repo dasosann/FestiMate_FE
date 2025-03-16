@@ -22,7 +22,7 @@
 
 .login-logo {
     width: calc(100% - 140px);
-    max-width: 1024px;
+    max-width: 430px;
     height: auto;
     flex-shrink: 0;
     margin-top: 50%;

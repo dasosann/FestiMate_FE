@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '/src/styles/InfoPage/FirstSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
-import { IMaskInput } from 'react-imask';
 
 
 const FirstSection = ({setCurrentPage}) => {
