@@ -38,11 +38,15 @@ I.CodeInput =styled.input`
     color: #3a3c42;
     padding: 15px 11px;
     border: 1px solid ${({ isError }) => (isError ? "#ff3636" : "#e6e6eb")};
+    outline: none;
     border-radius: 7px;
     &::placeholder{
         font-size: 13px;
         line-height: 140%;
         color: #d5d5de;
+    }
+      &:focus {
+        border: 1px solid ${({ isError }) => (isError ? "#ff3636" : "#000")}; /* 포커스 상태에서도 유지 */
     }
     
 `
@@ -55,8 +59,75 @@ I.CodeSubmitButton = styled.button`
     font-size: 15px;
     font-weight: 600;
     color: #fff;
-    margin-top: auto;
-    
+    margin-top: auto
 `
+I.InvalidCodeText= styled.div`
+    font-size: 11px;
+    line-height: 140%;
+    font-weight: 500;
+    color: #ff3636;
+    margin-top: -8px;
 
+`
+I.ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1999; 
+`;
+
+I.ConfirmModal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background: #fff;
+  padding: 13px 13px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 2000; 
+  border-radius: 13px;
+  text-align: center;
+  height: 188px;
+`;
+
+I.ModalTitle = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+  margin-top: 4px;
+`;
+
+I.ModalContent = styled.p`
+  font-size: 15px;
+  color: #575a63;
+  font-weight: 500;
+  margin-top: 4px;
+  margin-bottom: 18px;
+`;
+
+I.ModalButtonWrapper = styled.div`
+  display: flex;
+  gap : 7px;
+`;
+
+I.ModalButton = styled.button`
+all: unset;
+box-sizing: border-box;
+  width: 48%;
+  padding: 13px 0px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.backgroundColor};
+  border: ${(props) => props.border};
+  border-radius: 7px;
+  cursor: pointer;
+  height: 47px;
+`;
 export default I;
