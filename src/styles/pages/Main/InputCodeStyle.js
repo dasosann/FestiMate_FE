@@ -10,9 +10,10 @@ I.HeaderDiv = styled.div`
 I.BodyDiv=styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 16px 48px 16px;
+    padding: 0 16px 0 16px;
+    padding-bottom: calc(35px + env(safe-area-inset-bottom,0px));
     gap: 12px;
-    height: calc(100vh - 43px);
+    height: calc(100dvh - 43px);
 `
 I.TitleDiv=styled.div`
     font-size: 18px;
