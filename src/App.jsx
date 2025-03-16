@@ -1,18 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React ,{ useEffect }from 'react';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
+import SplashScreen from './components/SplashScreen';
+import LoginPage from './components/LoginPage';
+import InfoPage from './components/InfoPage';
+import FestivalPage from './components/FestivalPage';
+import MainPage from './pages/Main/MainPage';
+import InputCode from './pages/Main/InputCode';
+import OpenExternalBrowser from '../OpenExternalBrowser';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className='.container'>
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is ss{count}
-      </button>
-    </div>
-  )
+function setScreenSize() {
+  const vh = window.innerHeight * 0.009;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
-export default App
-  
+const App = () => {
+  useEffect(() => {
+    setScreenSize();
+  });
+  return (
+    <div>
+      <OpenExternalBrowser/>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<SplashScreen />} />  {/* 기본 경로 수정 ✅ */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/info" element={<InfoPage />} />
+            <Route path="/enterFestival" element={<FestivalPage />} />
+            <Route path="/mainPage" element={<MainPage />} />
+            <Route path="/festivalCode" element={<InputCode />} />
+          </Routes>
+        </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;
