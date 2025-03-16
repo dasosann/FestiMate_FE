@@ -8,7 +8,7 @@ function App() {
   return (
     <div className='.container'>
       <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
+        count is ss{count}
       </button>
     </div>
   )
