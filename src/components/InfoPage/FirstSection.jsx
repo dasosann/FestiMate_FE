@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '/src/styles/InfoPage/FirstSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
+import { IMaskInput } from 'react-imask';
 
 
 const FirstSection = ({setCurrentPage}) => {
@@ -17,11 +18,12 @@ const FirstSection = ({setCurrentPage}) => {
     };
 
     function formatPhoneNumber(value) {
-        let digits = value.replace(/\D/g, '').substring(0, 11);
-
-        digits = digits.replace(/^(\d{3})/, '$1-');
-        digits = digits.replace(/^(\d{3}-\d{4})/, '$1-');
-
+        let digits = value.replace(/\D/g, '');
+        
+        digits = digits.substring(0, 11);
+        digits = digits.replace(/^(\d{3})(?=\d)/, '$1-');
+        digits = digits.replace(/^(...-....)(?=\d)/, '$1-');
+        
         return digits;
     }
 
