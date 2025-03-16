@@ -16,6 +16,7 @@ M.ParticipateDiv =styled.div`
     line-height: 140%;
     color: #000;
     margin-top: 23px;
+    text-align: left;
 `
 M.ProgressMenu = styled.div`
     display: flex;
@@ -58,11 +59,11 @@ M.PlusImg = styled.img`
     height: 57px;
     cursor: pointer;
     position: absolute;
-    bottom: calc(56px + env(safe-area-inset-bottom));
     right: 13px;
 `
 M.MainWrapper = styled.div`
   display: flex;
+  padding-bottom:38px ;
 `;  
 M.Overlay = styled.div`
   position: fixed;
