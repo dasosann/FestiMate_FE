@@ -18,8 +18,8 @@ body, html {
 #root {
   width: 100%;
   max-width: 430px; /* 모바일 최대 크기 */
-  height: 100vh;
-  margin: 0 auto;
+  height: 100dvh;
+  margin: 0 auto; 
   overflow: hidden;
 }
 

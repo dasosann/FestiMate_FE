@@ -58,12 +58,15 @@ M.PlusImg = styled.img`
     width: 57px;
     height: 57px;
     cursor: pointer;
-    position: absolute;
-    right: 13px;
+    margin-top: auto;
+    margin-left: auto;
 `
 M.MainWrapper = styled.div`
   display: flex;
-  padding-bottom:38px ;
+  flex-direction: column;
+  height: calc(100dvh - 161px);
+  padding: 13px 16px;
+  
 `;  
 M.Overlay = styled.div`
   position: fixed;
