@@ -1,0 +1,23 @@
+.navbar-container {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-arrow {
+    height: auto;
+    margin: 10px;
+}
+
+.all-progress {
+    margin: 20px;
+    margin-left: auto;
+    font-weight: var(--semibold);
+    font-size: 17px;
+}
+
+.current-progress {
+    color: var(--main-coral);
+}
