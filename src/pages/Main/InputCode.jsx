@@ -46,7 +46,7 @@ const InputCode = () => {
       }
     };
     return (
-        <div style={{textAlign:'left'}}>
+        <div style={{textAlign:'left',height:'calc(100dvh - env(safe-area-inset-bottom))'}}>
             <I.HeaderDiv>
                 <img src="/assets/Main/back-arrow.svg" alt="뒤로" onClick={()=>navigate("/mainpage")} />
             </I.HeaderDiv>
