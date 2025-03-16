@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
 import kakaoLoginImg from '../assets/btn_kakao_login.png';
 import appleLoginImg from '../assets/btn_apple_login.png';
-import logo from '/assets/Main/festimate-logo.svg';
+import logo from '/assets/Main/festimate-logo.svg'
 
 const LoginPage = () => {
     const navigate = useNavigate();

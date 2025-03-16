@@ -46,7 +46,7 @@ const InputCode = () => {
       }
     };
     return (
-        <div>
+        <div style={{textAlign:'left'}}>
             <I.HeaderDiv>
                 <img src="/assets/Main/back-arrow.svg" alt="뒤로" onClick={()=>navigate("/mainpage")} />
             </I.HeaderDiv>
