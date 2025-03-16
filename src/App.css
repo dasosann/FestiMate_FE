@@ -1,7 +1,5 @@
 #root {
   margin: 0 auto;
-  /* padding: 2rem; */
-  padding: 0px 24px 0px 24px;
   text-align: center;
 }
 :root {
@@ -15,6 +13,21 @@
   --main-coral: #ff6f61;
   --sub-coral: #ff998f;
   --light-coral: #ffe6e4;
+
+  --black: #000000;
+  --gray01: #f3f3f6;
+  --gray02: #e6e6eb;
+  --gray03: #d5d5de;
+  --gray04: #999aab;
+  --gray05: #7b7cb7;
+  --gray06: #575a63;
+  --gray07: #3a3c42;
+  --white: #ffffff;
+
+  --medium: 500;
+  --semibold: 600;
+  --bold: 700;
+  --extrabold:800;
   
 }
 .container {

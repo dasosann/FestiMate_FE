@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import InfoPage from './components/InfoPage';
 import FestivalPage from './components/FestivalPage';
 import MainPage from './pages/Main/MainPage';
+import './App.css';
 import InputCode from './pages/Main/InputCode';
 import OpenExternalBrowser from '../OpenExternalBrowser';
 
@@ -17,6 +18,7 @@ const App = () => {
   useEffect(() => {
     setScreenSize();
   });
+
   return (
     <div>
       <OpenExternalBrowser/>

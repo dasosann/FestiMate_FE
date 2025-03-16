@@ -6,7 +6,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #FFF;
+  background-color: var(--main-coral);
   overflow: hidden;
 }
 
@@ -37,7 +37,6 @@ html, body {
   }
 
   .title {
-  font-family: body_semi_17;
   font-size: 17px;
   font-weight: 600;
   color: #171717;

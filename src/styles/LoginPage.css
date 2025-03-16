@@ -1,80 +1,71 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #FFF;
-  overflow: hidden;
-}
 
 .login-container {
-  width: 375px;
-  height: 812px;
-  background: #FFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 0 16px;
-  box-sizing: border-box;
-  }
+    width: 100%;
+    height: 100%;
+    background: var(--main-coral);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+}
 
-  .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 210px;
-  }
+.login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
 
-  .title {
-  font-family: body_semi_17;
-  font-size: 17px;
-  font-weight: 600;
-  color: #171717;
-  line-height: 23.8px;
-  }
+.login-logo {
+    width: calc(100% - 140px);
+    max-width: 1000px;
+    height: auto;
+    flex-shrink: 0;
+    margin-top: 50%;
+}
 
-  :root {
-    --vh: 100%;
-  }
+.login-title {
+    font-size: 15px;
+    font-weight: var(--semibold);
+    color: white;
+}
 
-  .logo {
-  width: calc(100% - 140px);
-  height: auto;
-  flex-shrink: 0;
-  margin-top: 39px;
-  margin-bottom: 190px;
-  }
+.login-button-container {
+    display: flex;
+    flex-direction: column;
+    margin-top:auto;
+    margin-bottom: 10%;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 32px);
+    max-width: 1000px;
+}
 
-  .login-button {
-  display: flex;
-  width: calc(100% - 32px);
-  height: 54px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin-bottom: 16px;
-  }
+.login-button {
+    display: flex;
+    height: 54px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
 
-  .login-img {
-  width: 100%;
-  height: auto;
-  }
+.login-img {
+    width: 100%;
+    height: auto;
+}
 
   .privacy {
-  font-size: 14px;
-  color: #666;
-  margin-top: 12px;
-  cursor: pointer;
-  margin-top: 4px;
-  margin-bottom: 21px;
+    font-size: 14px;
+    color: white;
+    margin-top: 12px;
+    cursor: pointer;
+    margin-top: 4px;
   }
