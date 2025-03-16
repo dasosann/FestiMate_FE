@@ -8,8 +8,8 @@ const InfoPage = () => {
  
     return (
         <div className="section-container">
-            <Navbar currentPage={currentPage}/>
-            <FirstSection />
+            <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+            <FirstSection setCurrentPage={setCurrentPage}/>
         </div>
     );
 };
