@@ -38,7 +38,7 @@ M.ProgressDiv = styled.div`
 M.MainDiv=styled.div`
     display: flex;
     flex-direction:column;
-    padding: 13px 16px;
+    padding: 13px 0px;
     flex: 1;
 `
 M.TotalFestivalDiv=styled.div`
@@ -65,7 +65,7 @@ M.MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 161px);
-  padding: 13px 16px;
+  padding: 0px 16px;
   
 `;  
 M.Overlay = styled.div`
@@ -170,5 +170,39 @@ M.ConfirmLogoutButton=styled.button`
     font-size: 15px;
     font-weight: 600;
     border: none;
+`
+M.ComponentWrapper = styled.div`
+  width: 100%;
+  height: 75px;
+  border-radius: 7px;
+  border: 1px solid #e6e6eb;
+  display: flex;
+  padding: 11px 10px;
+  background-color: #f3f3f6;
+  gap: 10px;
+  align-items: center;
+`
+M.TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+`
+M.TitleText = styled.div`
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 140%;
+`
+M.SubText = styled.div`
+  color: #7b7c87;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 140%;
+` 
+M.ArrowImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
 `
 export default M;
