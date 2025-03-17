@@ -13,14 +13,17 @@ const InfoPage = () => {
         <div className="section-container">
             <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             { currentPage === 1 &&
-            <FirstSection 
-                setCurrentPage={setCurrentPage}
-                setPhone={setPhone}
-                setName={setName}
-                name={name}
-                phone={phone}
+                <FirstSection 
+                    setCurrentPage={setCurrentPage}
+                    setPhone={setPhone}
+                    setName={setName}
+                    name={name}
+                    phone={phone}
             /> }
-            { currentPage === 2 && <SecondSection /> }
+            { currentPage === 2 && 
+                <SecondSection 
+                    setCurrentPage={setCurrentPage}
+            /> }
         </div>
     );
 };

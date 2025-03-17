@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import DatePicker from 'react-mobile-datepicker';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
-import WheelPicker from 'react-simple-wheel-picker';
 
-const FirstSection = () => {
+const SecondSection = ({setCurrentPage}) => {
     const [nickname, setNickname] = useState('');
     const [nicknameError, setNicknameError] = useState('');
     const [isValidNickname, setIsValidNickname] = useState(false);
     const [nicknameLen, setNicknameLen] = useState(0);
     const [gender, setGender] = useState(null);
-
+    
     const [year, setYear] = useState('');
     const [yearOption, setYearOption] = useState([]);
     const isFilled = nickname && year && gender;
@@ -22,17 +20,14 @@ const FirstSection = () => {
         const tmp = [];
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
-        setYear(tmp[0].toString());
+        setYear(tmp[0]);
     },[]);
 
 
     const validateNickname = (value) => {
-        const hangulRegex = /^[가-힣]+$/; // 한글만 허용
-        if (!hangulRegex.test(value)) {
-            setNicknameError('한글만 입력 가능합니다.');
-            setIsValidNickname(false);
-        } else if (value.length < 1 || value.length > 10) {
-            setNicknameError('1자 이상 10자 이하로 입력해주세요.');
+        const regex = /^[가-힣a-zA-Z]+$/; // 한글만 허용
+        if (!regex.test(value)) {
+            setNicknameError('한글과 영어만 입력 가능합니다.');
             setIsValidNickname(false);
         } else {
             setNicknameError('');
@@ -51,14 +46,11 @@ const FirstSection = () => {
     };
 
     const handleNext = () => {
-        if (nickname && isValidNickname && age && gender) {
-            console.log('다음 페이지로 이동');
+        if (nickname && isValidNickname && year && gender) {
+            setCurrentPage(prev => prev+1);
         }
     };
 
-    const handleGenderChange = () => {
-
-    }
     return (
         <div className="info-container">
             <div className="info-phrase">
@@ -74,33 +66,37 @@ const FirstSection = () => {
                     <div className="info-input-wrapper">
                         <input 
                             type="text"
-                            className="info-input" 
+                            className={`info-input-nickname ${nicknameError ? 'warn' : ''}`}
                             placeholder='닉네임을 입력해주세요'
                             value={nickname}
                             onChange={handleNicknameChange}/>
-                        <button className="nickname-check-button">중복확인</button>
+                        <button className="nickname-check-button"
+                                disabled={!isValidNickname}>
+                            중복확인
+                        </button>
                     </div>
-                    <div className="nickname-len">{nicknameLen}/6</div>
+                    <div className="nickname-meta">
+                        <div className="nickname-warning">
+                            { nicknameError ? nicknameError : null}
+                        </div>
+                        <div className="nickname-len">{nicknameLen}/6</div>
+                    </div>
                 </div>
                 <div className="info-input-container">
                     <div className="info-input-title">출생연도</div>
                     <div className="info-input-wrapper">
-                        <div style={{ width: "100%", maxWidth: 300, margin: "0 auto" }}>
-                        <h3>출생연도 선택: {year}년</h3>
-                        <WheelPicker
-                            data={yearOption.map((y) => ({id: y.toString, value: y.toString()}))}
-                            selectedID={year}
-                            onChange={(target) => setYear(target.value)}
-                            colorConfig={{
-                                defaultColor: '#999',
-                                selectedColor: '#000',
-                            }}
-                            containerStyle={{
-                                backgroundColor: '#f5f5f5',
-                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                            }}
-                        />
-                        </div>
+                        <select 
+                            value={year}
+                            className="info-input"
+                            onChange={e => setYear(e.target.value)} 
+                        >
+                            <option value="" style={{color: 'var(--gray03)'}}>연도 선택</option>
+                            {yearOption.map((yr,idx) => (
+                                <option key={`${yr}-${idx}`} value={yr}>
+                                {yr}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <div className="info-input-container">
@@ -135,4 +131,4 @@ const FirstSection = () => {
     );
 };
 
-export default FirstSection;
+export default SecondSection;
