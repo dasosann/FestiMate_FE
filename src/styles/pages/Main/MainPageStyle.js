@@ -60,6 +60,7 @@ M.PlusImg = styled.img`
     cursor: pointer;
     margin-top: auto;
     margin-left: auto;
+    padding-bottom:env(safe-area-inset-bottom,0px);
 `
 M.MainWrapper = styled.div`
   display: flex;
