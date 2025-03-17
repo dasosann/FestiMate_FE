@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import M from '../../styles/pages/Main/MainPageStyle';
 import { useNavigate } from 'react-router-dom';
-
+const ParticipateFestivalComponent = ({category, title, period})=>{
+  return (
+    <M.ComponentWrapper>
+        <img src="/assets/Main/school-category.svg" alt="카테고리" />
+        <M.TextWrapper>
+          <M.TitleText>2025 가톨릭대 다맛제</M.TitleText>
+          <div style={{display:'flex',gap:'4px'}}>
+            <img src="/assets/Main/calendar.svg" alt="달력" />
+            <M.SubText>2025.05.18 ~ 2025.05.19</M.SubText>
+          </div>
+        </M.TextWrapper>
+        <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기" />
+    </M.ComponentWrapper>
+  )
+}
 const MainPage = () => {
   const [selectedProgressMenu, setSelectedProgressMenu] = useState("진행");
   const [festivals, setFestivals] = useState([]);
@@ -80,14 +94,15 @@ const MainPage = () => {
               )}
             </>
           ) : (
-            festivals.map((festival) => (
-              <div key={festival.id}>
-                <h3>{festival.name}</h3>
-                <p>{festival.description}</p>
-              </div>
-            ))
+            <div>
+              <M.TotalFestivalDiv>총 {festivals.length}개</M.TotalFestivalDiv>
+              {festivals.map((festival,i) => (
+                <M.ParticipateDiv key={i} title={festival.title} period={festival.period} category={festival.category}/>
+              ))}
+            </div>
           )}
         </M.MainDiv>
+        <ParticipateFestivalComponent/>
         <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" onClick={()=>navigate("/festivalcode")} />
       </M.MainWrapper>
       {isMenuOpen && <M.Overlay onClick={()=>setIsMenuOpen(false)}/>}
