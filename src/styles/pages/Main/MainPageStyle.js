@@ -65,8 +65,9 @@ M.PlusImg = styled.img`
 M.MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - 161px);
+  height: calc(100dvh - 117px);
   padding: 0px 16px;
+  padding-bottom: calc(35px + env(safe-area-inset-bottom,0px));
   
 `;  
 M.Overlay = styled.div`
