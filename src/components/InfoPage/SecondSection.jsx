@@ -3,16 +3,15 @@ import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 
-const SecondSection = ({setCurrentPage}) => {
-    const [nickname, setNickname] = useState('');
+const SecondSection = ({setCurrentPage, nickname, setNickname, 
+    gender, setGender, year, setYear}) => {
+
     const [nicknameError, setNicknameError] = useState('');
     const [isValidNickname, setIsValidNickname] = useState(false);
     const [nicknameLen, setNicknameLen] = useState(0);
-    const [gender, setGender] = useState(null);
-    
-    const [year, setYear] = useState('');
     const [yearOption, setYearOption] = useState([]);
-    const isFilled = nickname && year && gender;
+    const [canPass, setCanPass] = useState(false);
+    const isFilled = nickname && year && gender && isValidNickname && canPass;
     
     useEffect(() => {
         const startYear = 1970;
@@ -21,6 +20,8 @@ const SecondSection = ({setCurrentPage}) => {
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
         setYear(tmp[0]);
+
+        console.log(nicknameError, nickname);
     },[]);
 
 
@@ -30,9 +31,17 @@ const SecondSection = ({setCurrentPage}) => {
             setNicknameError('한글과 영어만 입력 가능합니다.');
             setIsValidNickname(false);
         } else {
-            setNicknameError('');
+            setNicknameError(null);
             setIsValidNickname(true);
         }
+    };
+
+    const isDuplicatedNickname = () => {
+        /* const response = api(nickname) */
+        if(true) 
+            setCanPass(true);
+        else 
+            setCanPass(false);
     };
 
     const handleNicknameChange = (e) => {
@@ -46,7 +55,7 @@ const SecondSection = ({setCurrentPage}) => {
     };
 
     const handleNext = () => {
-        if (nickname && isValidNickname && year && gender) {
+        if (nickname && isValidNickname && year && gender && canPass) {
             setCurrentPage(prev => prev+1);
         }
     };
@@ -71,7 +80,8 @@ const SecondSection = ({setCurrentPage}) => {
                             value={nickname}
                             onChange={handleNicknameChange}/>
                         <button className="nickname-check-button"
-                                disabled={!isValidNickname}>
+                                disabled={!isValidNickname}
+                                onClick={isDuplicatedNickname}>
                             중복확인
                         </button>
                     </div>
