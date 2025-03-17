@@ -102,7 +102,7 @@ const MainPage = () => {
             </div>
           )}
         </M.MainDiv>
-        <ParticipateFestivalComponent/>
+        {/* <ParticipateFestivalComponent/> */}
         <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" onClick={()=>navigate("/festivalcode")} />
       </M.MainWrapper>
       {isMenuOpen && <M.Overlay onClick={()=>setIsMenuOpen(false)}/>}

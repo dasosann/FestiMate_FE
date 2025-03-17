@@ -60,14 +60,13 @@ M.PlusImg = styled.img`
     cursor: pointer;
     margin-top: auto;
     margin-left: auto;
-    padding-bottom:env(safe-area-inset-bottom,0px);
 `
 M.MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 117px);
   padding: 0px 16px;
-  padding-bottom: calc(35px + env(safe-area-inset-bottom,0px));
+  padding-bottom: calc(45px + env(safe-area-inset-bottom,0px));
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   } 
