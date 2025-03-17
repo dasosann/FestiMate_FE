@@ -162,14 +162,6 @@
     color: #666;
     margin-top: 5px;
   }
-  
-  /* 성별 선택 버튼 */
-  .gender-container {
-    display: flex;
-    width: 100%;
-    gap: 13px;
-  }
-  
   .gender-btn {
     flex: 1; /* 버튼의 크기를 동일하게 설정 */
     height: 50px;

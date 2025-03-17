@@ -1,6 +1,6 @@
 .info-container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: white;
     display: flex;
     flex-direction: column;
@@ -38,9 +38,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 80px;
-    gap: 10px;
-
+    margin-top: 50px;
+    gap: 20px;
 }
 
 .info-input-container {
@@ -102,4 +101,49 @@ input::placeholder {
     font-weight: var(--medium);
     color: var(--gray05);
     padding: 5px;
+    margin-bottom: -30px;
+}
+
+.gender-container {
+    display: flex;
+    justify-content: space-between;  /* 라디오 버튼 사이 간격 */
+    align-items: center;
+    width: 100%;
+}
+
+
+/* 라디오 옵션: label로 감싸서 클릭 영역 확대 */
+.gender-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 47%;
+}
+
+/* 숨겨진 기본 라디오 버튼 (옵션에 따라 보이게 할 수 있음) */
+.gender-option input[type="radio"] {
+    display: none;
+}
+
+/* 정사각형 박스 스타일 */
+.gender-box {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 9px;
+    background-color: var(--gray01);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gray04);
+    font-weight: var(--medium);
+    font-size: 15px;
+
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.gender-box.selected {
+    background-color: var(--gray07); /* 원하는 색상으로 변경 */
+    color: white; /* 예: 흰색 텍스트 */
 }

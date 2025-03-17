@@ -3,15 +3,12 @@ import '/src/styles/InfoPage/FirstSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 
 
-const FirstSection = ({setCurrentPage}) => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-
-  const isBothFilled = name.trim() !== '' && phone.trim() !== '';
+const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
+    const isBothFilled = name.trim() !== '' && phone.trim() !== '';
 
     const handleNext = () => {
         if (isBothFilled) {
-            setCurrentPage(2);
+            setCurrentPage(prevPage => prevPage + 1);
             console.log('다음 페이지로 이동');
         }
     };
