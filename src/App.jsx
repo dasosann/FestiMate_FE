@@ -15,15 +15,6 @@ function setScreenSize() {
 }
 
 const App = () => {
-  function updateViewportHeight() {
-    const vh = window.visualViewport.height;
-    document.documentElement.style.setProperty('--viewport-height', `${vh}px`);
-  }
-  
-  useEffect(() => {
-    updateViewportHeight();
-    window.visualViewport.addEventListener('resize', updateViewportHeight);
-  }, []);
   // useEffect(() => {
   //   setScreenSize();
   // });

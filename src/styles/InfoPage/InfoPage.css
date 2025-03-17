@@ -1,6 +1,6 @@
 .section-container {
     width: 100%;
-    height: var(--viewport-height);
+    height: calc(100vh - 35px - env(safe-area-inset-bottom,0px));
     background: white;
     display: flex;
     flex-direction: column;
