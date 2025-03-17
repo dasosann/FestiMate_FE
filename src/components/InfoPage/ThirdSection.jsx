@@ -89,7 +89,7 @@ const ThirdSection = ({setCurrentPage}) => {
                         <label className="mbti-option">
                             <button 
                                 className={`mbti-box ${FT === 'T' ? 'selected' : ''}`}
-                                onClick={() => setFT('FT')}
+                                onClick={() => setFT('T')}
                             >
                                 T
                             </button>
