@@ -9,7 +9,10 @@ const Navbar = ({currentPage, setCurrentPage}) => {
             <img src={arrow} className="left-arrow" onClick={() => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev))}/>
             <div className="all-progress"> 
                 <span className="current-progress">{currentPage}</span>
-                /3
+                { currentPage === 3 ? 
+                    <span className="current-progress">/3</span> :
+                    <span>/3</span>
+                }
             </div>
         </div>
     );
