@@ -38,8 +38,9 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
 
     const isDuplicatedNickname = () => {
         /* const response = api(nickname) */
-        if(true) 
+        if(true) {
             setCanPass(true);
+        }
         else 
             setCanPass(false);
     };
@@ -86,8 +87,8 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                         </button>
                     </div>
                     <div className="nickname-meta">
-                        <div className="nickname-warning">
-                            { nicknameError ? nicknameError : null}
+                        <div className={nicknameError ? "nickname-warning" : (canPass ? "nickname-good" : null)}>
+                            { nicknameError ? nicknameError : (canPass ? "사용 가능한 닉네임입니다." : null)}
                         </div>
                         <div className="nickname-len">{nicknameLen}/6</div>
                     </div>
