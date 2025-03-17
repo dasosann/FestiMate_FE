@@ -52,7 +52,7 @@ const MainPage = () => {
   }, [selectedProgressMenu]);
 
   return (
-    <div style={{ height: '100dvh', textAlign:'left' }}>
+    <div style={{ height:'auto', minHeight:'100dvh', textAlign:'left' }}>
       <M.HeaderDiv>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
         <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={()=>setIsMenuOpen(true)} />
