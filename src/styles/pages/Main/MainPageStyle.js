@@ -68,6 +68,9 @@ M.MainWrapper = styled.div`
   height: calc(100dvh - 117px);
   padding: 0px 16px;
   padding-bottom: calc(35px + env(safe-area-inset-bottom,0px));
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  } 
   
 `;  
 M.Overlay = styled.div`
