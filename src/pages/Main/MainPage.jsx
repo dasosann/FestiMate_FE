@@ -17,6 +17,8 @@ const ParticipateFestivalComponent = ({category, title, period})=>{
   )
 }
 const MainPage = () => {
+  const paddingBottom = window.innerHeight - document.documentElement.clientHeight;
+  document.documentElement.style.setProperty('--safe-bottom', `${paddingBottom}px`);
   const [selectedProgressMenu, setSelectedProgressMenu] = useState("진행");
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(false);

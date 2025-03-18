@@ -67,6 +67,7 @@ M.MainWrapper = styled.div`
   height: calc(100dvh - 117px);
   padding: 0px 16px;
   padding-bottom: calc(45px + env(safe-area-inset-bottom, constant(safe-area-inset-bottom)));
+  /* padding-bottom: calc(45px + var(--safe-bottom)); */
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   } 
