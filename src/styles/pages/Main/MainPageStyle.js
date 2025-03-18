@@ -66,7 +66,7 @@ M.MainWrapper = styled.div`
   flex-direction: column;
   height: calc(100dvh - 117px);
   padding: 0px 16px;
-  padding-bottom: calc(45px + env(safe-area-inset-bottom,0px));
+  padding-bottom: calc(45px + env(safe-area-inset-bottom, constant(safe-area-inset-bottom)));
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   } 
