@@ -38,7 +38,9 @@ const InfoMenu = () => {
                     <div className="info-name-box">
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
-                    <button className="info-modify-btn">프로필 수정</button>
+                    <button className="info-modify-btn" onClick={() => navigate('myprofile')}>
+                        프로필 수정
+                    </button>
                 </div>
                 <div className="info-account-box">
                     <div className="account-num-box">

@@ -99,6 +99,7 @@
 }
 
 .divide-line {
+    flex-shrink: 0;
     height: 10px;
     width: 100vw;
     background-color: var(--gray01);
