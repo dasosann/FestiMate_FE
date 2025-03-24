@@ -1,0 +1,158 @@
+.info-section-container {
+    width: 100%;
+    height: calc(100dvh);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.info-top-container {
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+.info-profile-box{
+    width: 100%;
+    display: flex;
+    padding: 15px 0px;
+    align-items: center;
+    gap: 15px;
+}
+
+.info-profile-img{
+    width:20%;
+    height: auto;
+    border-radius: 50%;
+    border: 1px solid var(--gray03);
+    object-fit: cover;
+}
+
+.info-name-box{
+    text-align: left;
+    font-weight: var(--bold);
+    color: black;   
+    font-size: 17px;
+    line-height: 140%;
+}
+
+.point-color {
+    color: var(--main-coral);
+}
+
+.info-modify-btn {
+    width: fit-content;
+    padding: 5px 7px;
+    background-color: var(--gray01);
+    color: var(--gray06);
+    border: 0px solid transparent;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: var(--semibold);
+    margin-left: auto;
+}
+
+.info-account-box {
+    display:flex;
+    width:100%;
+    border: 1px solid var(--main-coral);
+    border-radius: 13px;
+    background-color: var(--main-coral);
+    padding: 17px;
+    align-items: center;
+}
+
+.account-num-box {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 140%;
+    color: white;
+}
+
+.account-bank {
+    font-size: 13px;
+    font-weight: var(--medium);
+}
+
+.account-num {
+    font-size: 17px;
+    font-weight: var(--semibold);
+}
+
+.account-copy-btn {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: var(--semibold);
+    padding: 6px 7px;
+    background-color: white;
+    color: var(--main-coral);
+    border-radius: 5px;
+    margin-left: auto;
+    border: 0px solid transparent;
+}
+
+.divide-line {
+    height: 10px;
+    width: 100vw;
+    background-color: var(--gray01);
+}
+
+.info-bottom-container {
+    width: 100%;
+    height: fit-content;
+    text-align: left;
+}
+
+.info-bottom-menu {
+    display:flex;
+    width: 100%;
+    padding: 17px 16px;
+    align-items: center;
+}
+
+.info-arrow {
+    margin-left: auto;
+}
+
+.toast-message {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    width: 100%;
+    max-width: calc(430px - 40px);
+    transform: translateX(-50%);
+    background-color: var(--gray07);
+    color: white;
+    padding: 20px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeInOut 2s forwards;
+    z-index: 1000;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
