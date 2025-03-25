@@ -23,8 +23,7 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
         } else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
             navigate('/mypage');
         } else {
-            // 기타 상황에 맞는 fallback
-            navigate('/');
+            navigate('/mypage');
         }
     };
 
