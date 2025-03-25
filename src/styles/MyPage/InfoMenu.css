@@ -99,6 +99,7 @@
 }
 
 .divide-line {
+    flex-shrink: 0;
     height: 10px;
     width: 100vw;
     background-color: var(--gray01);
@@ -115,6 +116,7 @@
     width: 100%;
     padding: 17px 16px;
     align-items: center;
+    cursor: pointer;
 }
 
 .info-arrow {

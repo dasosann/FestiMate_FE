@@ -31,7 +31,7 @@ const App = () => {
             <Route path="/enterFestival" element={<FestivalPage />} />
             <Route path="/mainPage" element={<MainPage />} />
             <Route path="/festivalCode" element={<InputCode />} />
-            <Route path="/mypage" element={<MainInfo />} />
+            <Route path="/mypage/*" element={<MainInfo />} />
           </Routes>
         </BrowserRouter>
     </div>

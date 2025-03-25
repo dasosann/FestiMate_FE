@@ -6,7 +6,6 @@ import copyBtn from '/assets/MyPage/copy-btn.svg';
 import arrow from '/assets/MyPage/arrow.svg';
 
 const InfoMenu = () => {
-    const [currentPage, setCurrentPage] = useState(1);
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const navigate = useNavigate();
@@ -38,7 +37,9 @@ const InfoMenu = () => {
                     <div className="info-name-box">
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
-                    <button className="info-modify-btn">프로필 수정</button>
+                    <button className="info-modify-btn" onClick={() => navigate('myprofile')}>
+                        프로필 수정
+                    </button>
                 </div>
                 <div className="info-account-box">
                     <div className="account-num-box">
@@ -55,7 +56,7 @@ const InfoMenu = () => {
             </div>
             <div className="divide-line"></div>
             <div className="info-bottom-container">
-                <div className="info-bottom-menu">
+                <div className="info-bottom-menu" onClick={() => navigate('/mypage/point')}>
                     내 포인트 내역
                     <img src={arrow} className="info-arrow" alt="화살표" />
                 </div>
