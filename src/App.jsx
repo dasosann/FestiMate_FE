@@ -8,6 +8,7 @@ import MainPage from './pages/Main/MainPage';
 import './App.css';
 import InputCode from './pages/Main/InputCode';
 import OpenExternalBrowser from '../OpenExternalBrowser';
+import TypeTest from './pages/TypeTest/TypeTest';
 
 function setScreenSize() {
   const vh = window.innerHeight * 0.009;
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/enterFestival" element={<FestivalPage />} />
             <Route path="/mainPage" element={<MainPage />} />
             <Route path="/festivalCode" element={<InputCode />} />
+            <Route path="/festivalType" element={<TypeTest />} />
           </Routes>
         </BrowserRouter>
     </div>
