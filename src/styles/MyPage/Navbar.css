@@ -1,0 +1,21 @@
+.navbar-container {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-arrow {
+    position: absolute;
+    left: 10px;
+    height: auto;
+    cursor: pointer;
+}
+
+.mypage-title {
+    font-size: 15px;
+    font-weight: var(--semibold);
+    color: black;
+}
