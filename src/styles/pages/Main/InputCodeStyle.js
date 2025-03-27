@@ -6,6 +6,7 @@ I.HeaderDiv = styled.div`
     width: 100%;
     height: 43px;
     margin-bottom: 9px;
+    text-align: left;
 `
 I.BodyDiv=styled.div`
     display: flex;
