@@ -1,0 +1,324 @@
+.festival-section-container {
+    width: 100%;
+    height: calc(100dvh);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow-y: auto;
+    padding-bottom: 100px;
+}
+
+.festival-top-container {
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+.festival-profile-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px 0px;
+}
+
+.festival-text-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.festival-profile-img {
+    width: 20%;
+    height: auto;
+    border-radius: 50%;
+    border: 1px solid var(--gray03);
+    object-fit: cover;
+}
+
+.festival-name-box{
+    text-align: left;
+    font-weight: var(--bold);
+    color: black;   
+    font-size: 20px;
+    line-height: 140%;
+}
+
+.festival-time-box{
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    font-weight: var(--medium);
+    color: var(--gray04);
+    font-size: 13px;
+    line-height: 140%;
+    gap: 5px;
+}
+
+.point-color {
+    color: var(--main-coral);
+}
+
+.festival-modify-btn {
+    width: fit-content;
+    padding: 5px 7px;
+    background-color: var(--gray01);
+    color: var(--gray06);
+    border: 0px solid transparent;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: var(--semibold);
+    margin-left: auto;
+}
+
+.festival-point-total-box {
+    display:flex;
+    width:100%;
+    border: none;
+    border-radius: 11px;
+    background-color: var(--gray01);
+    padding: 13px;
+    align-items: center;
+    gap: 5px;
+
+    color: var(--gray07);
+    font-size: 13px;
+    font-weight: var(--semibold);
+}
+
+.festival-point-total {
+    color: black;
+    margin-left: auto;
+}
+
+.divide-line {
+    flex-shrink: 0;
+    height: 10px;
+    width: 100vw;
+    background-color: var(--gray01);
+}
+
+.festival-bottom-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    text-align: left;
+}
+
+
+
+.festival-matching-container {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;                      /* 카드 사이 간격 */
+    scroll-snap-type: x mandatory;   /* 스크롤 스냅 활성화 */
+    -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
+    padding: 0 10vw;                /* 좌우 여백: 화면 너비의 10%씩 */
+  }
+  
+.festival-matching-container::-webkit-scrollbar {
+    display:none;
+}
+
+.festival-matching-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: var(--semibold);
+    color: black;
+    line-height: 140%;
+    padding: 17px;
+}
+
+.matching-count {
+    color: var(--gray04);
+}
+
+.festival-matching-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column ;
+    padding: 17px;
+    font-size: 15px;
+    font-weight: var(--semibold);
+    color: var(--gray04);
+    align-items: center;
+}
+
+.matching-plus-button-backup {
+    position: fixed;
+    bottom: 20px;  /* 화면 하단에서 20px 띄움 */
+    right: 20px;   /* 화면 우측에서 20px 띄움 */
+    z-index: 1000; /* 다른 요소보다 위에 표시되도록 */
+
+    padding: 15px 16px;
+    background-color: var(--main-coral);
+    color: white;
+    font-size: 15px;
+    font-weight: var(--bold);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.matching-plus-button {
+    margin-left:auto;
+
+    padding: 15px 16px;
+    margin: 30px 20px 30px auto;
+    background-color: var(--main-coral);
+    color: white;
+    font-size: 15px;
+    font-weight: var(--bold);
+    border: none;   
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.festival-arrow {
+    margin-left: auto;
+}
+.ticket-card {
+    flex: 0 0 auto;
+    margin: 0 5%;               
+    scroll-snap-align: center;      /* 스크롤 시 카드가 중앙에 정렬 */
+    position: relative;
+    padding: 16px;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 300px;                  /* 카드 높이 */
+    /* 기존 테두리, 노치 관련 스타일 유지 */
+  }
+  
+  /* 카드 전체의 solid 테두리 */
+  .ticket-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1.5px solid var(--gray02);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* 카드 내 콘텐츠들은 border 위에 표시 */
+  .ticket-image,
+  .ticket-tags,
+  .ticket-info {
+    position: relative;
+    z-index: 2;
+  }
+
+.ticket-top {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.ticket-bottom {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+  
+  /* 노치 효과: 좌우에 원형 엘리먼트로 처리 */
+  .ticket-notch {
+    position: absolute;
+    top: 80%;
+    width: 20px;     /* 원의 지름 */
+    height: 20px;
+    background-color: #fff;
+    border: 1.5px solid var(--gray02);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    /* notches는 테두리 영역을 가리기 위해 ticket-border보다 위에 */
+    z-index: 3;
+  }
+  
+  /* 왼쪽 노치: 왼쪽 절반만 보이도록 */
+  .ticket-notch.left {
+    left: -10px;  /* 원의 절반(20px/2) 만큼 밖으로 */
+  }
+  
+  /* 오른쪽 노치: 오른쪽 절반만 보이도록 */
+  .ticket-notch.right {
+    right: -10px;
+  }
+  
+  /* 노치를 가로지르는 점선 (perforation line) */
+  /* 점선은 solid 테두리와 노치 위에 표시되어, 노치 영역의 테두리 대신 보임 */
+  .ticket-dashed-line {
+    position: absolute;
+    top: 80%;
+    left: 10px;                   /* 왼쪽 노치 끝나는 지점에서 시작 */
+    width: calc(100% - 20px);       /* 오른쪽 노치 영역까지 제외 */
+    height: 1.5px;                  /* 점선의 두께 */
+    background: repeating-linear-gradient(
+      to right,
+      var(--gray02),             /* dash 색상 */
+      var(--gray02) 5px,         /* dash 길이: 5px */
+      transparent 5px,  /* gap 시작 */
+      transparent 10px  /* gap 끝: gap 길이 5px */
+    );
+    transform: translateY(-50%);
+    z-index: 4;
+  }
+  
+  /* 기타 기존 스타일 */
+  .ticket-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    flex-direction: row;
+  }
+  
+.ticket-tag {
+    font-size: 13px;
+    color: var(--gray05);
+    background-color: white;
+    border: 1px solid var(--gray02);
+    padding: 5px 11px;
+    border-radius: 20px;
+}
+  
+  .ticket-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .ticket-name {
+    font-weight: var(--bold);
+    font-size: 20px;
+    color: var(--gray07);
+  }
+  
+  .ticket-arrow {
+
+    object-fit: contain;
+  }
+  
+  .ticket-image {
+    height: auto;
+    display: block;
+    margin: 10px;
+  }
