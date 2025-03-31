@@ -124,6 +124,7 @@ const MainPage = () => {
         <M.LogoutConfirmP>
           로그아웃 하시겠습니까?
         </M.LogoutConfirmP>
+        
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <M.ConfirmLogoutButton color="#7b7c87" backgroundColor="#E6E6EB" onClick={() => setIsLogoutModalOpen(false)}>취소</M.ConfirmLogoutButton>
           <M.ConfirmLogoutButton color="#fff" backgroundColor="#3a3c42">확인</M.ConfirmLogoutButton>
