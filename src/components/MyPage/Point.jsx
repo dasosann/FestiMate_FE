@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/Point.css';
-import defaultProfile from '/assets/MyPage/default-profile.svg';
-import contact from '/assets/MyPage/contact.svg';
-import edit from '/assets/MyPage/edit.svg';
-import message from '/assets/MyPage/message.svg';
-import card from '/assets/MyPage/card_festival_type.svg';
 import point from '/assets/MyPage/point.svg';
 
 const Point = () => {
