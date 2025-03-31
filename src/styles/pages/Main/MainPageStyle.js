@@ -60,12 +60,22 @@ M.PlusImg = styled.img`
     cursor: pointer;
     margin-top: auto;
     margin-left: auto;
+    /* position: fixed;
+    bottom: 45px;
+    right: 16px; */
+
 `
 M.MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - 161px);
+  height: calc(100dvh - 117px);
   padding: 0px 16px;
+  padding-bottom: calc(45px + env(safe-area-inset-bottom, constant(safe-area-inset-bottom)));
+
+  /* padding-bottom: calc(45px + var(--safe-bottom)); */
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  } 
   
 `;  
 M.Overlay = styled.div`

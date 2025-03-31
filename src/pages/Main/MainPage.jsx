@@ -17,6 +17,8 @@ const ParticipateFestivalComponent = ({category, title, period})=>{
   )
 }
 const MainPage = () => {
+  const paddingBottom = window.innerHeight - document.documentElement.clientHeight;
+  document.documentElement.style.setProperty('--safe-bottom', `${paddingBottom}px`);
   const [selectedProgressMenu, setSelectedProgressMenu] = useState("진행");
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,7 +54,7 @@ const MainPage = () => {
   }, [selectedProgressMenu]);
 
   return (
-    <div style={{ height: '100dvh', textAlign:'left' }}>
+    <div style={{ height:'auto', minHeight:'100dvh', textAlign:'left' }}>
       <M.HeaderDiv>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
         <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={()=>setIsMenuOpen(true)} />
@@ -102,7 +104,7 @@ const MainPage = () => {
             </div>
           )}
         </M.MainDiv>
-        <ParticipateFestivalComponent/>
+        {/* <ParticipateFestivalComponent/> */}
         <M.PlusImg src="/assets/Main/plus-button.svg" alt="버튼" onClick={()=>navigate("/festivalcode")} />
       </M.MainWrapper>
       {isMenuOpen && <M.Overlay onClick={()=>setIsMenuOpen(false)}/>}
@@ -122,6 +124,7 @@ const MainPage = () => {
         <M.LogoutConfirmP>
           로그아웃 하시겠습니까?
         </M.LogoutConfirmP>
+        
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <M.ConfirmLogoutButton color="#7b7c87" backgroundColor="#E6E6EB" onClick={() => setIsLogoutModalOpen(false)}>취소</M.ConfirmLogoutButton>
           <M.ConfirmLogoutButton color="#fff" backgroundColor="#3a3c42">확인</M.ConfirmLogoutButton>

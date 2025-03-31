@@ -8,7 +8,9 @@ import MainPage from './pages/Main/MainPage';
 import './App.css';
 import InputCode from './pages/Main/InputCode';
 import OpenExternalBrowser from '../OpenExternalBrowser';
+import TypeTest from './pages/TypeTest/TypeTest';
 import MainInfo from './components/MyPage/MainInfo';
+import TypeResult from './pages/TypeTest/TypeResult';
 import FestivalInfo from './components/Festival/FestivalInfo';
 import UserInfo from './components/Festival/UserInfo';
 
@@ -33,6 +35,8 @@ const App = () => {
             <Route path="/enterFestival" element={<FestivalPage />} />
             <Route path="/mainPage" element={<MainPage />} />
             <Route path="/festivalCode" element={<InputCode />} />
+            <Route path="/festivalType" element={<TypeTest />} />
+            <Route path="/typeresult" element={<TypeResult />} />
             <Route path="/mypage/*" element={<MainInfo />} />
             <Route path="/festival/:festivalId" element={<FestivalInfo />} />
             <Route path="/festival/:festivalId/:userId" element={<UserInfo />} />
