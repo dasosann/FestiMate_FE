@@ -45,42 +45,9 @@ const TypeQuestionSelect = ({setStarted,setCompleted}) => {
         ]
       }
     ];
-    const handleBackClick = useCallback(() => {
-      if (currentQuestionIndex > 0) {
-        const updatedAnswers = [...answers];
-        updatedAnswers[currentQuestionIndex] = null;
-        setAnswers(updatedAnswers);
-        setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
-        setProgress((prev) => {
-          const nextProgress = prev - step;
-          return nextProgress < 0 ? 0 : nextProgress;
-        });
-      } else {
-        setStarted(false);
-      }
-    }, [answers, currentQuestionIndex, step, setStarted]);
     const questionText = questions[currentQuestionIndex].question;
     const choices = questions[currentQuestionIndex].options;
     const isActive = answers[currentQuestionIndex] !== null;
-    useEffect(() => {
-      // popstate 이벤트가 발생했을 때 뒤로가기 로직을 수행
-      const onPopState = (e) => {
-        e.preventDefault(); 
-        handleBackClick();
-        // 뒤로가기를 가로챈 뒤, 원래 브라우저 뒤로가기는 막고
-        // 질문 인덱스만 변경하도록 처리
-        // 여기서 막는 이유는 실제 URL 이동(라우팅)이 아니라 컴포넌트 상태만 변경하기 때문
-        // 필요한 경우 history.pushState 등으로 히스토리를 조작해줄 수도 있음
-      };
-  
-      // 이벤트 등록
-      window.addEventListener('popstate', onPopState);
-  
-      return () => {
-        // 컴포넌트가 unmount될 때 이벤트 해제
-        window.removeEventListener('popstate', onPopState);
-      };
-    }, [handleBackClick]);
     const handleNextClick = () => {
       if (answers[currentQuestionIndex] === null) {
         alert('답변을 선택해주세요.');
