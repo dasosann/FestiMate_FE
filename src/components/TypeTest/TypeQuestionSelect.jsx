@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import T from '../../styles/components/TypeQuestionStyle';
 import { useNavigate } from 'react-router-dom';
-const TypeQuestionSelect = ({setStarted,setCompleted}) => {
+const TypeQuestionSelect = ({setStarted, setCompleted}) => {
   const navigate= useNavigate();
   const [progress, setProgress] = useState(0); // 진행 상태
   const step = 25; // 한 번에 증가할 단계 (10%씩 증가)
