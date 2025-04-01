@@ -95,7 +95,7 @@ const TypeResult = () => {
                 <span>인스타그램, 카카오톡 아이디, 전화번호 등<br/>Festimate가 당신을 찾는데 필요한 정보를 적어주세요.</span>
             </R.CheckDiv>
             <R.InputDiv>
-                <R.InputBox type='text' placeholder='연락 정보를 작성해주세요' maxLength={49} onChange={onChange}/>
+                <R.InputBox type='text' placeholder='연락 정보를 작성해주세요' maxLength={49} onChange={onChange} value={contactInfo}/>
                 <R.TypingText>{count}/50</R.TypingText>
             </R.InputDiv>
           </R.DivWrapper>
@@ -126,7 +126,7 @@ const TypeResult = () => {
                 <span>연락처와 함께 전달할 메시지입니다!</span>
             </R.CheckDiv>
             <R.InputDiv>
-                <R.InputBox type='text' placeholder='연락을 통해 직접 대화해보세요!' maxLength={49} onChange={onChangeMessage}/>
+                <R.InputBox type='text' placeholder='연락을 통해 직접 대화해보세요!' maxLength={49} onChange={onChangeMessage} value={message}/>
                 <R.TypingText>{messageCount}/50</R.TypingText>
             </R.InputDiv>
           </R.DivWrapper>
