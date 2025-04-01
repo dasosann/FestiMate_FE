@@ -55,17 +55,17 @@ const TypeResult = () => {
   // Step 0: 기존 결과 화면
   if (step === 0) {
     return (
-      <R.MainWrapper>
+      <R.MainWrapper style={{overflowY:'scroll'}}>
         <R.HeaderDiv>
           <R.Left />
           <R.Center>유형 테스트 결과</R.Center>
-          <R.Right href="/assets/TypeTest/mate-card.png" download="mate-card.png">
-            <R.DownLoadImg>
-              <img src='/assets/TypeTest/download.svg' alt='다운' />
-            </R.DownLoadImg>
+          <R.Right>
+            <a href="/assets/TypeTest/mate-card.png" download="mate-card.png">
+                <img src='/assets/TypeTest/download.svg' alt='다운' />
+            </a>
           </R.Right>
         </R.HeaderDiv>
-        <R.BodyWrapper>
+        <R.BodyWrapper style={{paddingBottom:'71px'}}>
           <R.CardImg src='/assets/TypeTest/mate-card.svg' alt='매칭타입' />
           <R.InstagramShare>
             <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
