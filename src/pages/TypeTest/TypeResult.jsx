@@ -55,32 +55,35 @@ const TypeResult = () => {
   const handleInstagramShare = async () => {
     try {
       const img = new Image();
-      img.crossOrigin = "anonymous"; // CORS 문제 방지
-      img.src = image; // 동적으로 관리되는 image state 사용
+      img.crossOrigin = "anonymous"; // 필요 시 CORS 문제 방지
+      img.src = image; // 동적으로 관리되는 이미지 URL
   
       img.onload = async () => {
-        // 축소할 비율 설정 (예: 50% 축소)
-        const scaleFactor = 0.5;
-        // 캔버스 크기를 원본 이미지의 크기 * scaleFactor로 설정
+        // 이미지 주변에 추가할 여백(padding) 설정
+        const padding = 20; // 원하는 여백 크기 (픽셀 단위)
+        // 캔버스 크기를 이미지 크기보다 padding 만큼 크게 설정
+        const canvasWidth = img.width + 2 * padding;
+        const canvasHeight = img.height + 2 * padding;
+  
         const canvas = document.createElement("canvas");
-        canvas.width = img.width * scaleFactor;
-        canvas.height = img.height * scaleFactor;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
         const ctx = canvas.getContext("2d");
   
-        // 원하는 배경색(예: 흰색) 채우기
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // 캔버스 전체에 배경색 채우기
+        ctx.fillStyle = "#f3f3f6"; // 원하는 배경색
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   
-        // 축소된 크기로 이미지 그리기
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        // 이미지 중앙에 배치: padding 만큼의 오프셋을 줍니다.
+        ctx.drawImage(img, padding, padding);
   
-        // canvas의 내용을 JPEG 형식으로 Blob 변환 (품질 80% 사용)
+        // canvas를 Blob으로 변환하여 공유
         canvas.toBlob(async (blob) => {
           if (!blob) {
             console.error("Blob 생성 실패");
             return;
           }
-          const file = new File([blob], "shared-image.jpg", { type: "image/jpeg" });
+          const file = new File([blob], "shared-image.png", { type: blob.type });
           
           if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
@@ -96,7 +99,7 @@ const TypeResult = () => {
           } else {
             alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
           }
-        }, "image/jpeg", 0.8);
+        });
       };
   
       img.onerror = (error) => {
