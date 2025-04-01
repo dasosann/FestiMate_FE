@@ -51,6 +51,22 @@ const TypeResult = () => {
       setStep(step - 1);
     }
   };
+  const handleInstagramShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: '내 페스티메이트 결과',
+          text: '내 매칭 타입 결과를 확인해보세요!',
+          url: window.location.href, // 또는 공유하고자 하는 특정 URL
+        });
+        console.log('공유 성공');
+      } catch (error) {
+        console.error('공유 실패:', error);
+      }
+    } else {
+      alert('이 기능은 모바일 브라우저에서 지원됩니다.');
+    }
+  };
   const isActive = count > 0;
   // Step 0: 기존 결과 화면
   if (step === 0) {
@@ -68,7 +84,7 @@ const TypeResult = () => {
         <R.BodyWrapper style={{paddingBottom:'71px'}}>
           <R.CardImg src='/assets/TypeTest/mate-card.svg' alt='매칭타입' />
           <R.InstagramShare>
-            <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
+            <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" onClick={handleInstagramShare} />
             <div>인스타로 공유하기</div>
           </R.InstagramShare>
         </R.BodyWrapper>
