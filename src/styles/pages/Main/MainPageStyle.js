@@ -58,11 +58,11 @@ M.PlusImg = styled.img`
     width: 57px;
     height: 57px;
     cursor: pointer;
-    /* margin-top: auto;
-    margin-left: auto; */
-    position: fixed;
+    margin-top: auto;
+    margin-left: auto;
+    /* position: fixed;
     bottom: 45px;
-    right: 16px;
+    right: 16px; */
 
 `
 M.MainWrapper = styled.div`
@@ -71,6 +71,7 @@ M.MainWrapper = styled.div`
   height: calc(100dvh - 117px);
   padding: 0px 16px;
   padding-bottom: calc(45px + env(safe-area-inset-bottom, constant(safe-area-inset-bottom)));
+
   /* padding-bottom: calc(45px + var(--safe-bottom)); */
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
