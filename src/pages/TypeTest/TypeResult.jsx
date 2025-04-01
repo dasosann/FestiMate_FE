@@ -11,6 +11,7 @@ const TypeResult = () => {
   const [contactInfo, setContactInfo] = useState("");
   const [message, setMessage] = useState('');
   const [messageCount, setMessageCount] = useState(0);
+  const [image, setImage] = useState('/assets/TypeTest/mate-card.png');
 
   const handleNext = () => {
     if (step === 0) {
@@ -52,19 +53,25 @@ const TypeResult = () => {
     }
   };
   const handleInstagramShare = async () => {
-    if (navigator.share) {
-      try {
+    try {
+      // 동적으로 설정된 image state를 사용
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const file = new File([blob], "shared-image.png", { type: blob.type });
+      
+      // 파일 공유 기능 지원 여부 확인
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
+          files: [file],
           title: '내 페스티메이트 결과',
-          text: '내 매칭 타입 결과를 확인해보세요!',
-          url: window.location.href, // 또는 공유하고자 하는 특정 URL
+          text: '내 매칭 타입 결과를 확인해보세요!'
         });
         console.log('공유 성공');
-      } catch (error) {
-        console.error('공유 실패:', error);
+      } else {
+        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
       }
-    } else {
-      alert('이 기능은 모바일 브라우저에서 지원됩니다.');
+    } catch (error) {
+      console.error('이미지 공유 중 오류 발생:', error);
     }
   };
   const isActive = count > 0;
@@ -83,8 +90,8 @@ const TypeResult = () => {
         </R.HeaderDiv>
         <R.BodyWrapper style={{paddingBottom:'71px'}}>
           <R.CardImg src='/assets/TypeTest/mate-card.svg' alt='매칭타입' />
-          <R.InstagramShare>
-            <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" onClick={handleInstagramShare} />
+          <R.InstagramShare onClick={handleInstagramShare}>
+            <img src="/assets/TypeTest/instagram-logo.svg" alt="insta"  />
             <div>인스타로 공유하기</div>
           </R.InstagramShare>
         </R.BodyWrapper>
