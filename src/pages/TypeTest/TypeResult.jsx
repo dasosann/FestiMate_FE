@@ -54,22 +54,52 @@ const TypeResult = () => {
   };
   const handleInstagramShare = async () => {
     try {
-      // 동적으로 설정된 image state를 사용
-      const response = await fetch(image);
-      const blob = await response.blob();
-      const file = new File([blob], "shared-image.png", { type: blob.type });
-      
-      // 파일 공유 기능 지원 여부 확인
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: '내 페스티메이트 결과',
-          text: '내 매칭 타입 결과를 확인해보세요!'
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // 필요 시 CORS 문제 방지
+      img.src = image; // 동적으로 관리되는 이미지 URL
+  
+      img.onload = async () => {
+        // 이미지 크기와 동일한 canvas 생성
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+  
+        // 흰색 배경 채우기 (원하는 배경색으로 변경 가능)
+        ctx.fillStyle = "#f3f3f6";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+        // 이미지 그리기
+        ctx.drawImage(img, 0, 0);
+  
+        // canvas를 Blob으로 변환하여 공유
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            console.error("Blob 생성 실패");
+            return;
+          }
+          const file = new File([blob], "shared-image.png", { type: blob.type });
+          
+          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: '내 페스티메이트 결과',
+                text: '내 매칭 타입 결과를 확인해보세요!'
+              });
+              console.log('공유 성공');
+            } catch (error) {
+              console.error('공유 실패:', error);
+            }
+          } else {
+            alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+          }
         });
-        console.log('공유 성공');
-      } else {
-        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
-      }
+      };
+  
+      img.onerror = (error) => {
+        console.error("이미지 로드 실패:", error);
+      };
     } catch (error) {
       console.error('이미지 공유 중 오류 발생:', error);
     }
