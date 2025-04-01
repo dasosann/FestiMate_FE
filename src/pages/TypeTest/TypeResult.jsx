@@ -55,30 +55,32 @@ const TypeResult = () => {
   const handleInstagramShare = async () => {
     try {
       const img = new Image();
-      img.crossOrigin = "anonymous"; // 필요 시 CORS 문제 방지
-      img.src = image; // 동적으로 관리되는 이미지 URL
+      img.crossOrigin = "anonymous"; // CORS 문제 방지
+      img.src = image; // 동적으로 관리되는 image state 사용
   
       img.onload = async () => {
-        // 이미지 크기와 동일한 canvas 생성
+        // 축소할 비율 설정 (예: 50% 축소)
+        const scaleFactor = 0.5;
+        // 캔버스 크기를 원본 이미지의 크기 * scaleFactor로 설정
         const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = img.width * scaleFactor;
+        canvas.height = img.height * scaleFactor;
         const ctx = canvas.getContext("2d");
   
-        // 흰색 배경 채우기 (원하는 배경색으로 변경 가능)
-        ctx.fillStyle = "#f3f3f6";
+        // 원하는 배경색(예: 흰색) 채우기
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
   
-        // 이미지 그리기
-        ctx.drawImage(img, 0, 0);
+        // 축소된 크기로 이미지 그리기
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   
-        // canvas를 Blob으로 변환하여 공유
+        // canvas의 내용을 JPEG 형식으로 Blob 변환 (품질 80% 사용)
         canvas.toBlob(async (blob) => {
           if (!blob) {
             console.error("Blob 생성 실패");
             return;
           }
-          const file = new File([blob], "shared-image.png", { type: blob.type });
+          const file = new File([blob], "shared-image.jpg", { type: "image/jpeg" });
           
           if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
@@ -94,7 +96,7 @@ const TypeResult = () => {
           } else {
             alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
           }
-        });
+        }, "image/jpeg", 0.8);
       };
   
       img.onerror = (error) => {
@@ -104,6 +106,7 @@ const TypeResult = () => {
       console.error('이미지 공유 중 오류 발생:', error);
     }
   };
+  
   const isActive = count > 0;
   // Step 0: 기존 결과 화면
   if (step === 0) {
