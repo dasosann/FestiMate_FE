@@ -58,11 +58,11 @@ M.PlusImg = styled.img`
     width: 57px;
     height: 57px;
     cursor: pointer;
-    margin-top: auto;
-    margin-left: auto;
-    /* position: fixed;
+    /* margin-top: auto;
+    margin-left: auto; */
+    position: fixed;
     bottom: 45px;
-    right: 16px; */
+    right: 16px;
 
 `
 M.MainWrapper = styled.div`
