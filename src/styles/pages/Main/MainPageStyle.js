@@ -38,7 +38,6 @@ M.ProgressDiv = styled.div`
 M.MainDiv=styled.div`
     display: flex;
     flex-direction:column;
-    padding: 13px 0px;
     flex: 1;
 `
 M.TotalFestivalDiv=styled.div`
@@ -214,5 +213,26 @@ M.ArrowImg = styled.img`
   width: 20px;
   height: 20px;
   margin-left: auto;
+`
+
+M.EndFestivalNotice = styled.div`
+  width: 100%;
+  height:42px;
+  background-color: #ffe6e4;
+  display: flex;
+  gap: 4px;
+  padding: 0 16px;
+  align-items: center;
+`
+M.FullWidthNoticeWrapper = styled.div`
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-bottom: 1.85vh;
+`;
+M.NoticeSpan = styled.span`
+  font-size: 11px;
+  line-height: 140%;
+  font-weight: 600;
+  color: #ff6f61;
 `
 export default M;
