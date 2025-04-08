@@ -6,10 +6,8 @@ import { ThemeProvider } from 'styled-components'
 import {theme} from './theme.js'
 import GlobalStyle from './styles/Global/GlobalStyle.js'
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle/>
       <App />
     </ThemeProvider>
-  </StrictMode>,
 )
