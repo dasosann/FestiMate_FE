@@ -1,4 +1,4 @@
-.profile-section-container {
+.festUser-section-container {
     width: 100%;
     height: calc(100vh);
     overflow-y: auto;
@@ -13,7 +13,7 @@
     -ms-overflow-style: none;
 }
 
-.profile-section-container::-webkit-scrollbar {
+.festUser-section-container::-webkit-scrollbar {
     display: none;
 }
 
@@ -24,7 +24,7 @@
     background-color: var(--gray01);
 }
 
-.profile-top-container {
+.festUser-top-container {
     width: 100%;
     background: white;
     display: flex;
@@ -33,15 +33,15 @@
     padding: 15px;
 }
 
-.profile-profile-box{
+.festUser-festUser-box{
     width: 100%;
     display: flex;
     padding: 15px 0px;
     align-items: center;
-    gap: 15px;
+    gap:5px;
 }
 
-.profile-profile-img{
+.festUser-festUser-img{
     width:20%;
     height: auto;
     border-radius: 50%;
@@ -49,7 +49,7 @@
     object-fit: cover;
 }
 
-.profile-name-box{
+.festUser-name-box{
     text-align: left;
     font-weight: var(--bold);
     color: black;   
@@ -57,7 +57,7 @@
     line-height: 140%;
 }
 
-.profile-about-box {
+.festUser-about-box {
     display: flex;
     flex-direction: row;
     gap: 5px;
@@ -75,7 +75,7 @@
     font-size: 13px;
 }
 
-.profile-message-box {
+.festUser-message-box {
     width: 100%;
     display:flex;
     flex-direction: column;
@@ -83,7 +83,7 @@
     gap: 25px;
 }
 
-.profile-text-container {
+.festUser-text-container {
     display: flex;
     flex-direction: column;
     gap:10px;
@@ -98,7 +98,7 @@
     gap: 8px;
 }
 
-.profile-text-box {
+.festUser-text-box {
     width: 100%;
     border-radius: 9px;
     background-color: var(--gray01);
@@ -109,7 +109,7 @@
     text-align: left;
 }
 
-.profile-card-container {
+.festUser-card-container {
     display: flex;
     justify-content: center;
     padding: 40px;
@@ -117,7 +117,7 @@
     margin-bottom: 30%;
 }
 
-.profile-card {
+.festUser-card {
     width: 100%;
     height: auto;
 }
