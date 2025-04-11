@@ -36,9 +36,9 @@ const KakaoCallback = () => {
             })
             .then((backendResponse) => {
               console.log("백엔드 응답",backendResponse.data.data)
-              const  token  = backendResponse.data.data.accessToken; // JWT 토큰
-              console.log("jwtToken",token);
-              localStorage.setItem('jwtToken', token);
+              const { accessToken, refreshToken } = backendResponse.data.data; // 가정: accessToken, refreshToken 반환
+              localStorage.setItem("jwtToken", accessToken);
+              localStorage.setItem("refreshToken", refreshToken); // refreshToken 추가
               navigate('/info');
             })
             .catch((error) => {
