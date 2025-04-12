@@ -115,16 +115,16 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="gender-container">
                         <label className="gender-option">
                             <button 
-                                className={`gender-box ${gender === 'male' ? 'selected' : ''}`}
-                                onClick={() => setGender('male')}    
+                                className={`gender-box ${gender === 'man' ? 'selected' : ''}`}
+                                onClick={() => setGender('man')}    
                             >
                                 남자
                             </button>
                         </label>
                         <label className="gender-option">
                             <button 
-                                className={`gender-box ${gender === 'female' ? 'selected' : ''}`}
-                                onClick={() => setGender('female')}
+                                className={`gender-box ${gender === 'woman' ? 'selected' : ''}`}
+                                onClick={() => setGender('woman')}
                             >
                                 여자
                             </button>

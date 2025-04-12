@@ -14,7 +14,7 @@ instance.interceptors.request.use(
       return Promise.reject(new Error("No access token found"));
     }
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`; // 서버가 Bearer 요구 가정
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -24,18 +24,7 @@ instance.interceptors.request.use(
 // 응답 인터셉터 설정
 instance.interceptors.response.use(
   (response) => {
-    // 서버 응답 헤더에 새 토큰이 있으면 업데이트 (Bearer 없는 경우 처리)
-    const newAccessToken = response.headers["authorization"];
-    const newRefreshToken = response.headers["refresh-token"];
-    
-    if (newAccessToken) {
-      // Bearer 접두사 없다고 가정, 그대로 저장
-      localStorage.setItem("jwtToken", newAccessToken);
-    }
-    if (newRefreshToken) {
-      localStorage.setItem("refreshToken", newRefreshToken);
-    }
-
+    // 성공 응답은 그대로 반환, 매번 토큰 업데이트 제거
     return response;
   },
   async (error) => {
@@ -44,7 +33,7 @@ instance.interceptors.response.use(
       alert("서버에 연결할 수 없습니다. 다시 시도해 주세요.");
       return Promise.reject(error);
     }
-
+    console.log("에러 내용",error);
     const { config, response: { status, data } } = error;
     const originalRequest = config;
 
@@ -54,14 +43,15 @@ instance.interceptors.response.use(
       if (refreshToken) {
         try {
           const refreshResponse = await axios.post(
-            "https://api.festimate.kr/v1/auth/refresh",
+            "https://api.festimate.kr/v1/auth/reissue/token",
             null,
-            { headers: { "Refresh-Token": refreshToken } }
+            { headers: { "Authorization":`Bearer ${refreshToken}` } }
           );
 
-          const newAccessToken = refreshResponse.data.data.accessToken; // Bearer 없는 토큰 가정
+          const newAccessToken = refreshResponse.data.data.accessToken; // 새 토큰
           const newRefreshToken = refreshResponse.data.data.refreshToken; // 선택적
 
+          // 토큰 만료 시에만 localStorage 업데이트
           localStorage.setItem("jwtToken", newAccessToken);
           if (newRefreshToken) {
             localStorage.setItem("refreshToken", newRefreshToken);
