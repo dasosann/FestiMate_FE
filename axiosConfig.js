@@ -15,6 +15,7 @@ instance.interceptors.request.use(
         }
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
+            config.headers['Content-Type'] = 'application/json'; // 추가
         }
         return config;
     },

@@ -32,7 +32,7 @@ M.ProgressDiv = styled.div`
     font-weight: 700;
     color: #000;
     line-height: 140%;
-    border-bottom:${(props)=>props.active ? "2px solid #000": "1px solid #e6e6eb"};
+    border-bottom:${({$isActive})=>$isActive ? "2px solid #000": "1px solid #e6e6eb"};
 `
 
 M.MainDiv=styled.div`
@@ -97,12 +97,12 @@ M.SideDrawer = styled.div`
   box-shadow: -2px 0 5px rgba(0,0,0,0.15);
   z-index: 1000;
   /* 초기 상태에서 화면 밖 (오른쪽) */
-  transform: translateX(${(props) => (props.isOpen ? '0' : '100%')});
+  transform: translateX(${({$isOpen}) => ($isOpen ? '0' : '100%')});
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 21px;
+  padding: 7.39vh 16px;
 `;
 
 
@@ -112,6 +112,7 @@ M.DrawerUserName = styled.span`
   font-size: 15px;
   font-weight: 700;
   color: #3a3c42;
+  margin-bottom: 3.45vh;
 `;
 
 /* 닫기 버튼 */
@@ -158,7 +159,7 @@ M.LogoutModal = styled.div`
   background: #fff;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
   z-index: 2000; /* 모달이 오버레이 위에 */
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  display: ${({$isOpen}) => ($isOpen ? 'block' : 'none')};
   border-radius: 13px;
   text-align: center;
   padding: 0 11px;
@@ -235,4 +236,16 @@ M.NoticeSpan = styled.span`
   font-weight: 600;
   color: #ff6f61;
 `
+M.MenuComponent = styled.div`
+  width: 100%;
+  height: 46px;
+  font-size:13px ;
+  color: #3a3c42;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  padding: 14px 0px;
+  justify-content: space-between;
+`
+
 export default M;

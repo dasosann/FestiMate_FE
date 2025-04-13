@@ -28,8 +28,11 @@ const KakaoCallback = () => {
           console.log('Received access_token:', access_token);
 
           axios
-            .post(`${BACKEND_URL}/v1/auth/login`, { access_token }, {
-              headers: { 'Content-Type': 'application/json' },
+            .post(`${BACKEND_URL}/v1/auth/login`,null, {
+              headers: { 'Content-Type': 'application/json',
+                'Authorization': access_token, 
+               }
+              ,
             })
             .then((backendResponse) => {
               console.log('백엔드 응답', backendResponse.data.data);
@@ -40,7 +43,9 @@ const KakaoCallback = () => {
               instance
                 .get('/v1/users/me/nickname')
                 .then((nicknameResponse) => {
-                  const nickname = nicknameResponse.data.data?.nickname;
+                  console.log(nicknameResponse.data.data)
+                  const nickname = nicknameResponse.data.data?.nickanme;
+                  console.log(nickname)
                   navigate(nickname ? '/mainpage' : '/info');
                 })
                 .catch((error) => {
