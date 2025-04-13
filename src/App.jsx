@@ -13,6 +13,7 @@ import MainInfo from './components/MyPage/MainInfo';
 import TypeResult from './pages/TypeTest/TypeResult';
 import FestivalInfo from './components/Festival/FestivalInfo';
 import UserInfo from './components/Festival/UserInfo';
+import KakaoCallback from './pages/Main/KakaoCallback';
 import MateLoading from './components/Festival/MateLoading';
 
 function setScreenSize() {
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/mypage/*" element={<MainInfo />} />
             <Route path="/festival/:festivalId" element={<FestivalInfo />} />
             <Route path="/festival/:festivalId/:userId" element={<UserInfo />} />
+            <Route path="/v1/auth/login" element={<KakaoCallback/>} />
             <Route path="/mateLoading" element={<MateLoading />} />
           </Routes>
         </BrowserRouter>

@@ -45,8 +45,10 @@ R.DownLoadImg = styled.div`
     justify-content: end;
     cursor: pointer;
 `
-R.Right = styled.a`
+R.Right = styled.div`
     flex: 1;
+    display: flex;
+    justify-content: end ;
 `
 R.CardImg = styled.img`
     width: 100%;

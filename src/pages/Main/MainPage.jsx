@@ -25,33 +25,33 @@ const MainPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate =useNavigate();
-  useEffect(() => {
-    const fetchFestivals = async () => {
-      setLoading(true);
-      let url = "";
-      // 진행, 종료 상태에 따라 다른 API 호출
-      if (selectedProgressMenu === "진행") {
-        url = "https://your-backend-api.com/festivals?status=ongoing";
-      } else {
-        url = "https://your-backend-api.com/festivals?status=finished";
-      }
+  // useEffect(() => {
+  //   const fetchFestivals = async () => {
+  //     setLoading(true);
+  //     let url = "";
+  //     // 진행, 종료 상태에 따라 다른 API 호출
+  //     if (selectedProgressMenu === "진행") {
+  //       url = "https://your-backend-api.com/festivals?status=ongoing";
+  //     } else {
+  //       url = "https://your-backend-api.com/festivals?status=finished";
+  //     }
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("API 요청 실패");
-        }
-        const data = await response.json();
-        setFestivals(data);
-      } catch (error) {
-        console.error("Error fetching festivals:", error);
-        setFestivals([]);
-      }
-      setLoading(false);
-    };
+  //     try {
+  //       const response = await fetch(url);
+  //       if (!response.ok) {
+  //         throw new Error("API 요청 실패");
+  //       }
+  //       const data = await response.json();
+  //       setFestivals(data);
+  //     } catch (error) {
+  //       console.error("Error fetching festivals:", error);
+  //       setFestivals([]);
+  //     }
+  //     setLoading(false);
+  //   };
 
-    fetchFestivals();
-  }, [selectedProgressMenu]);
+  //   fetchFestivals();
+  // }, [selectedProgressMenu]);
 
   return (
     <div style={{ height:'auto', minHeight:'100dvh', textAlign:'left' }}>
@@ -86,22 +86,33 @@ const MainPage = () => {
           {loading ? (
             <M.TotalFestivalDiv>로딩중...</M.TotalFestivalDiv>
           ) : festivals.length === 0 ? (
-            <>
-              <M.TotalFestivalDiv>총 0개</M.TotalFestivalDiv>
+            <div style={{marginTop:'10.34vh'}}>
               <img src="/assets/Main/mainpage-background-logo.svg" alt="배경로고" />
               {selectedProgressMenu === "진행" ? (
                 <M.ProgressNoFestivalDiv>아직 참여하고 있는 페스티벌이 없어요</M.ProgressNoFestivalDiv>
               ) : (
                 <M.ProgressNoFestivalDiv>아직 종료된 페스티벌이 없어요</M.ProgressNoFestivalDiv>
               )}
-            </>
+            </div>
           ) : (
             <div>
-              <M.TotalFestivalDiv>총 {festivals.length}개</M.TotalFestivalDiv>
-              {festivals.map((festival,i) => (
-                <M.ParticipateDiv key={i} title={festival.title} period={festival.period} category={festival.category}/>
-              ))}
-            </div>
+            {selectedProgressMenu === "종료" && (
+              <M.FullWidthNoticeWrapper>
+                <M.EndFestivalNotice>
+                  <img src="/assets/Main/notice-mainpage.svg" alt="공지" />
+                  <M.NoticeSpan>종료된 페스티벌은 종료일 기준 7일동안 입장이 가능합니다.</M.NoticeSpan>
+                </M.EndFestivalNotice>
+              </M.FullWidthNoticeWrapper>
+            )}
+            {festivals.map((festival, i) => (
+              <M.ParticipateDiv
+                key={i}
+                title={festival.title}
+                period={festival.period}
+                category={festival.category}
+              />
+            ))}
+          </div>
           )}
         </M.MainDiv>
         {/* <ParticipateFestivalComponent/> */}
