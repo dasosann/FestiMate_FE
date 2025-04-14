@@ -1,0 +1,85 @@
+.mate-loading-container {
+    width: 100%;
+    height: calc(100dvh);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    position: relative;
+}
+
+.mate-loading-container::-webkit-scrollbar {
+    display:none;
+}
+
+.mate-loading-box {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mate-loading-text {
+    z-index: 99;
+    color: var(--gray06);
+    text-align: center;
+    font-size: 17px;
+    font-weight: var(--semibold);
+    line-height: 140%;
+}
+
+.mate-loading-btn {
+    z-index: 99;
+    width: 170px;
+    height: 50px;
+    color: black;
+    font-size: 15px;
+    font-weight: var(--bold);
+    line-height: 140%;
+    background-color: #ffe6e4;
+    border-radius: 10px;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Confetti Container */
+.confetti-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* Base Confetti Styles */
+.confetti {
+    position: absolute;
+    opacity: 0;
+    /* Keep original size of confetti */
+    animation: burstAnimation 1s forwards;
+    transform-origin: center center;
+}
+
+/* Burst Animation */
+@keyframes burstAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        top: 100%;
+        left: 50%;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        /* Final positions are determined by inline styles */
+    }
+}

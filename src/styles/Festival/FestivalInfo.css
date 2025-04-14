@@ -99,11 +99,19 @@
     margin-left: auto;
 }
 
-.divide-line {
-    flex-shrink: 0;
-    height: 10px;
-    width: 100vw;
+.end-notice {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 60px;
+    width: 100%;
     background-color: var(--gray01);
+    color: var(--gray07);
+    font-size: 13px;
+    font-weight: var(--medium);
+    line-height: 140%;
+
 }
 
 .festival-bottom-container {
@@ -191,7 +199,7 @@
 }
 .ticket-card {
     flex: 0 0 auto;
-    margin: 0 5%;               
+    margin: 0 7%;               
     scroll-snap-align: center;      /* 스크롤 시 카드가 중앙에 정렬 */
     position: relative;
     padding: 16px;
@@ -310,6 +318,9 @@
     font-weight: var(--bold);
     font-size: 20px;
     color: var(--gray07);
+    align-items: center;
+    display: flex;
+    gap:3px;
   }
   
   .ticket-arrow {
@@ -317,8 +328,50 @@
     object-fit: contain;
   }
   
-  .ticket-image {
+.ticket-image {
     height: auto;
     display: block;
     margin: 10px;
-  }
+}
+
+.pagination-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--gray02);
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--main-coral);
+    width: 10px;
+    height: 10px;
+}
+
+.dot.ellipsis {
+    width: 4px;
+    height: 4px;
+}
+
+.refund-button {
+    width: 100vw;
+    max-width: 430px;
+    margin-left: -15px;
+    margin-top: auto;
+    margin-bottom: 10%;
+    border: none;
+    height: 60px;
+    color: white;
+    font-weight: var(--semibold);
+    font-size: 15px;
+    background-color: var(--main-coral);
+    cursor: pointer;
+}
