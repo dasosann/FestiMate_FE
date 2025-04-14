@@ -47,11 +47,11 @@ const MainPage = () => {
       }
 
       // 페스티벌 데이터 가져오기
-      const url = selectedProgressMenu === "진행"
-        ? "/v1/users/me/festivals"
-        : "/v1/festivals?status=finished";
+      const status = selectedProgressMenu === "진행" ? "PROGRESS": "END";
       try {
-        const festivalResponse = await instance.get(url);
+        const festivalResponse = await instance.get('v1/users/me/festivals',{
+          params: { status },
+        });
         console.log("축제 데이터", festivalResponse);
         setFestivals(festivalResponse.data.data);
       } catch (error) {

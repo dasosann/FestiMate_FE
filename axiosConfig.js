@@ -152,7 +152,7 @@ instance.interceptors.response.use(
                     alert("존재하지 않는 회원입니다.");
                     break;
                 case 4042:
-                    alert("존재하지 않는 페스티벌입니다.");
+                    // 축제 id가 올바르지 않을때
                     break;
                 case 4043:
                     alert("존재하지 않는 참가자입니다.");
@@ -196,7 +196,7 @@ instance.interceptors.response.use(
         }
 
         console.error("Error response:", error.response);
-        return Promise.reject(error);
+        return error.response;
     }
 );
 
