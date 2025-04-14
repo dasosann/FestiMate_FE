@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
 import I from '../../styles/pages/Main/InputCodeStyle'
 import { useNavigate } from 'react-router-dom';
+import instance from '../../../axiosConfig';
 const InputCode = () => {
     const [codeValue, setCodeValue] = useState('');
     const [isError, setIsError] = useState(false); // 에러 상태 (코드가 올바르지 않을 때 true)
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [festivalName, setFestivalName] = useState(''); // 축제 이름 저장
+    const [category, setCategory] = useState(''); // 카테고리 저장
     const navigate =useNavigate();
     const handleChange = (e) => {
         setCodeValue(e.target.value);
+        if(codeValue.length>0){
+            setIsError(false); // 입력 중 에러 상태 초기화
+        }
       };
     const handleSubmit = async () => {
       // 빈 코드일 경우 빠른 리턴
       if (!codeValue) {
         setIsError(true);
+        alert("코드를 입력해주세요.");
         return;
       }
 
       try {
         // 백엔드 API 예시 (실제 주소/로직에 맞게 수정)
-        const response = await fetch('https://your-backend-api.com/check-code', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: codeValue }),
+        const response = await instance.post('/v1/festivals/verify-code', {
+          inviteCode: codeValue,
         });
+        console.log("페스티벌 코드 응답",response);
+        const {code,data} = response.data; // 응답에서 valid와 festivalName 추출
 
-        if (!response.ok) {
-          // 서버에서 4xx, 5xx 응답이 온 경우
-          throw new Error('올바르지 않은 코드입니다.');
-        }
-
-        const data = await response.json();
         // data가 정상일 경우
-        if (data.valid) {
+        if (code===2000) {
           // 올바른 코드 - 다음 페이지로 이동 혹은 다른 로직
-          setFestivalName(data.festivalName); // 응답에서 축제 이름 저장
+          setFestivalName(data.title); // 축제 이름 저장
+          setCategory(data.category); // 카테고리 저장
           setIsModalOpen(true); // 모달 표시
         } else {
           // 서버가 valid=false로 응답한 경우
@@ -43,7 +44,6 @@ const InputCode = () => {
       } catch (error) {
         // 네트워크 에러나 throw new Error 등
         setIsError(true);
-        setIsModalOpen(true);
       }
     };
     return (
