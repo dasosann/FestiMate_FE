@@ -74,4 +74,9 @@ T.ProgressBar = styled.div`
   background-color: #3a3c42;
   transition: width 0.5s ease;  /* 서서히 증가하는 애니메이션 */
 `;
+T.BalloonImg = styled.img`
+    position: fixed;
+    bottom: 80px;
+    left: 16px;
+`
 export default T;

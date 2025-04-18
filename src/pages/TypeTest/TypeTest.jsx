@@ -99,6 +99,7 @@ const TypeTest = () => {
       <T.StartButton onClick={() => setStarted(true)}>
         시작하기
       </T.StartButton>
+      <T.BalloonImg src="/assets/TypeTest/balloon.svg" alt="한 번 완성된 페스티벌 유형은 변경이 어려워요" />
     </div>
   );
 };
