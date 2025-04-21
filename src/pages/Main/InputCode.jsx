@@ -8,7 +8,13 @@ const InputCode = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [festivalName, setFestivalName] = useState(''); // 축제 이름 저장
     const [category, setCategory] = useState(''); // 카테고리 저장
+    const [festivalId, setFestivalId] = useState(); // 축제 ID 저장
     const navigate =useNavigate();
+    const CATEGORY_LOGOS = {
+      MUSIC: '/assets/Main/music-logo.svg',
+      SCHOOL: '/assets/Main/school-logo.svg',
+      LIFE: '/assets/Main/life-logo.svg',
+    };
     const handleChange = (e) => {
         setCodeValue(e.target.value);
         if(codeValue.length>0){
@@ -36,6 +42,8 @@ const InputCode = () => {
           // 올바른 코드 - 다음 페이지로 이동 혹은 다른 로직
           setFestivalName(data.title); // 축제 이름 저장
           setCategory(data.category); // 카테고리 저장
+          setFestivalId(data.festivalId);  // 혹은 parseInt(data.festivalId, 10
+          console.log(data)
           setIsModalOpen(true); // 모달 표시
         } else {
           // 서버가 valid=false로 응답한 경우
@@ -46,6 +54,16 @@ const InputCode = () => {
         setIsError(true);
       }
     };
+    const handleConfirmButton =async() =>{
+      // try{
+      //   const response = await instance.post(`/v1/festivals/${festivalId}/participants`)
+      //   console.log(response);
+      //   navigate("/mainpage")
+      // }catch(error){
+      //   alert("페스티벌 아이디를 가져오는 중 오류가 발생했습니다.")
+      // }
+      navigate('/festivaltype',{state:{festivalId}});
+    }
     return (
         <div style={{textAlign:'left',height:'calc(100dvh - env(safe-area-inset-bottom))'}}>
             <I.HeaderDiv>
@@ -65,12 +83,12 @@ const InputCode = () => {
                 <>
                     <I.ModalOverlay onClick={() => setIsModalOpen(false)} />
                     <I.ConfirmModal>
-                        <img src="/assets/Main/school-logo.svg" alt="학교" />
+                        <img src={CATEGORY_LOGOS[category]} alt="학교" />
                         <I.ModalTitle>입장하시겠습니까?</I.ModalTitle>
-                        <I.ModalContent>축제 <b>{festivalName}</b>에 입장하시겠습니까?</I.ModalContent>
+                        <I.ModalContent>{festivalName}</I.ModalContent>
                         <I.ModalButtonWrapper>
                             <I.ModalButton border="1px solid #e6e6eb" color="#7b7c87" backgroundColor="#fff" onClick={() => setIsModalOpen(false)}>취소</I.ModalButton>
-                            <I.ModalButton color="#fff" backgroundColor="#3a3c42" onClick={() => navigate("/mainpage")}>확인</I.ModalButton>
+                            <I.ModalButton color="#fff" backgroundColor="#3a3c42" onClick={handleConfirmButton}>확인</I.ModalButton>
                         </I.ModalButtonWrapper>
                     </I.ConfirmModal>
                 </>

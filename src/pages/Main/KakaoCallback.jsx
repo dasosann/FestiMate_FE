@@ -43,9 +43,9 @@ const KakaoCallback = () => {
               instance
                 .get('/v1/users/me/nickname')
                 .then((nicknameResponse) => {
-                  console.log(nicknameResponse.data.data)
-                  const nickname = nicknameResponse.data.data?.nickanme;
-                  console.log(nickname)
+                  console.log("가져온 닉네임" , nicknameResponse.data.data)
+                  const nickname = nicknameResponse.data.data?.nickname;
+                  console.log("저장한 닉네임", nickname)
                   navigate(nickname ? '/mainpage' : '/info');
                 })
                 .catch((error) => {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import T from '../../styles/components/TypeQuestionStyle';
 import { useNavigate } from 'react-router-dom';
-const TypeQuestionSelect = ({setStarted, setCompleted}) => {
+import instance from '../../../axiosConfig';
+const TypeQuestionSelect = ({setStarted, setCompleted,setFestivalType}) => {
   const navigate= useNavigate();
   const [progress, setProgress] = useState(0); // 진행 상태
   const step = 25; // 한 번에 증가할 단계 (10%씩 증가)
@@ -48,7 +49,7 @@ const TypeQuestionSelect = ({setStarted, setCompleted}) => {
     const questionText = questions[currentQuestionIndex].question;
     const choices = questions[currentQuestionIndex].options;
     const isActive = answers[currentQuestionIndex] !== null;
-    const handleNextClick = () => {
+    const handleNextClick = async () => {
       if (answers[currentQuestionIndex] === null) {
         alert('답변을 선택해주세요.');
         return;
@@ -56,10 +57,27 @@ const TypeQuestionSelect = ({setStarted, setCompleted}) => {
       if (currentQuestionIndex === questions.length - 1) {
         // 제출 전에 필요한 검증 로직을 추가할 수 있음
         console.log("제출 데이터:", answers);
-        setCompleted(true);
+        const submitData = {
+          q1: answers[0],
+          q2: answers[1],
+          q3: answers[2],
+          q4: answers[3],
+          q5: answers[4]
+        };
+  
+        try {
+          // 백엔드 API로 POST 요청 전송
+          const response = await instance.post('/v1/participants/type', submitData);
+          console.log('서버 응답:', response.data);
+          setFestivalType(response.data.data.typeResult);
+          setCompleted(true); // 완료 상태로 전환
+        } catch (error) {
+          console.error('데이터 전송 실패:', error);
+          alert('답변 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
         return;
-
-      }
+        }
+      
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setProgress((prev) => {
         const nextProgress = prev + step;
