@@ -21,6 +21,7 @@ M.ParticipateDiv =styled.div`
 M.ProgressMenu = styled.div`
     display: flex;
     width: 100%;
+    margin-bottom: 23px;
 `
 M.ProgressDiv = styled.div`
     flex: 1;

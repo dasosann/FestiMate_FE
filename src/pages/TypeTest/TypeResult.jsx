@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import R from '../../styles/pages/TypeTest/TypeResultStyle';
 import { useNavigate } from 'react-router-dom';
 import T from '../../styles/components/TypeQuestionStyle';
-
-const TypeResult = () => {
+import instance from '../../../axiosConfig';
+const festivalTypeImages = {
+  INFLUENCER: '/assets/Card/inside-type-card.svg',
+  NEWBIE: '/assets/Card/newbie-type-card.svg',
+  PHOTO: '/assets/Card/photoshot-type-card.svg',
+  PLANNER: '/assets/Card/planning-type-card.svg',
+  HEALING: '/assets/Card/healing-type-card.svg', 
+  DEFAULT: '/assets/Card/newbie-type-card.svg', 
+};
+const TypeResult = ({festivalType, festivalId}) => {
   const navigate = useNavigate();
   // step: 0 - 결과 화면, 1 - 연락 정보 입력, 2 - 메시지 작성
   const [step, setStep] = useState(0);
@@ -11,11 +19,15 @@ const TypeResult = () => {
   const [contactInfo, setContactInfo] = useState("");
   const [message, setMessage] = useState('');
   const [messageCount, setMessageCount] = useState(0);
-  const [image, setImage] = useState('/assets/TypeTest/mate-card.png');
+  const [image, setImage] = useState(
+    festivalType && festivalTypeImages[festivalType]
+      ? festivalTypeImages[festivalType]
+      : festivalTypeImages.DEFAULT
+  ); // 축제 유형에 맞는 이미지 설정
   // 다운로드 모달 표시 여부 상태
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
-  const handleNext = () => {
+  const handleNext =async () => {
     if (step === 0) {
       // 결과 화면 → 연락 정보 입력 화면
       setStep(1);
@@ -29,8 +41,22 @@ const TypeResult = () => {
       setStep(2);
     } else if (step === 2) {
       // 최종 제출 (백엔드 API 호출 등)
-      console.log("제출 데이터:", { contactInfo, message });
-      alert("프로필이 완성되었습니다!");
+      console.log("제출 데이터:", { contactInfo, message, festivalId, festivalType});
+      const submitData = {
+        typeResult: festivalType,
+        introduction : contactInfo,
+        message: message,
+      };
+      try{
+        const response = await instance.post(
+          `v1/festivals/${festivalId}/participants`,submitData
+        );
+        console.log("모든정보 입력 후 응답", response);
+        navigate('/mainpage');
+      }catch(error){
+        console.error("사용자 정보 전송 실패, 축제 프로필 생성 실패",error);
+        alert("프로필 제출 중 오류가 발생했습니다. 다시 시도해주세요");
+      }
       // 제출 후, 원한다면 다른 페이지로 이동하거나 상태를 리셋할 수 있습니다.
       // navigate("/some-confirmation-page");
     }
@@ -137,7 +163,7 @@ const TypeResult = () => {
           </R.Right>
         </R.HeaderDiv>
         <R.BodyWrapper style={{ paddingBottom: '71px' }}>
-          <R.CardImg src='/assets/TypeTest/mate-card.svg' alt='매칭타입' />
+          <R.CardImg src={image} alt='매칭타입' />
           <R.InstagramShare onClick={handleInstagramShare}>
             <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
             <div>인스타로 공유하기</div>
