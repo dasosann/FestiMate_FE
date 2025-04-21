@@ -7,9 +7,8 @@ import point_ from '/assets/Festival/point.svg';
 import noMatch from '/assets/Festival/no-match.svg';
 import endFestival from '/assets/Festival/end-festival.svg';
 
-const DeactiveFestival = () => {
+const DeactiveFestival = ({festivalName, festivalDate}) => {
     const navigate = useNavigate();
-    const festivalName = "가톨릭대학교 다맛제";
     const total = "1";
 
     return (
@@ -25,7 +24,7 @@ const DeactiveFestival = () => {
                             </div>
                             <div className="festival-time-box">
                                 <img src={date} alt="날짜" />
-                                2025.05.18 - 2025.05.21
+                                {festivalDate}
                             </div>
                         </div>
                         <img src={defaultProfile} className="festival-profile-img" alt="프로필" />

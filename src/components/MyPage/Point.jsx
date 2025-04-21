@@ -1,41 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/Point.css';
 import point from '/assets/MyPage/point.svg';
+import instance from '../../../axiosConfig';
 
-const Point = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const navigate = useNavigate();
+const Point = ({festivalId}) => {
+    const [transactions, setTransactions] = useState([]);
+    const [total, setTotal] = useState(0);
 
-    const transactions = [
-        { type: '포인트 충전', amount: 3, date: "2025.03.24 16:07" },
-        { type: '포인트 차감', amount: -3, date: "2025.03.24 16:03" },
-        { type: '포인트 충전', amount: 6, date: "2025.03.24 16:00" },
-    ];
-
-    const sortedTransactions = transactions.slice().sort((a, b) => a.date.localeCompare(b.date));
-
-    // 누적값 계산
-    let cumulative = 0;
-    const transactionsWithCumulative = sortedTransactions.map(item => {
-        cumulative += item.amount;
-        return { ...item, cumulative };
-    });
-
-    // 전체 잔액은 마지막 거래의 누적값
-    const total = cumulative;
-
-    // 최신순(내림차순)으로 화면에 표시하기 위해 역순 배열 생성
-    const displayTransactions = transactionsWithCumulative.slice().reverse();
+    useEffect(() => {
+        const getInfo = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/me/points`);
+                
+                // 서버에서 이미 최신순으로 데이터를 받아온다고 가정
+                const histories = result.data.data.histories;
+                const totalPoint = result.data.data.totalPoint;
+                
+                // 누적 포인트 계산
+                let runningTotal = totalPoint;
+                const historiesWithCumulative = histories.map((transaction, index) => {
+                    // 현재 거래 항목의 누적 포인트를 저장
+                    const currentCumulative = runningTotal;
+                    
+                    // 다음 항목의 누적 포인트 계산을 위해 현재 항목의 포인트를 반영
+                    // CREDIT은 과거에 더해진 것이므로 현재 계산할 때는 빼고, DEBIT은 과거에 빠진 것이므로 현재 계산할 때는 더함
+                    if (transaction.transactionType === 'CREDIT') {
+                        runningTotal -= transaction.point;
+                    } else {
+                        runningTotal += transaction.point;
+                    }
+                    
+                    return {
+                        ...transaction,
+                        cumulative: currentCumulative
+                    };
+                });
+                
+                setTransactions(historiesWithCumulative);
+                setTotal(totalPoint);
+                console.log(result);
+            } catch (error) {
+                console.error(`[point API Error] GET /v1/festivals/${festivalId}/me/points:`, {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getInfo();
+    },[]);
 
     const PointHistoryBox = ({ type, amount, date, cumulative }) => {
-        const isPositive = amount > 0;
+        const isPositive = type === 'CREDIT';
         return (
             <div className="point-history-box">
                 <div className="point-history-row1">
-                    {type}
+                    {type === "CREDIT" ? "포인트 충전" : "포인트 사용"}
                     <span className={`point-right ${isPositive ? 'positive' : 'negative'}`}>
                         {isPositive ? `+${amount}P` : `-${Math.abs(amount)}P`}
                     </span>
@@ -52,7 +73,7 @@ const Point = () => {
         <div className="point-section-container">
             <div className="point-top-container">
                 <div className="point-total-box">
-                    <img src={point} />
+                    <img src={point} alt="포인트 아이콘" />
                     나의 잔여 포인트
                     <span className="point-total">{total}P</span>
                 </div>
@@ -60,15 +81,21 @@ const Point = () => {
 
             <div className="divide-line"></div>
 
-            {displayTransactions.map((transaction, index) => (
-                <PointHistoryBox 
-                    key={index}
-                    type={transaction.type} 
-                    amount={transaction.amount} 
-                    date={transaction.date}
-                    cumulative={transaction.cumulative}
-                />
-            ))}
+            {transactions.length > 0 ? (
+                transactions.map((transaction, index) => (
+                    <PointHistoryBox 
+                        key={index}
+                        type={transaction.transactionType} 
+                        amount={transaction.point} 
+                        date={transaction.date}
+                        cumulative={transaction.cumulative}
+                    />
+                ))
+            ) : (
+                <div className="no-transactions">
+                    포인트 내역이 없습니다.
+                </div>
+            )}
         </div>
     );
 };

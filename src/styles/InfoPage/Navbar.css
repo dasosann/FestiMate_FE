@@ -7,8 +7,10 @@
 }
 
 .left-arrow {
+    position: absolute;
+    left: 0px;
     height: auto;
-    margin: 10px;
+    cursor: pointer;
 }
 
 .all-progress {

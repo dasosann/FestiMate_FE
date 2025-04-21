@@ -129,7 +129,7 @@ const MainPage = () => {
         <M.MainDiv>
           {loading ? (
             <M.TotalFestivalDiv>로딩중...</M.TotalFestivalDiv>
-          ) : festivals.length === 0 ? (
+          ) : festivals?.length === 0 ? (
             <div style={{ marginTop: '10.34vh' }}>
               <img src="/assets/Main/mainpage-background-logo.svg" alt="배경로고" />
               {selectedProgressMenu === '진행' ? (
@@ -148,7 +148,7 @@ const MainPage = () => {
                   </M.EndFestivalNotice>
                 </M.FullWidthNoticeWrapper>
               )}
-              {festivals.map((festival, i) => (
+              {festivals?.map((festival, i) => (
                 <ParticipateFestivalComponent
                   key={i}
                   title={festival.title}
