@@ -1,26 +1,55 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '/src/styles/Festival/FestivalInfo.css';
 import defaultProfile from '/assets/MyPage/default-profile.svg';
 import date from '/assets/Festival/date.svg';
 import point_ from '/assets/Festival/point.svg';
 import noMatch from '/assets/Festival/no-match.svg';
-import cardProfile from '/assets/Festival/profile-tmp.svg';
 import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
 import CustomModal from './CustomModal';
-
+import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
 
-const ActiveFestival = () => {
+import newProfile from '/assets/Profile/new-type-profile.svg';
+import healProfile from '/assets/Profile/healing-type-profile.svg';
+import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
+import planProfile from '/assets/Profile/plan-type-profile.svg';
+import shotProfile from '/assets/Profile/shot-type-profile.svg';
+
+const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const navigate = useNavigate();
-    const festivalName = "가톨릭대학교 다맛제";
-    const total = "1";
-    const [point, setPoint] = useState(1);
+    const [point, setPoint] = useState(0);
+    const [type, setType] = useState('');
     const [isAble, setIsAble] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const ProfileMap = {
+        'NEWBIE': newProfile,
+        'HEALING': healProfile,
+        'INFLUENCER': inssaProfile,
+        'PLANNER': planProfile,
+        'PHOTO': shotProfile
+    };
+
+    useEffect(() => {
+        const getInfo = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/me/summary`);
+                setPoint(result.data.data.point)
+                setType(result.data.data.typeResult);
+                console.log(result);
+            } catch (error) {
+                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/me/summary:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getInfo();
+    }, [festivalId]);
 
     const handleMatching = async () => {
         if (point > 0) {
@@ -52,7 +81,7 @@ const ActiveFestival = () => {
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
-                <img src={cardProfile} alt="캐릭터" className="ticket-image" />
+                <img src={newProfile} alt="캐릭터" className="ticket-image" />
                 <div className="ticket-tags">
                     {tags.map((tag, i) => (
                         <span key={i} className="ticket-tag">#{tag}</span>
@@ -194,21 +223,21 @@ const ActiveFestival = () => {
 
     // 예시 카드 데이터
     const cards = [
-        { imageSrc: cardProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: cardProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
+        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
+        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
         // 추가 카드 데이터...
     ];
 
@@ -225,15 +254,15 @@ const ActiveFestival = () => {
                             </div>
                             <div className="festival-time-box">
                                 <img src={date} alt="날짜" />
-                                2025.05.18 - 2025.05.20
+                                {festivalDate}
                             </div>
                         </div>
-                        <img src={defaultProfile} className="festival-profile-img" alt="프로필" />
+                        <img src={ProfileMap[type]} className="festival-profile-img" alt="프로필" />
                     </div>
                     <div className="festival-point-total-box" onClick={() => navigate('/mypage')}>
                         <img src={point_} alt="포인트" />
                         나의 잔여 포인트
-                        <span className="festival-point-total">{`${total}P >`}</span>
+                        <span className="festival-point-total">{`${point}P >`}</span>
                     </div>
                 </div>
                 <div className="divide-line"></div>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '/src/styles/MyPage/Navbar.css';
 import arrow from '/assets/InfoPage/left-arrow.svg';
+import setting from '/assets/InfoPage/setting.svg';
 
-const Navbar = ({ currentPage, setCurrentPage }) => {
+const Navbar = ({ festivalId }) => {
     const [title, setTitle] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
@@ -38,6 +39,11 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
             <div className="mypage-title"> 
                 {title}
             </div>
+            <img 
+                src={setting}
+                className="setting-icon"
+                onClick={() => navigate(`/festival/${festivalId}/mypage`)}
+            />
         </div>
     );
 };
