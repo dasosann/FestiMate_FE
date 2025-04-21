@@ -6,20 +6,37 @@ import copyBtn from '/assets/MyPage/copy-btn.svg';
 import arrow from '/assets/MyPage/arrow.svg';
 import instance from '../../../axiosConfig';
 
+import newProfile from '/assets/Profile/new-type-profile.svg';
+import healProfile from '/assets/Profile/healing-type-profile.svg';
+import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
+import planProfile from '/assets/Profile/plan-type-profile.svg';
+import shotProfile from '/assets/Profile/shot-type-profile.svg';
+
+
 const InfoMenu = ({festivalId}) => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [type, setType] = useState('');
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
     const accountBank = "국민은행";
     const accountNumber = "817202-04-045292";
 
+    const ProfileMap = {
+            'NEWBIE': newProfile,
+            'HEALING': healProfile,
+            'INFLUENCER': inssaProfile,
+            'PLANNER': planProfile,
+            'PHOTO': shotProfile
+        };
+
     useEffect(() => {
         const getNickname = async () => {
             try {
-                const result = await instance.get('/v1/users/me/nickname');
+                const result = await instance.get(`/v1/festivals/${festivalId}/me/type`);
                 setName(result.data.data.nickname);
+                setType(result.data.data.typeResult);
                 console.log(result);
             } catch (error) {
                 console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
@@ -51,7 +68,7 @@ const InfoMenu = ({festivalId}) => {
         <div className="info-section-container">
             <div className="info-top-container">
                 <div className="info-profile-box">
-                    <img src={defaultProfile} className="info-profile-img" alt="프로필" />
+                    <img src={ProfileMap[type]} className="info-profile-img" alt="프로필" />
                     <div className="info-name-box">
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
