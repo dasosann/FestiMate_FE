@@ -39,9 +39,9 @@ const App = () => {
             <Route path="/festivalCode" element={<InputCode />} />
             <Route path="/festivalType" element={<TypeTest />} />
             <Route path="/typeresult" element={<TypeResult />} />
-            <Route path="/mypage/*" element={<MainInfo />} />
             <Route path="/festival/:festivalId" element={<FestivalInfo />} />
             <Route path="/festival/:festivalId/:userId" element={<UserInfo />} />
+            <Route path="/festival/:festivalId/mypage/*" element={<MainInfo />} />
             <Route path="/v1/auth/login" element={<KakaoCallback/>} />
             <Route path="/mateLoading" element={<MateLoading />} />
           </Routes>

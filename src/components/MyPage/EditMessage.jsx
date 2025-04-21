@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
-import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, useLocation, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/EditContact.css';
 import check from '/assets/InfoPage/check-coral.svg';
+import instance from '../../../axiosConfig';
 
-const EditMessage = () => {
-    const [contactInfo, setContactInfo] = useState('');
+const EditMessage = ({festivalId}) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [messageInfo, setMessageInfo] = useState(location.state?.messageData);
 
-    const handleContactChange = (e) => {
-        setContactInfo(e.target.value);
+    useEffect(() => {
+        if (location.state?.messageData) {
+            setMessageInfo(location.state.messageData);
+        }
+    }, [location.state?.messageData]);
+
+    const handleMessageChange = (e) => {
+        setMessageInfo(e.target.value);
     };
 
-    const handleNext = () => {
-        navigate('/mypage/myprofile', { state: { edited: true, what: 'message' } })
+    const handleNext = async () => {
+        try {
+            const messageData = {
+                introduction: messageInfo || '연락을 통해 직접 대화해보세요 !',
+                message: location.state.contactData
+            };
+
+            const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
+            navigate(`../myprofile`, { state: { edited: true, what: 'message' } })
+        } catch (error) {
+            console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
+            navigate(`../myprofile`, { state: { edited: false, what: 'message' } })
+        }
     }
 
     return (
@@ -31,13 +54,13 @@ const EditMessage = () => {
             <div className="edit-bottom-container">
                 <textarea 
                     className="edit-contact-box"
-                    value={contactInfo}
-                    onChange={handleContactChange}
+                    value={messageInfo}
+                    onChange={handleMessageChange}
                     placeholder="메시지를 입력하세요 (최대 50글자)"
                     maxLength="50"
                 />
                 <div className="edit-contact-count">
-                    {contactInfo.length}/50
+                    {messageInfo.length}/50
                 </div>
             </div>
 

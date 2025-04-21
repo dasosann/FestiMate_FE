@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/InfoMenu.css';
 import defaultProfile from '/assets/MyPage/default-profile.svg';
 import copyBtn from '/assets/MyPage/copy-btn.svg';
 import arrow from '/assets/MyPage/arrow.svg';
+import instance from '../../../axiosConfig';
 
-const InfoMenu = () => {
+const InfoMenu = ({festivalId}) => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const navigate = useNavigate();
 
-    const name="가대 고윤정";
+    const [name, setName] = useState('');
     const accountBank = "국민은행";
     const accountNumber = "817202-04-045292";
+
+    useEffect(() => {
+        const getNickname = async () => {
+            try {
+                const result = await instance.get('/v1/users/me/nickname');
+                setName(result.data.data.nickname);
+                console.log(result);
+            } catch (error) {
+                console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getNickname();
+    }, [festivalId]);
 
     const copyAccountNumber = () => {
         const textToCopy = accountBank + " " + accountNumber;
@@ -37,7 +55,7 @@ const InfoMenu = () => {
                     <div className="info-name-box">
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
-                    <button className="info-modify-btn" onClick={() => navigate('myprofile')}>
+                    <button className="info-modify-btn" onClick={() => navigate('./myprofile')}>
                         프로필 수정
                     </button>
                 </div>
@@ -56,19 +74,19 @@ const InfoMenu = () => {
             </div>
             <div className="divide-line"></div>
             <div className="info-bottom-container">
-                <div className="info-bottom-menu" onClick={() => navigate('/mypage/point')}>
+                <div className="info-bottom-menu" onClick={() => navigate(`./point`)}>
                     내 포인트 내역
                     <img src={arrow} className="info-arrow" alt="화살표" />
                 </div>
-                <div className="info-bottom-menu">
+                <div className="info-bottom-menu" onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813fb860f9ea31d0ee69?pvs=4")}>
                     포인트 제도 소개
                     <img src={arrow} className="info-arrow" alt="화살표" />
                 </div>
-                <div className="info-bottom-menu">
+                <div className="info-bottom-menu" onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>
                     문의하기
                     <img src={arrow} className="info-arrow" alt="화살표" />
                 </div>
-                <div className="info-bottom-menu">
+                <div className="info-bottom-menu" onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>
                     개인정보처리방침
                     <img src={arrow} className="info-arrow" alt="화살표" />
                 </div>

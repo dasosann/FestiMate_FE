@@ -9,7 +9,7 @@
 
 .left-arrow {
     position: absolute;
-    left: 10px;
+    left: 0px;
     height: auto;
     cursor: pointer;
 }
@@ -18,4 +18,11 @@
     font-size: 15px;
     font-weight: var(--semibold);
     color: black;
+}
+
+.setting-icon {
+    position: absolute;
+    right: 15px;
+    height: auto;
+    cursor: pointer;
 }

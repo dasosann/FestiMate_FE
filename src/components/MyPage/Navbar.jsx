@@ -9,22 +9,11 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if(location.pathname === '/mypage' || location.pathname === '/mypage/') {
-            setTitle('마이페이지');
-        }
-        else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
-            setTitle('내 프로필');
-        }
+        setTitle('마이페이지');
     }, [location.pathname]);
 
     const handleArrowClick = () => {
-        if(location.pathname === '/mypage' || location.pathname === '/mypage/') {
-            navigate('/festival');
-        } else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
-            navigate('/mypage');
-        } else {
-            navigate('/mypage');
-        }
+        navigate(-1);
     };
 
     return (

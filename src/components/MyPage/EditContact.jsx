@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
-import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, useLocation, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/EditContact.css';
 import check from '/assets/InfoPage/check-coral.svg';
+import instance from '../../../axiosConfig';
 
-const EditContact = () => {
-    const [contactInfo, setContactInfo] = useState('');
+const EditContact = ({festivalId}) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [contactInfo, setContactInfo] = useState(location.state?.contactData);
+
+    useEffect(() => {
+        if (location.state?.contactData) {
+            setContactInfo(location.state.contactData);
+        }
+    }, [location.state?.contactData]);
 
     const handleContactChange = (e) => {
         setContactInfo(e.target.value);
     };
     
-    const handleNext = () => {
-        navigate('/mypage/myprofile', { state: { edited: true, what: 'contact' } })
+    const handleNext = async () => {
+        try {
+            const messageData = {
+                introduction: contactInfo,
+                message: location.state.messageData || '연락을 통해 직접 대화해보세요 !'
+            };
+
+            const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
+            navigate(`../myprofile`, { state: { edited: true, what: 'contact' } })
+        } catch (error) {
+            console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
+            navigate(`../myprofile`, { state: { edited: false, what: 'contact' } })
+        }
     }
 
     return (
@@ -55,6 +78,7 @@ const EditContact = () => {
             <button
                 className={`edit-next-button ${contactInfo.length ? 'active' : 'inactive'}`}
                 onClick={handleNext}
+                disabled={!contactInfo || contactInfo.length === 0}
             >
                 완료
             </button>
