@@ -80,7 +80,7 @@ const TypeTest = () => {
 
   // "시작 전" 화면
   return (
-    <div>
+    <div style={{position:'relative'}}>
       <T.HeaderDiv>
         <T.HeaderArrow
           src="/assets/Main/back-arrow.svg"
