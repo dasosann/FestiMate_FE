@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
+import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear}) => {
@@ -36,15 +37,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         }
     };
 
-    const isDuplicatedNickname = () => {
-        /* const response = api(nickname) */
-        if(true) {
-            setCanPass(true);
-        }
-        else 
-            setCanPass(false);
-    };
-
     const handleNicknameChange = (e) => {
         let value = e.target.value;
         if(nicknameLen >= 6) {
@@ -60,7 +52,31 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
             setCurrentPage(prev => prev+1);
         }
     };
-
+    const isDuplicatedNickname = async () => {
+        try {
+            const response = await instance.post('/v1/users/validate-nickname', {}, {
+                params: { nickname: nickname }
+              });
+          console.log("중복응답",response)
+          const isAvailable = response.data?.code;
+          if (isAvailable===2000) {
+            setCanPass(true);
+            setNicknameError();
+          }
+          else if(isAvailable===4091){
+            setCanPass(false);
+            setNicknameError('이미 존재하는 닉네임입니다.');
+          }
+        } catch (error) {
+          console.error('[Nickname Validation API Error] POST /v1/users/validate-nickname:', {
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message,
+          });
+          setCanPass(false);
+          setNicknameError('닉네임 확인 중 오류가 발생했습니다.');
+        } 
+      };
     return (
         <div className="info-container">
             <div className="info-phrase">

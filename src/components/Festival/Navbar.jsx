@@ -24,7 +24,7 @@ const Navbar = ({ festivalId }) => {
         } else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
             navigate('/mypage');
         } else {
-            navigate('/mypage');
+            navigate('/mainpage');
         }
     };
 

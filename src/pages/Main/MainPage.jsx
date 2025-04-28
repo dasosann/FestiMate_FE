@@ -19,7 +19,8 @@ const grayscaleCategoryImages = {
   DEFAULT: '/assets/Main/gray-school-logo.svg',
 };
 
-const ParticipateFestivalComponent = ({ category, title, startDate, endDate, selectedProgressMenu }) => {
+const ParticipateFestivalComponent = ({ category, title, startDate, endDate, selectedProgressMenu,festivalId }) => {
+  const navigate = useNavigate();
   // selectedProgressMenu에 따라 적절한 이미지 매핑 객체 선택
   const imageMap = selectedProgressMenu === '진행' ? colorCategoryImages : grayscaleCategoryImages;
 
@@ -30,9 +31,11 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
   if (!imageMap[category]) {
     console.warn(`Unknown category: ${category}, using DEFAULT`);
   }
-
+  const navigateToFestivalInfo = () =>{
+    navigate(`/festival/${festivalId}`);
+  }
   return (
-    <M.ComponentWrapper>
+    <M.ComponentWrapper onClick={navigateToFestivalInfo}>
       <img
         src={imageSrc}
         alt="카테고리"
@@ -45,7 +48,7 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
           <M.SubText>{startDate} - {endDate}</M.SubText>
         </div>
       </M.TextWrapper>
-      <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기" />
+      <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기"  />
     </M.ComponentWrapper>
   );
 };
@@ -156,6 +159,7 @@ const MainPage = () => {
                   endDate={festival.endDate}
                   category={festival.category}
                   selectedProgressMenu={selectedProgressMenu}
+                  festivalId={festival.festivalId}
                 />
               ))}
             </div>
