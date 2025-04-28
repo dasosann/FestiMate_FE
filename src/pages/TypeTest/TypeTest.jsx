@@ -12,7 +12,7 @@ const TypeTest = () => {
   const [festivalType, setFestivalType] = useState(null); // 축제 유형 상태 추가
   const location = useLocation(); // 라우터 상태에서 festivalId 추출
   const festivalId = location.state?.festivalId;
-  // 1) 컴포넌트가 처음 마운트될 때, 
+  // 1) 컴포넌트가 처음 마운트될 때,  
   //    "현재" 히스토리 기록을 우리 상태({ started:false, completed:false })로 교체
   //    -> 뒤로가기 했을 때 e.state가 없거나 엉뚱한 값이 들어오는 것을 방지
   useEffect(() => {

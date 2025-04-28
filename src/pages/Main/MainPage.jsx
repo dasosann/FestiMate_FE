@@ -35,7 +35,7 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
     navigate(`/festival/${festivalId}`);
   }
   return (
-    <M.ComponentWrapper>
+    <M.ComponentWrapper onClick={navigateToFestivalInfo}>
       <img
         src={imageSrc}
         alt="카테고리"
@@ -48,7 +48,7 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
           <M.SubText>{startDate} - {endDate}</M.SubText>
         </div>
       </M.TextWrapper>
-      <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기" onClick={navigateToFestivalInfo} />
+      <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기"  />
     </M.ComponentWrapper>
   );
 };
