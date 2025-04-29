@@ -18,19 +18,29 @@ import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
 import planProfile from '/assets/Profile/plan-type-profile.svg';
 import shotProfile from '/assets/Profile/shot-type-profile.svg';
 
+import newCard from '/assets/Card/new-card.svg';
+import healCard from '/assets/Card/healing-card.svg';
+import inssaCard from '/assets/Card/inssa-card.svg';
+import planCard from '/assets/Card/plan-card.svg';
+import shotCard from '/assets/Card/shot-card.svg';
+
+
+
+
 const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const navigate = useNavigate();
     const [point, setPoint] = useState(0);
     const [type, setType] = useState('');
     const [isAble, setIsAble] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [match, setMatch] = useState([]);
 
-    const ProfileMap = {
-        'NEWBIE': newProfile,
-        'HEALING': healProfile,
-        'INFLUENCER': inssaProfile,
-        'PLANNER': planProfile,
-        'PHOTO': shotProfile
+    const CardMap = {
+        'NEWBIE': newCard,
+        'HEALING': healCard,
+        'INFLUENCER': inssaCard,
+        'PLANNER': planCard,
+        'PHOTO': shotCard
     };
 
     useEffect(() => {
@@ -39,7 +49,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 const result = await instance.get(`/v1/festivals/${festivalId}/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
-                console.log(result);
             } catch (error) {
                 console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/me/summary:", {
                     status: error.response?.status,
@@ -50,6 +59,44 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
         getInfo();
     }, [festivalId]);
+
+    useEffect(() => {
+        const getMatching = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
+                setMatch(result.data.data.matchingList);
+                console.log(result);
+            } catch (error) {
+                console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getMatching();
+    }, [festivalId]);
+
+    // 예시 카드 데이터
+    const cards = [
+        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
+        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
+        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        // 추가 카드 데이터...
+    ];
+
 
     const handleMatching = async () => {
         if (point > 0) {
@@ -76,7 +123,8 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     };
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
-    const TicketCard = ({ imageSrc, tags, name, gender }) => (
+    const TicketCard = ({ imageSrc, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeresult }) => (
+        { matchingStatus === "COMPLETED" ? 
         <div className="ticket-card">
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
@@ -102,6 +150,8 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             <div className="ticket-notch left"></div>
             <div className="ticket-notch right"></div>
         </div>
+        : <> </>
+                }
     );
 
     // 인디케이터 컴포넌트 (dots) - 도트 크기를 동적으로 계산하고, 트랜지션 적용
@@ -221,25 +271,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         );
     };
 
-    // 예시 카드 데이터
-    const cards = [
-        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
-        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
-        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        // 추가 카드 데이터...
-    ];
+    
 
     return (
         <>
@@ -259,7 +291,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         </div>
                         <img src={ProfileMap[type]} className="festival-profile-img" alt="프로필" />
                     </div>
-                    <div className="festival-point-total-box" onClick={() => navigate('/mypage')}>
+                    <div className="festival-point-total-box" onClick={() => navigate(`/festival/${festivalId}/mypage`)}>
                         <img src={point_} alt="포인트" />
                         나의 잔여 포인트
                         <span className="festival-point-total">{`${point}P >`}</span>
@@ -269,11 +301,11 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 <div className="festival-bottom-container">
                     <div className="festival-matching-box">
                         <div>나의 매칭 현황!</div>
-                        <div className="matching-count">0/0</div>
+                        <div className="matching-count">0/{match.length}</div>
                     </div>
                     <div className="festival-matching-container-wrapper">
-                        {cards.length > 0 ? (
-                            <FestivalMatching cards={cards} />
+                        {match.length > 0 ? (
+                            <FestivalMatching cards={match} />
                         ) : (
                             <>
                                 <div className="festival-matching-content">
