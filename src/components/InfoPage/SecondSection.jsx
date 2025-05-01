@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
+import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear}) => {
@@ -19,9 +20,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         const tmp = [];
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
-        setYear(tmp[0]);
-
-        console.log(nicknameError, nickname);
     },[]);
 
 
@@ -36,13 +34,28 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         }
     };
 
-    const isDuplicatedNickname = () => {
-        /* const response = api(nickname) */
-        if(true) {
-            setCanPass(true);
+    const isDuplicatedNickname = async () => {
+        const checkNickname = async () => {
+            try {
+                const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
+                console.log(result);
+                if(result.status==200) {
+                    setCanPass(true);
+                }
+                else if(result.status==409) { 
+                    setCanPass(false);
+                    setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
+                }
+            } catch (error) {
+                console.error("[duplicate check API Error] GET /v1/users/validate-nickname:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
         }
-        else 
-            setCanPass(false);
+        
+        checkNickname();
     };
 
     const handleNicknameChange = (e) => {
@@ -76,7 +89,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <input 
                             type="text"
-                            className={`info-input-nickname ${nicknameError ? 'warn' : ''}`}
+                            className={`info-input-nickname ${nicknameError ? 'warn' : ''} ${nickname.length > 0 ? 'hasContent' : ''}`}
                             placeholder='닉네임을 입력해주세요'
                             value={nickname}
                             onChange={handleNicknameChange}/>
@@ -98,10 +111,10 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <select 
                             value={year}
-                            className="info-input"
+                            className={`info-input ${year ? 'year-selected hasContent' : 'year-empty'}`}
                             onChange={e => setYear(e.target.value)} 
                         >
-                            <option value="" style={{color: 'var(--gray03)'}}>연도 선택</option>
+                            <option value="">연도 선택</option>
                             {yearOption.map((yr,idx) => (
                                 <option key={`${yr}-${idx}`} value={yr}>
                                 {yr}

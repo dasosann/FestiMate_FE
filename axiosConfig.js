@@ -175,7 +175,8 @@ instance.interceptors.response.use(
                     alert("이미 존재하는 리소스입니다.");
                     break;
                 case 4091:
-                    alert("이미 존재하는 회원입니다.");
+                    //alert("이미 존재하는 회원입니다.");
+                    //alert 안 띄우고 ui로 처리하겠습니다. by 기훈 2025.05.01
                     break;
                 case 4092:
                     alert("이미 존재하는 참여자입니다.");

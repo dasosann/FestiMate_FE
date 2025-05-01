@@ -124,7 +124,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
     const TicketCard = ({ imageSrc, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeresult }) => (
-        { matchingStatus === "COMPLETED" ? 
         <div className="ticket-card">
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
@@ -150,8 +149,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             <div className="ticket-notch left"></div>
             <div className="ticket-notch right"></div>
         </div>
-        : <> </>
-                }
     );
 
     // 인디케이터 컴포넌트 (dots) - 도트 크기를 동적으로 계산하고, 트랜지션 적용
