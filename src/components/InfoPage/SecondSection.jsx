@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
+import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear}) => {
@@ -20,9 +21,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         const tmp = [];
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
-        setYear(tmp[0]);
-
-        console.log(nicknameError, nickname);
     },[]);
 
 
@@ -35,6 +33,30 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
             setNicknameError(null);
             setIsValidNickname(true);
         }
+    };
+
+    const isDuplicatedNickname = async () => {
+        const checkNickname = async () => {
+            try {
+                const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
+                console.log(result);
+                if(result.status==200) {
+                    setCanPass(true);
+                }
+                else if(result.status==409) { 
+                    setCanPass(false);
+                    setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
+                }
+            } catch (error) {
+                console.error("[duplicate check API Error] GET /v1/users/validate-nickname:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        
+        checkNickname();
     };
 
     const handleNicknameChange = (e) => {
@@ -52,31 +74,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
             setCurrentPage(prev => prev+1);
         }
     };
-    const isDuplicatedNickname = async () => {
-        try {
-            const response = await instance.post('/v1/users/validate-nickname', {}, {
-                params: { nickname: nickname }
-              });
-          console.log("중복응답",response)
-          const isAvailable = response.data?.code;
-          if (isAvailable===2000) {
-            setCanPass(true);
-            setNicknameError();
-          }
-          else if(isAvailable===4091){
-            setCanPass(false);
-            setNicknameError('이미 존재하는 닉네임입니다.');
-          }
-        } catch (error) {
-          console.error('[Nickname Validation API Error] POST /v1/users/validate-nickname:', {
-            status: error.response?.status,
-            data: error.response?.data,
-            message: error.message,
-          });
-          setCanPass(false);
-          setNicknameError('닉네임 확인 중 오류가 발생했습니다.');
-        } 
-      };
     return (
         <div className="info-container">
             <div className="info-phrase">
@@ -92,7 +89,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <input 
                             type="text"
-                            className={`info-input-nickname ${nicknameError ? 'warn' : ''}`}
+                            className={`info-input-nickname ${nicknameError ? 'warn' : ''} ${nickname.length > 0 ? 'hasContent' : ''}`}
                             placeholder='닉네임을 입력해주세요'
                             value={nickname}
                             onChange={handleNicknameChange}/>
@@ -114,10 +111,10 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <select 
                             value={year}
-                            className="info-input"
+                            className={`info-input ${year ? 'year-selected hasContent' : 'year-empty'}`}
                             onChange={e => setYear(e.target.value)} 
                         >
-                            <option value="" style={{color: 'var(--gray03)'}}>연도 선택</option>
+                            <option value="">연도 선택</option>
                             {yearOption.map((yr,idx) => (
                                 <option key={`${yr}-${idx}`} value={yr}>
                                 {yr}

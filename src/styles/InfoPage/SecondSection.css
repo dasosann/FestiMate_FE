@@ -11,6 +11,11 @@
 
 .info-input-nickname:focus {
     outline: none;
+    border: 1px solid var(--gray07);
+}
+
+.info-input-nickname.hasContent {
+    border: 1px solid var(--gray07);
 }
 
 .info-input-nickname.warn {
@@ -109,4 +114,47 @@
 .gender-box.selected {
     background-color: var(--gray07); /* 원하는 색상으로 변경 */
     color: white; /* 예: 흰색 텍스트 */
+}
+
+/* 새로 추가한 스타일 */
+/* 선택 필드의 기본 상태(선택되지 않았을 때) */
+select.year-empty {
+    color: var(--gray03) !important;
+}
+
+/* 선택 필드의 활성 상태(선택되었을 때) */
+select.year-selected {
+    color: black !important;
+}
+
+/* 첫 번째 옵션 항목("연도 선택") */
+option[value=""] {
+    color: var(--gray03);
+}
+
+/* 나머지 옵션 항목들(실제 연도 값들) */
+option:not([value=""]) {
+    color: black;
+}
+
+/* 드롭다운 화살표 위치 조정 */
+select.info-input {
+    -webkit-appearance: none;  /* Chrome, Safari에서 기본 화살표 제거 */
+    -moz-appearance: none;     /* Firefox에서 기본 화살표 제거 */
+    appearance: none;          /* 표준 속성 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center; /* 오른쪽에서 15px 떨어진 위치 */
+    background-size: 16px;
+    padding-right: 45px; /* 오른쪽 여백 증가 */
+    border: 1px solid var(--gray03);
+}
+
+select.info-input:focus {
+    outline: none;
+    border: 1px solid var(--gray07);
+}
+
+select.info-input.hasContent {
+    border: 1px solid var(--gray07);
 }
