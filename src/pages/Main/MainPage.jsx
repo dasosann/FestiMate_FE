@@ -129,9 +129,9 @@ const MainPage = () => {
       <M.ParticipateDiv>
         <span style={{ color: '#ff6f61' }}>{nickname || '사용자'}</span>
         <span>님의 </span>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap:'5px' }}>
           페스티벌 참여 현황
-          <img src="/assets/Main/flag.svg" alt="깃발" />
+          <img src="/assets/Main/flag.svg" alt="깃발" style={{width:'24px',height:'24px',marginBottom:'7px'}} />
         </div>
       </M.ParticipateDiv>
       <M.ProgressMenu $isProgress={selectedProgressMenu === '진행'}>
