@@ -4,6 +4,7 @@ import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
 
+
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear}) => {
 
