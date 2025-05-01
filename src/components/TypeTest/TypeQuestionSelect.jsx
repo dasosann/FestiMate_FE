@@ -43,7 +43,7 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
       question: "페스티벌에서 함께하고 싶은 사람은?",
       options: [
         "인디, 재즈, 발라드 난 분위기를 즐길거야~",
-        "EDM, 힙합, K-POP 신나는 빌트 필수!"
+        "EDM, 힙합, K-POP 신나는 비트 필수!"
       ]
     }
   ];
