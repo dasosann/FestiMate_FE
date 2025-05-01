@@ -116,7 +116,7 @@ instance.interceptors.response.use(
         if (status === 401) {
             switch (data.code) {
                 case 4011:
-                    alert("액세스 토큰의 값이 올바르지 않습니다.");
+                    // alert("액세스 토큰의 값이 올바르지 않습니다.");
                     break;
                 case 4012:
                     alert("엑세스 토큰이 만료되었습니다.");
