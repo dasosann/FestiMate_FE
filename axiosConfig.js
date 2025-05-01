@@ -122,7 +122,6 @@ instance.interceptors.response.use(
                     alert("엑세스 토큰이 만료되었습니다.");
                     break;
                 case 4013:
-                    alert("초대코드가 만료되었습니다.");
                     break;
                 case 4014:
                     alert("페스티벌 기간이 종료되었습니다.");
