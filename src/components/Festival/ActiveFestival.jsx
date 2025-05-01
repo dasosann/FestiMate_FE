@@ -42,6 +42,13 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         'PLANNER': planCard,
         'PHOTO': shotCard
     };
+    const ProfileMap = {
+                'NEWBIE': newProfile,
+                'HEALING': healProfile,
+                'INFLUENCER': inssaProfile,
+                'PLANNER': planProfile,
+                'PHOTO': shotProfile
+            };
 
     useEffect(() => {
         const getInfo = async () => {
