@@ -64,6 +64,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         if(nicknameLen >= 6) {
             value = value.substring(0, 6);
         }
+        setCanPass(false);
         validateNickname(value);
         setNickname(value);
         setNicknameLen(value.length);
