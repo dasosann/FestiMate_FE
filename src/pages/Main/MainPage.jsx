@@ -173,11 +173,11 @@ const MainPage = () => {
         <img src="/assets/Main/user-icon.svg" alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
         <M.DrawerUserName>{nickname || '사용자'}님</M.DrawerUserName>
         <M.MenuComponent>
-          <span>문의하기</span>
+          <span onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>문의하기</span>
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
         </M.MenuComponent>
         <M.MenuComponent>
-          <span>개인정보처리방침</span>
+          <span onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>개인정보처리방침</span>
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
         </M.MenuComponent>
       </M.SideDrawer>
