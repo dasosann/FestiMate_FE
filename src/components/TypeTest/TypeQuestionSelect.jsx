@@ -5,8 +5,8 @@ import instance from '../../../axiosConfig';
 
 const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
   const navigate = useNavigate();
-  const [progress, setProgress] = useState(0); // 진행 상태
-  const step = 25; // 한 번에 증가할 단계 (10%씩 증가)
+  const [progress, setProgress] = useState(20); // 진행 상태
+  const step = 20; // 한 번에 증가할 단계 (10%씩 증가)
   const [answers, setAnswers] = useState([null, null, null, null, null]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -43,7 +43,7 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
       question: "페스티벌에서 함께하고 싶은 사람은?",
       options: [
         "인디, 재즈, 발라드 난 분위기를 즐길거야~",
-        "EDM, 힙합, K-POP 신나는 빌트 필수!"
+        "EDM, 힙합, K-POP 신나는 비트 필수!"
       ]
     }
   ];

@@ -103,7 +103,7 @@ M.SideDrawer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 7.39vh 16px;
+  padding: 12px 16px;
 `;
 
 
