@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
+import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear}) => {
@@ -73,7 +74,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
             setCurrentPage(prev => prev+1);
         }
     };
-
     return (
         <div className="info-container">
             <div className="info-phrase">
