@@ -5,8 +5,8 @@ import instance from '../../../axiosConfig';
 
 const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
   const navigate = useNavigate();
-  const [progress, setProgress] = useState(0); // 진행 상태
-  const step = 25; // 한 번에 증가할 단계 (10%씩 증가)
+  const [progress, setProgress] = useState(20); // 진행 상태
+  const step = 20; // 한 번에 증가할 단계 (10%씩 증가)
   const [answers, setAnswers] = useState([null, null, null, null, null]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
