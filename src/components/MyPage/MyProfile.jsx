@@ -118,7 +118,7 @@ const MyProfile = ({festivalId}) => {
                 <div className="profile-text-container">
                     <div className="meta-box">
                         <img src={contactImg} alt="연락정보" />
-                        연락정보
+                        연락 정보
                         <img src={edit} alt="수정" onClick={() => navigate('../editContact', { state: { from: 'MyProfile', contactData: contact, messageData: message } })} />
                     </div>
                     <div className="profile-text-box">

@@ -22,8 +22,8 @@ const EditMessage = ({festivalId}) => {
     const handleNext = async () => {
         try {
             const messageData = {
-                introduction: messageInfo || '연락을 통해 직접 대화해보세요 !',
-                message: location.state.contactData
+                introduction: location.state.contactData,
+                message: messageInfo || '연락을 통해 직접 대화해보세요 !',
             };
 
             const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
@@ -46,8 +46,10 @@ const EditMessage = ({festivalId}) => {
                     <span className="point-color">메시지</span>를 작성해주세요 (선택)
                 </div>
                 <div className="edit-top-sub-title">
-                    <img src={check} className="edit-check" alt="확인" />
-                    연락처와 함께 전달할 메시지입니다!
+                    <div className="edit-check-container">
+                        <img src={check} className="edit-check" alt="확인" />
+                    </div>
+                    <span>연락처와 함께 전달할 메시지입니다!</span>
                 </div>
             </div>
 
@@ -60,7 +62,7 @@ const EditMessage = ({festivalId}) => {
                     maxLength="50"
                 />
                 <div className="edit-contact-count">
-                    {messageInfo.length}/50
+                    {messageInfo ? messageInfo.length : 0}/50
                 </div>
             </div>
 
@@ -75,7 +77,7 @@ const EditMessage = ({festivalId}) => {
                 </div>
             </div>
             <button
-                className='edit-next-button active'
+                className="edit-next-button active"
                 onClick={handleNext}
             >
                 완료
