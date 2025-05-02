@@ -27,14 +27,15 @@ const EditContact = ({festivalId}) => {
             };
 
             const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
-            navigate(`../myprofile`, { state: { edited: true, what: 'contact' } })
+            //navigate(`../myprofile`, { state: { edited: true, what: 'contact' } });
+            navigate(`../myprofile`);
         } catch (error) {
             console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
                 status: error.response?.status,
                 data: error.response?.data,
                 message: error.message,
             });
-            navigate(`../myprofile`, { state: { edited: false, what: 'contact' } })
+            navigate(`../myprofile`, { state: { edited: false, what: 'contact' } });
         }
     }
 
