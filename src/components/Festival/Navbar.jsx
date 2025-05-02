@@ -10,10 +10,10 @@ const Navbar = ({ festivalId }) => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if(location.pathname === '/mypage' || location.pathname === '/mypage/') {
-            setTitle('마이페이지');
+        if(location.pathname.includes('myprofile')) {
+            setTitle('내 프로필');
         }
-        else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
+        else if(location.pathname.includes === 'myprofile') {
             setTitle('내 프로필');
         }
     }, [location.pathname]);
