@@ -73,7 +73,7 @@ const InfoMenu = ({festivalId}) => {
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
                     <button className="info-modify-btn" onClick={() => navigate('./myprofile')}>
-                        프로필 수정
+                        내 프로필
                     </button>
                 </div>
                 <div className="info-account-box">
