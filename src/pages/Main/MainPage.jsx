@@ -151,7 +151,7 @@ const MainPage = () => {
       <M.MainWrapper>
         <M.MainDiv>
           {loading ? (
-            <M.TotalFestivalDiv>로딩중...</M.TotalFestivalDiv>
+            <M.TotalFestivalDiv></M.TotalFestivalDiv>
           ) : festivals?.length === 0 ? (
             <div style={{ marginTop: '10.34vh' }}>
               <img src="/assets/Main/mainpage-background-logo.svg" alt="배경로고" />
