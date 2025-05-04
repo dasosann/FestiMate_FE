@@ -40,7 +40,7 @@
     width: 20%;
     height: auto;
     border-radius: 50%;
-    border: 1px solid var(--gray03);
+    border: none;
     object-fit: cover;
 }
 
