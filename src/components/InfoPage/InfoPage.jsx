@@ -19,6 +19,8 @@ const InfoPage = () => {
     const [animal, setAnimal] = useState('');
     const navigate = useNavigate();
 
+    const [flag, setFlag] = useState(1);
+
     // React Query 뮤테이션
     const submitMutation = useMutation({
         mutationFn: async (data) => {
@@ -81,6 +83,7 @@ const InfoPage = () => {
                     setName={setName}
                     name={name}
                     phone={phone}
+                    flag={flag}
                 />
             )}
             {currentPage === 2 && (
@@ -92,6 +95,7 @@ const InfoPage = () => {
                     setGender={setGender}
                     year={year}
                     setYear={setYear}
+                    flag={flag}
                 />
             )}
             {currentPage === 3 && (
@@ -100,6 +104,7 @@ const InfoPage = () => {
                     submitData={submitData}
                     isLoading={submitMutation.isLoading}
                     setMbti={setMbti}
+                    flag={flag}
                 />
             )}
         </div>

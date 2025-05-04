@@ -121,7 +121,7 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                     <div className="info-input-title">연락처</div>
                     <div className="info-input-wrapper">
                         <input
-                        type="text"
+                        type="tel"
                         className={`info-input ${phone.length > 0 ? 'hasContent' : ''}`}
                         placeholder="ex) 010-1234-5678"
                         value={phone}
