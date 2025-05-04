@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/InfoPage/ThirdSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import bear from '/assets/InfoPage/ic_bear.svg';
@@ -8,13 +8,18 @@ import dog from '/assets/InfoPage/ic_dog.svg';
 import fox from '/assets/InfoPage/ic_fox.svg';
 import dinosaur from '/assets/InfoPage/ic_dinosaur.svg';
 
-const ThirdSection = ({ setCurrentPage, submitData, isLoading }) => {
+const ThirdSection = ({ setCurrentPage, submitData, isLoading, setIsThirdSectionValid }) => {
     const [EI, setEI] = useState('');
     const [NS, setNS] = useState('');
     const [FT, setFT] = useState('');
     const [PJ, setPJ] = useState('');
     const [localAnimal, setLocalAnimal] = useState('');
     const isFilled = EI && NS && FT && PJ && localAnimal;
+
+    // isFilled 상태가 변경될 때마다 상위 컴포넌트에 알림
+    useEffect(() => {
+        setIsThirdSectionValid(isFilled);
+    }, [isFilled, setIsThirdSectionValid]);
 
     const handleSubmit = () => {
         if (isFilled) {

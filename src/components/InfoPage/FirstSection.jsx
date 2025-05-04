@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/InfoPage/FirstSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 
-
-const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
+const FirstSection = ({setCurrentPage, name, setName, phone, setPhone, isFirstSectionValid, setIsFirstSectionValid}) => {
     const [nameError, setNameError] = useState('');
     const [nameLen, setNameLen] = useState(0);
     const [isValidName, setIsValidName] = useState(false);
@@ -11,6 +10,28 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
     
     // 이름과 전화번호가 모두 유효하고 채워졌는지 확인
     const isBothFilled = isValidName && isValidPhone;
+
+    // 페이지 진입 시 기존 데이터가 있을 경우 유효성 재검증
+    useEffect(() => {
+        // 이름과 전화번호가 있으면 유효성 검사 재실행
+        if (name) {
+            validateName(name);
+            setNameLen(name.length);
+        }
+        
+        if (phone) {
+            const phoneRegex = /^010-\d{4}-\d{4}$/;
+            setIsValidPhone(phoneRegex.test(phone));
+        }
+        
+        // 전체 섹션 유효성 업데이트
+        setIsFirstSectionValid(isValidName && isValidPhone);
+    }, [name, phone]);
+
+    // useEffect를 사용하여 isBothFilled 상태가 변경될 때마다 상위 컴포넌트에 알림
+    useEffect(() => {
+        setIsFirstSectionValid(isBothFilled);
+    }, [isBothFilled, setIsFirstSectionValid]);
 
     const handleNext = () => {
         if (isBothFilled) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/InfoPage/InfoPage.css';
 import FirstSection from './FirstSection';
 import SecondSection from './SecondSection';
@@ -18,6 +18,11 @@ const InfoPage = () => {
     const [mbti, setMbti] = useState('');
     const [animal, setAnimal] = useState('');
     const navigate = useNavigate();
+
+    // 각 섹션별 유효성 상태 추가
+    const [isFirstSectionValid, setIsFirstSectionValid] = useState(false);
+    const [isSecondSectionValid, setIsSecondSectionValid] = useState(false);
+    const [isThirdSectionValid, setIsThirdSectionValid] = useState(false);
 
     const [flag, setFlag] = useState(1);
 
@@ -84,6 +89,8 @@ const InfoPage = () => {
                     name={name}
                     phone={phone}
                     flag={flag}
+                    setIsFirstSectionValid={setIsFirstSectionValid}
+                    isFirstSectionValid={isFirstSectionValid}
                 />
             )}
             {currentPage === 2 && (
@@ -96,6 +103,8 @@ const InfoPage = () => {
                     year={year}
                     setYear={setYear}
                     flag={flag}
+                    setIsSecondSectionValid={setIsSecondSectionValid}
+                    isSecondSectionValid={isSecondSectionValid}
                 />
             )}
             {currentPage === 3 && (
@@ -105,6 +114,8 @@ const InfoPage = () => {
                     isLoading={submitMutation.isLoading}
                     setMbti={setMbti}
                     flag={flag}
+                    setIsThirdSectionValid={setIsThirdSectionValid}
+                    isThirdSectionValid={isThirdSectionValid}
                 />
             )}
         </div>

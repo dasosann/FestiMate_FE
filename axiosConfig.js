@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios 기본 설정
 const instance = axios.create({
-    baseURL: "https://api.festimate.kr",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 // 요청 인터셉터 설정

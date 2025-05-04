@@ -4,9 +4,8 @@ import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
 
-
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
-    gender, setGender, year, setYear}) => {
+    gender, setGender, year, setYear, isSecondSectionValid, setIsSecondSectionValid}) => {
 
     const [nicknameError, setNicknameError] = useState('');
     const [isValidNickname, setIsValidNickname] = useState(false);
@@ -23,9 +22,28 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         setYearOption(tmp);
     },[]);
 
+    // 페이지 진입 시 기존 데이터가 있을 경우 유효성 재검증
+    useEffect(() => {
+        if (nickname) {
+            validateNickname(nickname);
+            setNicknameLen(nickname.length);
+            // 닉네임 중복 확인 상태 복원이 필요하다면 API 호출 필요
+            if (isValidNickname) {
+                isDuplicatedNickname();
+            }
+        }
+        
+        // 전체 섹션 유효성 업데이트
+        setIsSecondSectionValid(isFilled);
+    }, [nickname, year, gender]);
+
+    // isFilled 상태가 변경될 때마다 상위 컴포넌트에 알림
+    useEffect(() => {
+        setIsSecondSectionValid(isFilled);
+    }, [isFilled, setIsSecondSectionValid]);
 
     const validateNickname = (value) => {
-        const regex = /^[가-힣a-zA-Z]+$/; // 한글만 허용
+        const regex = /^[가-힣a-zA-Z]+$/; // 한글과 영어만 허용
         if (!regex.test(value)) {
             setNicknameError('한글과 영어만 입력 가능합니다.');
             setIsValidNickname(false);
@@ -71,10 +89,11 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
     };
 
     const handleNext = () => {
-        if (nickname && isValidNickname && year && gender && canPass) {
+        if (isFilled) {
             setCurrentPage(prev => prev+1);
         }
     };
+    
     return (
         <div className="info-container">
             <div className="info-phrase">
