@@ -12,35 +12,35 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
     const [nicknameLen, setNicknameLen] = useState(0);
     const [yearOption, setYearOption] = useState([]);
     const [canPass, setCanPass] = useState(false);
-    const isFilled = nickname && year && gender && isValidNickname && canPass;
     
+    // 초기 세팅 - 최초 진입 시 전부 입력하고, 중복확인까지 했다고 가정
+    useEffect(() => {
+        // 초기 진입 시에만 실행되는 코드
+        if (nickname) {
+            validateNickname(nickname);
+            setNicknameLen(nickname.length);
+            setCanPass(true); // 중복확인 완료 상태로 설정
+        }
+    }, []);
+
+    // 기본 연도 옵션 설정
     useEffect(() => {
         const startYear = 1970;
         const endYear = new Date().getFullYear();
         const tmp = [];
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
-    },[]);
+    }, []);
 
-    // 페이지 진입 시 기존 데이터가 있을 경우 유효성 재검증
+    // canPass 상태가 변경될 때마다 버튼 활성화 상태 업데이트
+    // 조건 2: 허용되는 닉네임일 때, 나머지 필드도 채워져 있다면 isSecondSectionValid를 true로 설정
     useEffect(() => {
-        if (nickname) {
-            validateNickname(nickname);
-            setNicknameLen(nickname.length);
-            // 닉네임 중복 확인 상태 복원이 필요하다면 API 호출 필요
-            if (isValidNickname) {
-                isDuplicatedNickname();
-            }
+        if (canPass && nickname && year && gender) {
+            setIsSecondSectionValid(true);
+        } else {
+            setIsSecondSectionValid(false);
         }
-        
-        // 전체 섹션 유효성 업데이트
-        setIsSecondSectionValid(isFilled);
-    }, [nickname, year, gender]);
-
-    // isFilled 상태가 변경될 때마다 상위 컴포넌트에 알림
-    useEffect(() => {
-        setIsSecondSectionValid(isFilled);
-    }, [isFilled, setIsSecondSectionValid]);
+    }, [canPass, nickname, year, gender, setIsSecondSectionValid]);
 
     const validateNickname = (value) => {
         const regex = /^[가-힣a-zA-Z]+$/; // 한글과 영어만 허용
@@ -59,7 +59,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                 const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
                 console.log(result);
                 if(result.status==200) {
-                    setCanPass(true);
+                    setCanPass(true); // 닉네임 허용됨
                 }
                 else if(result.status==409) { 
                     setCanPass(false);
@@ -82,14 +82,19 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         if(nicknameLen >= 6) {
             value = value.substring(0, 6);
         }
+        
+        // 조건 4: 닉네임 중복 검증 후 닉네임이 수정되면 canPass와 isSecondSectionValid를 false로 설정
         setCanPass(false);
+        setIsSecondSectionValid(false);
+        
         validateNickname(value);
         setNickname(value);
         setNicknameLen(value.length);
     };
 
+    // 조건 3: 다음 버튼 활성화 여부는 isSecondSectionValid를 통해 결정
     const handleNext = () => {
-        if (isFilled) {
+        if (isSecondSectionValid) {
             setCurrentPage(prev => prev+1);
         }
     };
@@ -164,12 +169,12 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                         </label>
                     </div>
                 </div>
-                    <button
-                        className={`next-button ${isFilled ? 'active' : 'inactive'}`}
-                        onClick={handleNext}
-                    >
-                        다음
-                    </button>
+                <button
+                    className={`next-button ${isSecondSectionValid ? 'active' : 'inactive'}`}
+                    onClick={handleNext}
+                >
+                    다음
+                </button>
             </div>
         </div>
     );
