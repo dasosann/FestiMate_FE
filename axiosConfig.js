@@ -45,7 +45,7 @@ instance.interceptors.response.use(
             if (refreshToken) {
                 try {
                     const refreshResponse = await axios.patch(
-                        "https://api.festimate.kr/v1/auth/reissue/token",
+                        baseURL + "/v1/auth/reissue/token",
                         null,
                         {
                             headers: {
