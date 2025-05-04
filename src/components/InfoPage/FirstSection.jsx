@@ -123,6 +123,7 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                         <input
                         type="tel"
                         inputmode="numeric"
+                         pattern="[0-9]*"
                         className={`info-input ${phone.length > 0 ? 'hasContent' : ''}`}
                         placeholder="ex) 010-1234-5678"
                         value={phone}
