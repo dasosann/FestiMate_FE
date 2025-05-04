@@ -11,16 +11,18 @@
 }
 
 .next-button {
-    width: 100vw;
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 0px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
     max-width: 430px;
-    margin-left: -15px;
-    margin-top: auto;
-    margin-bottom: 10%;
     border: none;
     height: 60px;
     color: white;
     font-weight: var(--semibold);
     font-size: 15px;
+    z-index: 10;
 }
 
 .next-button.active {
