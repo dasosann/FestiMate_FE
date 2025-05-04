@@ -25,9 +25,6 @@ import inssaCard from '/assets/Card/inssa-card.svg';
 import planCard from '/assets/Card/plan-card.svg';
 import shotCard from '/assets/Card/shot-card.svg';
 
-
-
-
 const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const navigate = useNavigate();
     const [point, setPoint] = useState(0);

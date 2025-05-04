@@ -11,6 +11,7 @@ import EditMessage from './EditMessage';
 const MainInfo = () => {
     const festivalId = useParams().festivalId;
 
+
     return (
         <div className="section-container">
             <Navbar/>

@@ -19,6 +19,7 @@ const InfoMenu = ({festivalId}) => {
     const [toastMessage, setToastMessage] = useState('');
     const [showWarningTooltip, setShowWarningTooltip] = useState(false);
     const [type, setType] = useState('');
+    const [isActive, setIsActive] = useState(false);
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
@@ -48,7 +49,44 @@ const InfoMenu = ({festivalId}) => {
                 });
             }
         }
+        const getFestival = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}`);
+                setDate(result.data.data.festivalDate);
+                
+                const festivalDateRange = result.data.data.festivalDate;
+                if (festivalDateRange && festivalDateRange.includes('~')) {
+                    const endDateStr = festivalDateRange.split('~')[1].trim();
+                    const endDateParts = endDateStr.split('.');
+                    const endDate = new Date(
+                        parseInt(endDateParts[0]),
+                        parseInt(endDateParts[1]) - 1, // 월은 0부터 시작하므로 -1
+                        parseInt(endDateParts[2])
+                    );
+                    
+                    const currentDate = new Date();
+                    
+                    // 종료일이 현재 날짜보다 이전이면 축제가 종료된 것
+                    if (endDate < currentDate) {
+                        setIsActive(false);
+
+                    } else {            
+                        setIsActive(true);
+                    }
+                }
+                
+                console.log(result);
+            } catch (error) {
+                console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+                setIsActive(false);
+            }
+        }
         getNickname();
+        getFestival();
     }, [festivalId]);
 
     const copyAccountNumber = () => {
@@ -89,39 +127,42 @@ const InfoMenu = ({festivalId}) => {
                         내 프로필
                     </button>
                 </div>
-                <div className="info-account-box">
-                    <div className="account-num-box">
-                        { /*<div className="account-bank">{accountBank}</div>*/ }
-                        <div className="account-warning">
-                            입금 시 주의 사항
-                            <img 
-                                src={warning} 
-                                alt="주의사항" 
-                                onClick={toggleWarningTooltip}
-                                className="warning-icon"
-                            />
-                            {showWarningTooltip && (
-                                <div className="warning-tooltip">
-                                    입금 후 부스 방문 혹은 카카오톡으로 연락을 주셔야<br/>
-                                    포인트 충전이 가능합니다!
-                                </div>
-                            )}
+                {isActive ?
+                    <div className="info-account-box">
+                        <div className="account-num-box">
+                            { /*<div className="account-bank">{accountBank}</div>*/ }
+                            <div className="account-warning">
+                                입금 시 주의 사항
+                                <img 
+                                    src={warning} 
+                                    alt="주의사항" 
+                                    onClick={toggleWarningTooltip}
+                                    className="warning-icon"
+                                />
+                                {showWarningTooltip && (
+                                    <div className="warning-tooltip">
+                                        입금 후 부스 방문 혹은 카카오톡으로 연락을 주셔야<br/>
+                                        포인트 충전이 가능합니다!
+                                    </div>
+                                )}
+                            </div>
+                            <div className="account-num">
+                                카카오뱅크 3333-18-89015
+                                <img src={copyBtn} onClick={copyAccountNumber} alt="복사 버튼" />
+                            </div>
+                            <div className="account-time">
+                                <img src={clock} />
+                                입금확인
+                                <span>·</span>
+                                오전 09:00 ~ 20:00
+                            </div>
                         </div>
-                        <div className="account-num">
-                            카카오뱅크 3333-18-89015
-                            <img src={copyBtn} onClick={copyAccountNumber} alt="복사 버튼" />
-                        </div>
-                        <div className="account-time">
-                            <img src={clock} />
-                            입금확인
-                            <span>·</span>
-                            오전 09:00 ~ 20:00
-                        </div>
+                        <button className="account-confirm-btn" onClick={() => window.open('http://pf.kakao.com/_sQUwn')}>
+                            입금 후 연락하러 가기
+                        </button>
                     </div>
-                    <button className="account-confirm-btn" onClick={() => window.open('http://pf.kakao.com/_sQUwn')}>
-                        입금 후 연락하러 가기
-                    </button>
-                </div>
+                    : null
+                }
             </div>
             <div className="divide-line"></div>
             <div className="info-bottom-container">

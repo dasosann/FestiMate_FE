@@ -20,7 +20,29 @@ const FestivalInfo = () => {
                 const result = await instance.get(`/v1/festivals/${festivalId}`);
                 setDate(result.data.data.festivalDate);
                 setFestivalName(result.data.data.festivalName);
-                setIsActive(true);
+                
+                // 현재 날짜와 축제 종료일 비교하여 isFinished 설정
+                const festivalDateRange = result.data.data.festivalDate;
+                if (festivalDateRange && festivalDateRange.includes('~')) {
+                    const endDateStr = festivalDateRange.split('~')[1].trim();
+                    const endDateParts = endDateStr.split('.');
+                    const endDate = new Date(
+                        parseInt(endDateParts[0]),
+                        parseInt(endDateParts[1]) - 1, // 월은 0부터 시작하므로 -1
+                        parseInt(endDateParts[2])
+                    );
+                    
+                    const currentDate = new Date();
+                    
+                    // 종료일이 현재 날짜보다 이전이면 축제가 종료된 것
+                    if (endDate < currentDate) {
+                        setIsActive(false);
+
+                    } else {            
+                        setIsActive(true);
+                    }
+                }
+                
                 console.log(result);
             } catch (error) {
                 console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
@@ -34,24 +56,22 @@ const FestivalInfo = () => {
         getFestival();
     }, [festivalId]);
 
-    useEffect(() => {
-        console.log(date);
-        
-    }, [date]);
-
     return (
         <>
             <Navbar festivalId={festivalId}/>
-            { isActive ? <ActiveFestival 
+            { isActive ?  
+                        <ActiveFestival 
                             festivalName={festivalName}
                             festivalDate={date}
                             festivalId={festivalId}
-                        />   
-                        : <DeactiveFestival 
+                        />  
+                        :  
+                        <DeactiveFestival 
                             festivalName={festivalName}
                             festivalDate={date}
                             festivalId={festivalId}
-                        /> 
+                        />
+                        
             }
         </>
     );
