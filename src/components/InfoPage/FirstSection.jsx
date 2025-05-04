@@ -120,14 +120,27 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                 <div className="info-input-container">
                     <div className="info-input-title">연락처</div>
                     <div className="info-input-wrapper">
-                        <input
-                        type="tel"
+                    <input
+                        type="number"
                         inputMode="numeric"
-                        autoComplete="tel"
                         className={`info-input ${phone.length > 0 ? 'hasContent' : ''}`}
-                        placeholder="ex) 010-1234-5678"
-                        value={phone}
-                        onChange={handlePhoneChange}
+                        placeholder="01012345678"
+                        value={phone.replace(/-/g, '')}
+                        onChange={(e) => {
+                            const numericValue = e.target.value;
+                            // 원래 formatPhoneNumber 함수를 사용하지 않고 직접 포맷팅
+                            let formatted = numericValue;
+                            if (numericValue.length > 3) {
+                            formatted = numericValue.slice(0, 3) + '-' + numericValue.slice(3);
+                            }
+                            if (numericValue.length > 7) {
+                            formatted = formatted.slice(0, 8) + '-' + formatted.slice(8);
+                            }
+                            setPhone(formatted);
+                            
+                            const phoneRegex = /^010-\d{4}-\d{4}$/;
+                            setIsValidPhone(phoneRegex.test(formatted));
+                        }}
                         />
                     </div>
                 </div>
