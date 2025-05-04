@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
 import '/src/styles/MyPage/InfoMenu.css';
 import defaultProfile from '/assets/MyPage/default-profile.svg';
-import copyBtn from '/assets/MyPage/copy-btn.svg';
+import copyBtn from '/assets/MyPage/copyBtn.svg';
 import arrow from '/assets/MyPage/arrow.svg';
+import warning from '/assets/MyPage/account-warning.svg';
+import clock from '/assets/MyPage/clock.svg';
 import instance from '../../../axiosConfig';
 
 import newProfile from '/assets/Profile/new-type-profile.svg';
@@ -12,10 +14,10 @@ import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
 import planProfile from '/assets/Profile/plan-type-profile.svg';
 import shotProfile from '/assets/Profile/shot-type-profile.svg';
 
-
 const InfoMenu = ({festivalId}) => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [showWarningTooltip, setShowWarningTooltip] = useState(false);
     const [type, setType] = useState('');
     const navigate = useNavigate();
 
@@ -64,6 +66,17 @@ const InfoMenu = ({festivalId}) => {
             });
     };
 
+    const toggleWarningTooltip = () => {
+        setShowWarningTooltip(!showWarningTooltip);
+        
+        if (!showWarningTooltip) {
+            // 일정 시간 후 툴팁 자동으로 닫기
+            setTimeout(() => {
+                setShowWarningTooltip(false);
+            }, 3000);
+        }
+    };
+
     return (
         <div className="info-section-container">
             <div className="info-top-container">
@@ -78,14 +91,35 @@ const InfoMenu = ({festivalId}) => {
                 </div>
                 <div className="info-account-box">
                     <div className="account-num-box">
-                        <div className="account-bank">{accountBank}</div>
+                        { /*<div className="account-bank">{accountBank}</div>*/ }
+                        <div className="account-warning">
+                            입금 시 주의 사항
+                            <img 
+                                src={warning} 
+                                alt="주의사항" 
+                                onClick={toggleWarningTooltip}
+                                className="warning-icon"
+                            />
+                            {showWarningTooltip && (
+                                <div className="warning-tooltip">
+                                    입금 후 부스 방문 혹은 카카오톡으로 연락을 주셔야<br/>
+                                    포인트 충전이 가능합니다!
+                                </div>
+                            )}
+                        </div>
                         <div className="account-num">
-                            {accountNumber}
+                            카카오뱅크 3333-18-89015
+                            <img src={copyBtn} onClick={copyAccountNumber} alt="복사 버튼" />
+                        </div>
+                        <div className="account-time">
+                            <img src={clock} />
+                            입금확인
+                            <span>·</span>
+                            오전 09:00 ~ 20:00
                         </div>
                     </div>
-                    <button className="account-copy-btn" onClick={copyAccountNumber}>
-                        <img src={copyBtn} alt="복사 버튼" />
-                        복사
+                    <button className="account-confirm-btn" onClick={() => window.open('http://pf.kakao.com/_sQUwn')}>
+                        입금 후 연락하러 가기
                     </button>
                 </div>
             </div>
