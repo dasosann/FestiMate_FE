@@ -47,7 +47,7 @@
 .info-modify-btn {
     width: fit-content;
     padding: 5px 7px;
-    background-color: var(--gray01);
+    background-color: white;
     color: var(--gray06);
     border: 0px solid transparent;
     border-radius: 3px;
