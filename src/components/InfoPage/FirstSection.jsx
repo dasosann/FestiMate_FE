@@ -122,7 +122,8 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                     <div className="info-input-wrapper">
                         <input
                         type="tel"
-                        inputmode="numeric"
+                        inputMode="numeric"
+                        autoComplete="tel"
                         className={`info-input ${phone.length > 0 ? 'hasContent' : ''}`}
                         placeholder="ex) 010-1234-5678"
                         value={phone}
