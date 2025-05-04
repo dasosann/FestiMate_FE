@@ -81,12 +81,12 @@
 
 .festival-point-total-box {
     display:flex;
+    align-items: center;
     width:100%;
     border: none;
     border-radius: 11px;
     background-color: var(--gray01);
     padding: 13px;
-    align-items: center;
     gap: 5px;
 
     color: var(--gray07);
@@ -97,6 +97,9 @@
 .festival-point-total {
     color: black;
     margin-left: auto;
+    display: flex;
+    align-items: center;
+
 }
 
 .end-notice {

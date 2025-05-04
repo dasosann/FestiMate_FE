@@ -8,6 +8,7 @@ import noMatch from '/assets/Festival/no-match.svg';
 import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
+import rightArrow from '/assets/Festival/arrow-right.svg';
 import CustomModal from './CustomModal';
 import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
@@ -298,7 +299,9 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                     <div className="festival-point-total-box" onClick={() => navigate(`/festival/${festivalId}/mypage`)}>
                         <img src={point_} alt="포인트" />
                         나의 잔여 포인트
-                        <span className="festival-point-total">{`${point}P >`}</span>
+                        <span className="festival-point-total">{`${point}P`}
+                            <img className="right-arrow" src={rightArrow} />
+                        </span>
                     </div>
                 </div>
                 <div className="divide-line"></div>
