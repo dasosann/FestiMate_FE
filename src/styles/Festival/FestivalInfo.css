@@ -104,17 +104,24 @@
 
 .end-notice {
     display: flex;
-    justify-content: center;
-    align-content: center;
     flex-wrap: wrap;
-    height: 60px;
-    width: 100%;
-    background-color: var(--gray01);
-    color: var(--gray07);
+    gap: 7px;
     font-size: 13px;
     font-weight: var(--medium);
     line-height: 140%;
+    text-align: start;
+    background-color: var(--gray01);
+    color: var(--gray07);
 
+    height: 60px;
+    width: 100%;
+    padding: 13px 16px;
+}
+
+.info-icon-container {
+    width: 16px;
+    height: 16px;
+    display: flex;
 }
 
 .festival-bottom-container {
@@ -365,16 +372,17 @@
 }
 
 .refund-button {
-    width: 100vw;
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 0px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
     max-width: 430px;
-    margin-left: -15px;
-    margin-top: auto;
-    margin-bottom: 10%;
     border: none;
     height: 60px;
+    background-color: var(--main-coral);
     color: white;
     font-weight: var(--semibold);
     font-size: 15px;
-    background-color: var(--main-coral);
-    cursor: pointer;
+    z-index: 10;
 }
