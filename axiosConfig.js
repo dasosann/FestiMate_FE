@@ -40,7 +40,7 @@ instance.interceptors.response.use(
         const originalRequest = config;
 
         // 액세스 토큰 만료 (401, code: 4012)
-        if (status === 401 && data.code === 4012) {
+        if (status === 401 && (data.code === 4011 || data.code === 4012)) {
             const refreshToken = localStorage.getItem("refreshToken");
             if (refreshToken) {
                 try {
