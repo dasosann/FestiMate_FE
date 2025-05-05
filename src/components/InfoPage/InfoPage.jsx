@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/InfoPage/InfoPage.css';
 import FirstSection from './FirstSection';
 import SecondSection from './SecondSection';
 import ThirdSection from './ThirdSection';
 import Navbar from './Navbar';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import instance from '../../../axiosConfig';
 
@@ -18,26 +17,17 @@ const InfoPage = () => {
     const [mbti, setMbti] = useState('');
     const [animal, setAnimal] = useState('');
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // React Query 뮤테이션
-    const submitMutation = useMutation({
-        mutationFn: async (data) => {
-            const response = await instance.post('/v1/users/signup', data);
-            return response.data;
-        },
-        onSuccess: (data) => {
-            console.log("데이터 전송 성공:", data);
-            alert("정보가 성공적으로 제출되었습니다!");
-            navigate('/mainpage');
-        },
-        onError: (error) => {
-            console.error("데이터 전송 실패:", error.response?.data || error.message);
-            console.log("에러 상세:", error.response?.data);
-        }
-    });
+    // 각 섹션별 유효성 상태 추가
+    const [isFirstSectionValid, setIsFirstSectionValid] = useState(false);
+    const [isSecondSectionValid, setIsSecondSectionValid] = useState(false);
+    const [isThirdSectionValid, setIsThirdSectionValid] = useState(false);
+
+    const [flag, setFlag] = useState(1);
 
     // 데이터 전송 함수
-    const submitData = (mbtiFromThird, animalFromThird) => {
+    const submitData = async (mbtiFromThird, animalFromThird) => {
         // 유효성 검사
         if (!name || !phone || !nickname || !gender || !year || !mbtiFromThird || !animalFromThird) {
             console.log("유효성 검사 실패:", {
@@ -56,6 +46,7 @@ const InfoPage = () => {
         // 상태 업데이트 (UI 반영용, 선택적)
         setMbti(mbtiFromThird);
         setAnimal(animalFromThird);
+        setIsSubmitting(true);
 
         const data = {
             name,
@@ -67,8 +58,21 @@ const InfoPage = () => {
             appearanceType: animalFromThird ? animalFromThird.toUpperCase() : null,
             platform: "KAKAO"
         };  
-        console.log("보내는 데이터", data);
-        submitMutation.mutate(data);
+        
+        try {
+            const response = await instance.post('/v1/users/signup', data);
+            if(response.status == 200) {
+                console.log("데이터 전송 성공:", response.data);
+                alert("정보가 성공적으로 제출되었습니다!");
+                navigate('/mainpage');
+            }
+        } catch (error) {
+            console.error("데이터 전송 실패:", error.response?.data || error.message);
+            console.log("에러 상세:", error.response?.data);
+            alert("제출 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -81,6 +85,9 @@ const InfoPage = () => {
                     setName={setName}
                     name={name}
                     phone={phone}
+                    flag={flag}
+                    setIsFirstSectionValid={setIsFirstSectionValid}
+                    isFirstSectionValid={isFirstSectionValid}
                 />
             )}
             {currentPage === 2 && (
@@ -92,14 +99,20 @@ const InfoPage = () => {
                     setGender={setGender}
                     year={year}
                     setYear={setYear}
+                    flag={flag}
+                    setIsSecondSectionValid={setIsSecondSectionValid}
+                    isSecondSectionValid={isSecondSectionValid}
                 />
             )}
             {currentPage === 3 && (
                 <ThirdSection
                     setCurrentPage={setCurrentPage}
                     submitData={submitData}
-                    isLoading={submitMutation.isLoading}
+                    isLoading={isSubmitting}
                     setMbti={setMbti}
+                    flag={flag}
+                    setIsThirdSectionValid={setIsThirdSectionValid}
+                    isThirdSectionValid={isThirdSectionValid}
                 />
             )}
         </div>

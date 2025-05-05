@@ -6,7 +6,7 @@ import instance from '../../../axiosConfig';
 const KakaoCallback = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const BACKEND_URL = 'https://api.festimate.kr';
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
     const REDIRECT_URI = 'https://festi-mate-fe.vercel.app/v1/auth/login';
     const [isRequested, setIsRequested] = useState(false);
