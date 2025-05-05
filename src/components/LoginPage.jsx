@@ -8,10 +8,9 @@ import logo from '/assets/InfoPage/login-festimate-logo.svg'
 const LoginPage = () => {
     const navigate = useNavigate();
     const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-    const REDIRECT_URI = 'https://festi-mate-fe.vercel.app/v1/auth/login';
+    const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URL;
   
     const handleKakaoLogin = () => {  
-      console.log('REST KEY',REST_API_KEY)
       const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
       console.log('kakaoAuthUrl:', kakaoAuthUrl);
       window.location.href = kakaoAuthUrl;

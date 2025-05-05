@@ -124,7 +124,7 @@ instance.interceptors.response.use(
                 case 4013:
                     break;
                 case 4014:
-                    alert("페스티벌 기간이 종료되었습니다.");
+                    alert("토큰 값이 올바르지 않습니다..");
                     break;
                 case 4015:
                     alert("토큰 값이 올바르지 않습니다.");

@@ -8,7 +8,7 @@ const KakaoCallback = () => {
     const location = useLocation();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-    const REDIRECT_URI = 'https://festi-mate-fe.vercel.app/v1/auth/login';
+    const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URL;
     const [isRequested, setIsRequested] = useState(false);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const KakaoCallback = () => {
             axios
                 .post(
                     `https://kauth.kakao.com/oauth/token`,
-                    `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code=${code}`,
+                    `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
                     { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
                 )
                 .then((kakaoResponse) => {
@@ -39,6 +39,9 @@ const KakaoCallback = () => {
                             const { accessToken, refreshToken } = backendResponse.data.data;
                             localStorage.setItem('jwtToken', accessToken);
                             localStorage.setItem('refreshToken', refreshToken);
+
+                            const storedToken = localStorage.getItem('jwtToken');
+                            console.log('Verified stored jwtToken:', storedToken);
 
                             instance
                                 .get('/v1/users/me/nickname')
