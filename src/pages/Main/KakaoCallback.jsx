@@ -8,7 +8,7 @@ const KakaoCallback = () => {
     const location = useLocation();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-    const REDIRECT_URI = 'https://festi-mate-fe.vercel.app/v1/auth/login';
+    const REDIRECT_URI = import.meta.env.KAKAO_REDIRECT_URL;
     const [isRequested, setIsRequested] = useState(false);
 
     useEffect(() => {
