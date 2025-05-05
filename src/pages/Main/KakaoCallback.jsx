@@ -39,12 +39,9 @@ const KakaoCallback = () => {
                             const { accessToken, refreshToken } = backendResponse.data.data;
                             localStorage.setItem('jwtToken', accessToken);
                             localStorage.setItem('refreshToken', refreshToken);
-                            console.log('Stored jwtToken:', accessToken);
-                            console.log('Stored refreshToken:', refreshToken);
 
-                            // /v1/users/me/nickname 요청 전 액세스 토큰 로그 출력
-                            const jwtToken = localStorage.getItem('jwtToken');
-                            console.log('Access token for /v1/users/me/nickname:', jwtToken);
+                            const storedToken = localStorage.getItem('jwtToken');
+                            console.log('Verified stored jwtToken:', storedToken);
 
                             instance
                                 .get('/v1/users/me/nickname')
