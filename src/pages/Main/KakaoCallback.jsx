@@ -31,7 +31,7 @@ const KakaoCallback = () => {
                         .post(`${BACKEND_URL}/v1/auth/login`, null, {
                             headers: { 
                                 'Content-Type': 'application/json',
-                                'Authorization': {access_token}, 
+                                'Authorization': access_token, 
                             },
                         })
                         .then((backendResponse) => {
@@ -41,7 +41,7 @@ const KakaoCallback = () => {
                             localStorage.setItem('refreshToken', refreshToken);
                             console.log('Stored jwtToken:', accessToken);
                             console.log('Stored refreshToken:', refreshToken);
-                                        
+
                             // /v1/users/me/nickname 요청 전 액세스 토큰 로그 출력
                             const jwtToken = localStorage.getItem('jwtToken');
                             console.log('Access token for /v1/users/me/nickname:', jwtToken);
