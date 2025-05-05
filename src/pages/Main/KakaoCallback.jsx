@@ -31,7 +31,7 @@ const KakaoCallback = () => {
                         .post(`${BACKEND_URL}/v1/auth/login`, null, {
                             headers: { 
                                 'Content-Type': 'application/json',
-                                'Authorization': access_token, 
+                                'Authorization': `Bearer ${access_token}`, 
                             },
                         })
                         .then((backendResponse) => {
