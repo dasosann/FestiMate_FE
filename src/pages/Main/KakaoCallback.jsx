@@ -20,7 +20,7 @@ const KakaoCallback = () => {
             axios
                 .post(
                     `https://kauth.kakao.com/oauth/token`,
-                    `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code=${code}`,
+                    `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
                     { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
                 )
                 .then((kakaoResponse) => {
