@@ -43,10 +43,11 @@ instance.interceptors.response.use(
         if (status === 401 && (data.code === 4011 || data.code === 4012)) {
             const refreshToken = localStorage.getItem("refreshToken");
             console.log("만료시 보낼 refreshToken",refreshToken)
+            const baseURL= import.meta.env.VITE_BACKEND_URL;
             if (refreshToken) {
                 try {
-                    const refreshResponse = await instance.patch(
-                        "/v1/auth/reissue/token", // baseURL은 instance에서 자동 적용
+                    const refreshResponse = await axios.patch(
+                        `${baseURL}/v1/auth/reissue/token`, // baseURL은 instance에서 자동 적용
                         null,
                         {
                             headers: {
@@ -69,8 +70,6 @@ instance.interceptors.response.use(
                     return instance(originalRequest);
                 } catch (refreshError) {
                     console.error("Refresh token error:", refreshError.response?.data);
-                    localStorage.removeItem("jwtToken");
-                    localStorage.removeItem("refreshToken");
                     alert("세션이 만료되었습니다. 다시 로그인해 주세요.");
                     window.location.href = "/";
                     return Promise.reject(refreshError);
