@@ -42,9 +42,9 @@ const KakaoCallback = () => {
 
                             const storedToken = localStorage.getItem('jwtToken');
                             console.log('Verified stored jwtToken:', storedToken);
-
-                            instance
-                                .get('/v1/users/me/nickname')
+                            const baseURL= import.meta.env.VITE_BACKEND_URL;
+                            axios
+                                .get(`${baseURL}/v1/users/me/nickname`)
                                 .then((nicknameResponse) => {
                                     console.log("가져온 닉네임" , nicknameResponse.data.data)
                                     const nickname = nicknameResponse.data.data?.nickname;
