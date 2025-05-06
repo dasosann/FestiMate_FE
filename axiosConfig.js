@@ -55,7 +55,7 @@ instance.interceptors.response.use(
                             },
                         }
                     );
-                    console.log(refreshResponse);
+                    console.log("재발급받아온 정보",refreshResponse);
                     const newAccessToken = refreshResponse.data.data.accessToken;
                     const newRefreshToken = refreshResponse.data.data.refreshToken;
 
