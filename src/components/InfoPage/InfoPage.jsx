@@ -62,7 +62,16 @@ const InfoPage = () => {
         try {
             const response = await instance.post('/v1/users/signup', data);
             console.log("데이터 전송 성공:", response.data);
-            if(response.status == 200) {
+            if (response.data.code === 2010) {
+                // 새로운 토큰 저장
+                const { accessToken, refreshToken } = response.data.data;
+                if (accessToken && refreshToken) {
+                    localStorage.setItem('jwtToken', accessToken);
+                    localStorage.setItem('refreshToken', refreshToken);
+                    console.log('Updated jwtToken:', accessToken);
+                    console.log('Updated refreshToken:', refreshToken);
+                }
+
                 alert("정보가 성공적으로 제출되었습니다!");
                 navigate('/mainpage');
             }
