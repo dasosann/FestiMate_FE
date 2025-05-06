@@ -61,8 +61,8 @@ const InfoPage = () => {
         
         try {
             const response = await instance.post('/v1/users/signup', data);
+            console.log("데이터 전송 성공:", response.data);
             if(response.status == 200) {
-                console.log("데이터 전송 성공:", response.data);
                 alert("정보가 성공적으로 제출되었습니다!");
                 navigate('/mainpage');
             }
