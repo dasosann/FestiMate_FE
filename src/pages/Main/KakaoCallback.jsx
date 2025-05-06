@@ -56,6 +56,7 @@ const KakaoCallback = () => {
                                         status: error.response?.status,
                                         data: error.response?.data,
                                         message: error.message,
+                                        code:error.code,
                                     });
                                     navigate('/info');
                                 });
