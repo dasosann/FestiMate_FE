@@ -45,8 +45,8 @@ instance.interceptors.response.use(
             console.log("만료시 보낼 refreshToken",refreshToken)
             if (refreshToken) {
                 try {
-                    const refreshResponse = await axios.patch(
-                        baseURL + "/v1/auth/reissue/token",
+                    const refreshResponse = await instance.patch(
+                        "/v1/auth/reissue/token", // baseURL은 instance에서 자동 적용
                         null,
                         {
                             headers: {
