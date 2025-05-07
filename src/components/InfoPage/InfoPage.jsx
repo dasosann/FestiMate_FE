@@ -49,7 +49,7 @@ const InfoPage = () => {
         setIsSubmitting(true);
 
         const data = {
-            name,
+            name: name,
             phoneNumber: phone,
             nickName: nickname,
             birthYear: parseInt(year, 10) || null,

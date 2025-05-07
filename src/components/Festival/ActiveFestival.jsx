@@ -51,11 +51,11 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/summary`);
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
             } catch (error) {
-                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/me/summary:", {
+                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:", {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,
@@ -135,9 +135,9 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             <div className="ticket-top">
                 <img src={newProfile} alt="캐릭터" className="ticket-image" />
                 <div className="ticket-tags">
-                    {tags.map((tag, i) => (
+                    {/* tags?.map((tag, i) => (
                         <span key={i} className="ticket-tag">#{tag}</span>
-                    ))}
+                    ))*/}
                 </div>
             </div>
             <div className="ticket-bottom">
