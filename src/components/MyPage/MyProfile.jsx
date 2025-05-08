@@ -231,7 +231,7 @@ const MyProfile = ({festivalId}) => {
                         <img src={edit} alt="수정" onClick={() => navigate('../editMessage', { state: { from: 'MyProfile', messageData: message, contactData: contact } })} />
                     </div>
                     <div className="profile-text-box">
-                        {message}
+                        {message || "연락을 통해 직접 대화해보세요!"}
                     </div>
                 </div>
             </div>
