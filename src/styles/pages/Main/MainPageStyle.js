@@ -30,8 +30,8 @@ M.ProgressDiv = styled.div`
     align-items: center;
     display: flex;
     font-size: 15px;
-    font-weight: 700;
-    color: #000;
+    font-weight: ${({$isActive})=>$isActive ? "700": "600"};
+    color: ${({$isActive})=>$isActive ? "#000": "#d5d5de"};
     line-height: 140%;
     border-bottom:${({$isActive})=>$isActive ? "2px solid #000": "1px solid #e6e6eb"};
 `
@@ -229,7 +229,6 @@ M.EndFestivalNotice = styled.div`
 M.FullWidthNoticeWrapper = styled.div`
   margin-left: -16px;
   margin-right: -16px;
-  margin-bottom: 4px;
 `;
 M.NoticeSpan = styled.span`
   font-size: 11px;
