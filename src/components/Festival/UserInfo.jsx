@@ -1,36 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '/src/styles/Festival/UserInfo.css';
+import '/src/styles/MyPage/MyProfile.css';
+
 import arrow from '/assets/MyPage/arrow.svg';
 import contact from '/assets/MyPage/contact.svg';
 import message from '/assets/MyPage/message.svg';
 import card from '/assets/MyPage/card_festival_type.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
+import contactImg from '/assets/MyPage/contact.svg';
+import messageImg from '/assets/MyPage/message.svg';
 import Navbar from './Navbar';
+
+import newCard from '/assets/Card/new-card.svg';
+import healCard from '/assets/Card/healing-card.svg';
+import inssaCard from '/assets/Card/inssa-card.svg';
+import planCard from '/assets/Card/plan-card.svg';
+import shotCard from '/assets/Card/shot-card.svg';
+
+import instance from '../../../axiosConfig';
 
 
 const UserInfo = () => {
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
     const navigate = useNavigate();
-    const [gender, setGender] = useState('male');
 
-    const name="가대 고윤정";
-    const attribute = ["02년생", "ESTP", "강아지상"];
+    const [gender, setGender] = useState('male');
+    const [name, setName] = useState('');
+    const [attribute, setAttribute] = useState([]);
+    const [contact, setContact] = useState('');
+    const [message, setMessage] = useState('');
+    const [type, setType] = useState('');
+
+    const festivalId = useParams().festivalId;
+    const matchingId = useParams().matchingId;
+
+    const CardMap = {
+        'NEWBIE': newCard,
+        'HEALING': healCard,
+        'INFLUENCER': inssaCard,
+        'PLANNER': planCard,
+        'PHOTO': shotCard
+    };
+    const faceMap = {
+        'DOG': "강아지상",
+        'CAT': "고양이상",
+        'BEAR': "곰상",
+        'BUNNY': "토끼상",
+        'FOX': "여우상",
+        'DINOSAUR': "공룡상"
+    };
+
+    useEffect(() => {
+        const getInfo = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/matchings/${matchingId}`);
+                const tmp = result.data.data;
+                setGender(tmp.gender);
+                setName(tmp.nickname);
+                setAttribute([tmp.birthYear.toString().slice(2, 4)+"년생", tmp.mbti, faceMap[tmp.appearance]])
+                setContact(tmp.introduction);
+                setMessage(tmp.message);
+                setType(tmp.typeResult);
+                console.log(result);
+            } catch (error) {
+                console.error(`/v1/festivals/${festivalId}/matchings/${matchingId}`, {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getInfo();
+    }, [location.state]);
 
     return (
         <>
-        <Navbar />
-        <div className="festUser-section-container">
-            <div className="festUser-top-container">
-                <div className="festUser-festUser-box">
-                    <div className="festUser-name-box">
+        <Navbar/>
+        <div className="profile-section-container">
+            <div className="profile-top-container">
+                <div className="profile-profile-box">
+                    <div className="profile-name-box">
                         {name}
                     </div>
-                    <img src={gender === 'male' ? male : female} />
+                    <img src={gender === 'MAN' ? male : female} />
                 </div>
-                <div className="festUser-about-box">
+                <div className="profile-about-box">
                     {attribute.map((data, index) => (
                         <div className="about-me" key={index}>
                             {`#${data}`}
@@ -41,32 +95,31 @@ const UserInfo = () => {
 
             <div className="divide-line"></div>
             
-            <div className="festUser-message-box">
-                <div className="festUser-text-container">
+            <div className="profile-message-box">
+                <div className="profile-text-container">
                     <div className="meta-box">
-                        <img src={contact} alt="연락정보" />
-                        연락정보
+                        <img src={contactImg} alt="연락정보" />
+                        연락 정보
                     </div>
-                    <div className="festUser-text-box">
-                        인스타 아이디는 ki_d6c8이야 <br/>
-                        DM ME
+                    <div className="profile-text-box">
+                        {contact}
                     </div>
                 </div>
-                <div className="festUser-text-container">
+                <div className="profile-text-container">
                     <div className="meta-box">
-                        <img src={message} alt="메시지" />
-                        상대에게 전할 메시지
+                        <img src={messageImg} alt="메시지" />
+                        상대에게 전달할 메시지
                     </div>
-                    <div className="festUser-text-box">
-                        코로나 학번이라 축제는 처음인데.. 나랑 놀 사람 구해!
+                    <div className="profile-text-box">
+                        {message || "연락을 통해 직접 대화해보세요!"}
                     </div>
                 </div>
             </div>
 
             <div className="divide-line"></div>
 
-            <div className="festUser-card-container">
-                <img src={card} className="festUser-card" alt="카드" />
+            <div className="profile-card-container">
+                <img src={CardMap[type]} className="profile-card" alt="카드" />
             </div>
         </div>
         </>

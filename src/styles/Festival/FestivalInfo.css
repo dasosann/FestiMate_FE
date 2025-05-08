@@ -151,7 +151,9 @@
 .festival-matching-box {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
     font-size: 15px;
     font-weight: var(--semibold);
     color: black;
@@ -159,8 +161,29 @@
     padding: 17px;
 }
 
+.festival-matching-left {
+    display: flex;
+    align-items: center;
+}
+
+.festival-matching-gap {
+    width: 6px;
+    min-width: 6px;
+    height: 1px;
+}
+
 .matching-count {
     color: var(--gray04);
+    text-align: left;
+    font-weight: var(--semibold);
+}
+
+.matching-count-coral {
+    color: var(--main-coral);
+}
+
+.matching-count-black {
+    color: black;
 }
 
 .festival-matching-content {
@@ -234,7 +257,6 @@
   }
   
   /* 카드 내 콘텐츠들은 border 위에 표시 */
-  .ticket-image,
   .ticket-tags,
   .ticket-info {
     position: relative;
@@ -302,6 +324,7 @@
   
   /* 기타 기존 스타일 */
   .ticket-tags {
+    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     gap: 3px;
@@ -351,9 +374,17 @@
 
     object-fit: contain;
   }
+
+  .matching-ticket-image {
+    width: 205px;
+    height: 150px;
+    display: block;
+    margin: 10px;
+  }
   
 .ticket-image {
-    height: auto;
+    width: 235px;
+    height: 190px;
     display: block;
     margin: 10px;
 }
@@ -399,4 +430,29 @@
     font-weight: var(--semibold);
     font-size: 15px;
     z-index: 10;
+}
+
+.festival-refresh-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: auto;
+    transition: transform 0.3s;
+}
+
+.festival-refresh-icon.rotate {
+    animation: refresh-rotate 0.7s linear;
+}
+
+@keyframes refresh-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

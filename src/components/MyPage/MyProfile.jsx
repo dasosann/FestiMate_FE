@@ -173,7 +173,7 @@ const MyProfile = ({festivalId}) => {
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/type`);
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/type`);
                 const tmp = result.data.data;
                 setGender(tmp.gender);
                 setName(tmp.nickname);
