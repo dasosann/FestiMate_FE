@@ -125,12 +125,15 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
     }
 
-    const handleConfirmModal = () => {
+    const handleConfirmModal = async () => {
         // 매칭 추가 로직 수행 및 포인트 차감
         if(isAble) {
             setPoint((prev) => prev - 1);
-            alert('매칭이 추가되었습니다.');
-            navigate('/mateLoading', { state : { name: "name" }});
+            const result = await instance.post(`/v1/festivals/${festivalId}/matchings`);
+            if (result.status !== 500) {
+                alert('매칭이 추가되었습니다.');
+                navigate('/mateLoading', { state : { name: "name" }});
+            }
         } else {
             navigate(`/festival/${festivalId}/mypage`);
         }
