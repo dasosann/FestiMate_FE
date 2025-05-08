@@ -3,7 +3,7 @@ import T from '../../styles/components/TypeQuestionStyle';
 import { useNavigate } from 'react-router-dom';
 import instance from '../../../axiosConfig';
 
-const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
+const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType, festivalId}) => {
   const navigate = useNavigate();
   const [progress, setProgress] = useState(20); // 진행 상태
   const step = 20; // 한 번에 증가할 단계 (10%씩 증가)
@@ -68,7 +68,7 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType }) => {
       };
 
       try {
-        const response = await instance.post('/v1/participants/type', submitData);
+        const response = await instance.post(`/v1/festivals/${festivalId}/participants/type`, submitData);
         console.log('서버 응답:', response.data);
         setFestivalType(response.data.data.typeResult);
         setCompleted(true);
