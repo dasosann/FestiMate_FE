@@ -31,7 +31,6 @@ const InfoMenu = ({festivalId}) => {
             'HEALING': healProfile,
             'INFLUENCER': inssaProfile,
             'PLANNER': planProfile,
-            'PHOTO': shotProfile
         };
 
     useEffect(() => {
@@ -102,6 +101,7 @@ const InfoMenu = ({festivalId}) => {
             .catch(err => {
                 console.error("복사 실패:", err);
             });
+        
     };
 
     const toggleWarningTooltip = () => {
