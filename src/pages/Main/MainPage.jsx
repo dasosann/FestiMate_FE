@@ -80,7 +80,7 @@ const MainPage = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  // const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [nickname, setNickname] = useState('');
   const navigate = useNavigate();
 
@@ -122,7 +122,7 @@ const MainPage = () => {
 
   return (
     <div style={{ height: 'auto', minHeight: '100dvh', textAlign: 'left' }}>
-      <M.HeaderDiv>
+      <M.HeaderDiv style={{marginTop:'12px'}}>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
         <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={() => setIsMenuOpen(true)} />
       </M.HeaderDiv>
@@ -145,7 +145,7 @@ const MainPage = () => {
           $isActive={selectedProgressMenu === '종료'}
           onClick={() => setSelectedProgressMenu('종료')}
         >
-          종료
+          종료    
         </M.ProgressDiv>
       </M.ProgressMenu>
       <M.MainWrapper>
@@ -201,8 +201,8 @@ const MainPage = () => {
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
         </M.MenuComponent>
       </M.SideDrawer>
-      {isLogoutModalOpen && <M.ModalOverlay onClick={() => setIsLogoutModalOpen(false)} />}
-      <M.LogoutModal $isOpen={isLogoutModalOpen}>
+      {/* {isLogoutModalOpen && <M.ModalOverlay onClick={() => setIsLogoutModalOpen(false)} />} */}
+      {/* <M.LogoutModal $isOpen={isLogoutModalOpen}>
         <M.LogoutConfirmP>로그아웃 하시겠습니까?</M.LogoutConfirmP>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <M.ConfirmLogoutButton
@@ -216,7 +216,7 @@ const MainPage = () => {
             확인
           </M.ConfirmLogoutButton>
         </div>
-      </M.LogoutModal>
+      </M.LogoutModal> */}
     </div>
   );
 };

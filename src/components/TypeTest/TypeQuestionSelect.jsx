@@ -11,7 +11,43 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType, festiva
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
-  const questions = [/* 기존 questions 배열 유지 */];
+  const questions = [
+    {
+      question: "페스티벌에서 함께하고 싶은 사람은?",
+      options: [
+        "새로운 사람도 환영! 인스타 맞팔 ㄱㄱ",
+        "친구랑만 다닐고얌..."
+      ]
+    },
+    {
+      question: "페스티벌에 자주 오시나요?",
+      options: [
+        "나는야 페스티벌 매니아! 나만 따라와",
+        "나는야 페스티벌 뉴비! 축제 잘 몰라우웅"
+      ]
+    },
+    {
+      question: "페스티벌을 기록하는 방식은?",
+      options: [
+        "사진, 영상 필수! 인스타 폭풍 업로드!",
+        "눈으로 귀로 담아갑니다~"
+      ]
+    },
+    {
+      question: "페스티벌을 즐기기 위해 준비하는 나의 모습은?",
+      options: [
+        "축제 부스, 먹거리, 동선, 타임테이블 그리고 ...",
+        "누구보다 잘 즐길 체력만 준비해가면 돼!"
+      ]
+    },
+    {
+      question: "페스티벌에서 함께하고 싶은 사람은?",
+      options: [
+        "인디, 재즈, 발라드 난 분위기를 즐길거야~",
+        "EDM, 힙합, K-POP 신나는 비트 필수!"
+      ]
+    }
+  ];
 
   const questionText = questions[currentQuestionIndex].question;
   const choices = questions[currentQuestionIndex].options;
