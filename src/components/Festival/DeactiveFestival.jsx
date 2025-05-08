@@ -34,12 +34,12 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/summary`);
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
                 console.log(result);
             } catch (error) {
-                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/me/summary:", {
+                console.error(`[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:`, {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,
@@ -92,7 +92,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 </div>
                 <button
                         className='refund-button'
-                        onClick={() => window.open('https://www.notion.so/1bcaebccb8e480f4ad57fdf7adb53ead')}
+                        onClick={() => window.open('https://forms.gle/SBXiEfs7s45HwFQ49')}
                 >
                     포인트 환불 신청하기
                 </button>

@@ -32,7 +32,7 @@ const InputCode = () => {
 
       try {
         // 백엔드 API 예시 (실제 주소/로직에 맞게 수정)
-        const response = await instance.post('/v1/festivals/verify-code', {
+        const response = await instance.post('/v1/festivals/verify', {
           inviteCode: codeValue,
         });
         console.log("페스티벌 코드 응답",response);
