@@ -11,7 +11,7 @@ const Point = ({festivalId}) => {
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/points`);
+                const result = await instance.get(`/v1/festivals/${festivalId}}/participants/me/points`);
                 
                 // 서버에서 이미 최신순으로 데이터를 받아온다고 가정
                 const histories = result.data.data.histories;
