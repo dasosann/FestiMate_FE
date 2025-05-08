@@ -5,6 +5,7 @@ import defaultProfile from '/assets/MyPage/default-profile.svg';
 import date from '/assets/Festival/date.svg';
 import point_ from '/assets/Festival/point.svg';
 import noMatch from '/assets/Festival/no-match.svg';
+import blank from '/assets/Festival/blank.svg';
 import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
@@ -12,6 +13,7 @@ import rightArrow from '/assets/Festival/arrow-right.svg';
 import CustomModal from './CustomModal';
 import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
+import refresh from '/assets/Festival/refresh.svg';
 
 import newProfile from '/assets/Profile/new-type-profile.svg';
 import healProfile from '/assets/Profile/healing-type-profile.svg';
@@ -32,6 +34,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const [isAble, setIsAble] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [match, setMatch] = useState([]);
+    const [isRotating, setIsRotating] = useState(false);
 
     const CardMap = {
         'NEWBIE': newCard,
@@ -41,12 +44,20 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         'PHOTO': shotCard
     };
     const ProfileMap = {
-                'NEWBIE': newProfile,
-                'HEALING': healProfile,
-                'INFLUENCER': inssaProfile,
-                'PLANNER': planProfile,
-                'PHOTO': shotProfile
-            };
+        'NEWBIE': newProfile,
+        'HEALING': healProfile,
+        'INFLUENCER': inssaProfile,
+        'PLANNER': planProfile,
+        'PHOTO': shotProfile
+    };
+    const faceMap = {
+        'DOG': "강아지상",
+        'CAT': "고양이상",
+        'BEAR': "곰상",
+        'BUNNY': "토끼상",
+        'FOX': "여우상",
+        'DINOSAUR': "공룡상"
+    };
 
     useEffect(() => {
         const getInfo = async () => {
@@ -65,20 +76,22 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         getInfo();
     }, [festivalId]);
 
-    useEffect(() => {
-        const getMatching = async () => {
-            try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
-                setMatch(result.data.data.matchingList);
-                console.log(result);
-            } catch (error) {
-                console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
-                    status: error.response?.status,
-                    data: error.response?.data,
-                    message: error.message,
-                });
-            }
+    // useEffect 바깥에 선언
+    const getMatching = async () => {
+        try {
+            const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
+            setMatch(result.data.data.matchingList);
+            console.log(result);
+        } catch (error) {
+            console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
         }
+    };
+
+    useEffect(() => {
         getMatching();
     }, [festivalId]);
 
@@ -101,7 +114,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
         // 추가 카드 데이터...
     ];
-
 
     const handleMatching = async () => {
         if (point > 0) {
@@ -128,17 +140,19 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     };
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
-    const TicketCard = ({ imageSrc, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeresult }) => (
+    const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
         <div className="ticket-card">
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
-                <img src={matchingStatus === 'PENDING' ? noMatch : CardMap[typeresult]} alt="캐릭터" className="ticket-image" />
+                <img src={matchingStatus === 'PENDING' ? noMatch : CardMap[typeResult]} alt="캐릭터" className={matchingStatus === 'PENDING' ? "ticket-image" : "matching-ticket-image"} />
+                {matchingStatus !== 'PENDING' && (
                 <div className="ticket-tags">
-                    {/* tags?.map((tag, i) => (
-                        <span key={i} className="ticket-tag">#{tag}</span>
-                    ))*/}
-                </div>
+                        <span className="ticket-tag">#{birthYear.toString().slice(2, 4)+"년생"}</span>
+                        <span className="ticket-tag">#{mbti}</span>
+                        <span className="ticket-tag">#{faceMap[appearance]}</span>
+                    </div>
+                )}
             </div>
             <div className="ticket-bottom">
                 <div className="ticket-info">
@@ -150,9 +164,9 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                     ) : (
                         <>
                         <div className="ticket-name">
-                            {nickname} <img src={gender === 'male' ? male : female} alt="성별" />
+                            {nickname} <img src={gender === 'WOMAN' ? female : male} alt="성별" />
                         </div>
-                        <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                        <img src={profileArrow} alt="화살표" className="ticket-arrow" onClick={() => navigate(`/festival/${festivalId}/${matchingId}`)}/>
                         </>
                     )}
                 </div>
@@ -284,7 +298,11 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         );
     };
 
-    
+    const handleRefreshClick = () => {
+        setIsRotating(true);
+        getMatching();
+        setTimeout(() => setIsRotating(false), 700);
+    };
 
     return (
         <>
@@ -316,7 +334,17 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 <div className="festival-bottom-container">
                     <div className="festival-matching-box">
                         <div>나의 매칭 현황!</div>
-                        <div className="matching-count">0/{match.length}</div>
+                        <div className="matching-count">
+                            {match.length === 0 ? (
+                                <>{match.filter(m => m.matchingStatus === 'COMPLETED').length}/{match.length}</>
+                            ) : (
+                                <>
+                                    <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
+                                    <span className="matching-count-black">/{match.length}</span>
+                                </>
+                            )}
+                        </div>
+                        <img src={refresh} alt="새로고침" className={`festival-refresh-icon${isRotating ? ' rotate' : ''}`} onClick={handleRefreshClick}/>
                     </div>
                     <div className="festival-matching-container-wrapper">
                         {match.length > 0 ? (
@@ -324,7 +352,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         ) : (
                             <>
                                 <div className="festival-matching-content">
-                                    <img src={noMatch} alt="No Match" />
+                                    <img src={blank} alt="No Match" />
                                     아직 추가한 매칭이 없어요
                                 </div>
                             </>

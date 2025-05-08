@@ -23,6 +23,9 @@ const Navbar = ({ festivalId }) => {
             navigate('/festival');
         } else if(location.pathname === '/mypage/myprofile' || location.pathname === '/mypage/myprofile/') {
             navigate('/mypage');
+        } else if(location.pathname.match(/^\/festival\/\d+\/\d+$/)) {
+            const festivalId = location.pathname.split('/')[2];
+            navigate(`/festival/${festivalId}`);
         } else {
             navigate('/mainpage');
         }
@@ -39,11 +42,13 @@ const Navbar = ({ festivalId }) => {
             <div className="mypage-title"> 
                 {title}
             </div>
-            <img 
-                src={setting}
-                className="setting-icon"
-                onClick={() => navigate(`/festival/${festivalId}/mypage`)}
-            />
+            {!location.pathname.match(/^\/festival\/\d+\/\d+$/) && (
+                <img 
+                    src={setting}
+                    className="setting-icon"
+                    onClick={() => navigate(`/festival/${festivalId}/mypage`)}
+                />
+            )}
         </div>
     );
 };
