@@ -21,7 +21,7 @@ M.ParticipateDiv =styled.div`
 M.ProgressMenu = styled.div`
     display: flex;
     width: 100%;
-    margin-bottom: ${({isProgress})=>isProgress ? '2.83vh' : '0'};
+    margin-bottom: ${({$isProgress})=>$isProgress ? '2.83vh' : '0'};
 `
 M.ProgressDiv = styled.div`
     flex: 1;
