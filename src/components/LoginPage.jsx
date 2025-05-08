@@ -26,10 +26,10 @@ const LoginPage = () => {
                 <button className="login-button" onClick={handleKakaoLogin}>
                     <img src={kakaoLoginImg} alt="카카오 로그인" className="login-img" />
                 </button>
-                <button className="login-button">
+                {/* <button className="login-button">
                     <img src={appleLoginImg} alt="애플 로그인" className="login-img" />
-                </button>
-                <p className="privacy">개인정보처리방침</p>
+                </button> */}
+                <p className="privacy" onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>개인정보처리방침</p>
             </div>
         </div>
       </div>
