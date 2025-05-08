@@ -26,7 +26,7 @@ const EditContact = ({festivalId}) => {
                 message: location.state.messageData || '연락을 통해 직접 대화해보세요 !'
             };
 
-            const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
+            const result = await instance.patch(`/v1/festivals/${festivalId}/participants/me/message`, messageData);
             //navigate(`../myprofile`, { state: { edited: true, what: 'contact' } });
             navigate(`../myprofile`);
         } catch (error) {

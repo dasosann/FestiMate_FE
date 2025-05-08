@@ -27,7 +27,7 @@ const InfoMenu = ({festivalId}) => {
     const accountNumber = "817202-04-045292";
 
     const ProfileMap = {
-            'NEWBIE': newProfile,
+            'NEWBIE': newProfile, 
             'HEALING': healProfile,
             'INFLUENCER': inssaProfile,
             'PLANNER': planProfile,
