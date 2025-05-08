@@ -8,6 +8,7 @@ import noMatch from '/assets/Festival/no-match.svg';
 import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
+import rightArrow from '/assets/Festival/arrow-right.svg';
 import CustomModal from './CustomModal';
 import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
@@ -18,30 +19,43 @@ import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
 import planProfile from '/assets/Profile/plan-type-profile.svg';
 import shotProfile from '/assets/Profile/shot-type-profile.svg';
 
+import newCard from '/assets/Festival/new-matching.svg';
+import healCard from '/assets/Festival/healing-matching.svg';
+import inssaCard from '/assets/Festival/inssa-matching.svg';
+import planCard from '/assets/Festival/plan-matching.svg';
+import shotCard from '/assets/Festival/shot-matching.svg';
+
 const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const navigate = useNavigate();
     const [point, setPoint] = useState(0);
     const [type, setType] = useState('');
     const [isAble, setIsAble] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [match, setMatch] = useState([]);
 
-    const ProfileMap = {
-        'NEWBIE': newProfile,
-        'HEALING': healProfile,
-        'INFLUENCER': inssaProfile,
-        'PLANNER': planProfile,
-        'PHOTO': shotProfile
+    const CardMap = {
+        'NEWBIE': newCard,
+        'HEALING': healCard,
+        'INFLUENCER': inssaCard,
+        'PLANNER': planCard,
+        'PHOTO': shotCard
     };
+    const ProfileMap = {
+                'NEWBIE': newProfile,
+                'HEALING': healProfile,
+                'INFLUENCER': inssaProfile,
+                'PLANNER': planProfile,
+                'PHOTO': shotProfile
+            };
 
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/summary`);
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
-                console.log(result);
             } catch (error) {
-                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/me/summary:", {
+                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:", {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,
@@ -50,6 +64,44 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
         getInfo();
     }, [festivalId]);
+
+    useEffect(() => {
+        const getMatching = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
+                setMatch(result.data.data.matchingList);
+                console.log(result);
+            } catch (error) {
+                console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getMatching();
+    }, [festivalId]);
+
+    // 예시 카드 데이터
+    const cards = [
+        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
+        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
+        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
+        // 추가 카드 데이터...
+    ];
+
 
     const handleMatching = async () => {
         if (point > 0) {
@@ -76,29 +128,40 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     };
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
-    const TicketCard = ({ imageSrc, tags, name, gender }) => (
+    const TicketCard = ({ imageSrc, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeresult }) => (
         <div className="ticket-card">
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
-                <img src={newProfile} alt="캐릭터" className="ticket-image" />
+                <img src={matchingStatus === 'PENDING' ? noMatch : CardMap[typeresult]} alt="캐릭터" className="ticket-image" />
                 <div className="ticket-tags">
-                    {tags.map((tag, i) => (
+                    {/* tags?.map((tag, i) => (
                         <span key={i} className="ticket-tag">#{tag}</span>
-                    ))}
+                    ))*/}
                 </div>
             </div>
             <div className="ticket-bottom">
                 <div className="ticket-info">
-                    <div className="ticket-name">
-                        {name} <img src={gender === 'male' ? male : female} />
-                    </div>
-                    <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                    {matchingStatus === 'PENDING' ? (
+                        <div className="ticket-pending">
+                            이상형 조건에 맞는 <br/>
+                            festimate를 찾는 중이에요!
+                        </div>
+                    ) : (
+                        <>
+                        <div className="ticket-name">
+                            {nickname} <img src={gender === 'male' ? male : female} alt="성별" />
+                        </div>
+                        <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                        </>
+                    )}
                 </div>
             </div>
-            {/* 노치를 가로지르는 점선 */}
-            <div className="ticket-dashed-line"></div>
-            {/* 좌우 노치 */}
+
+            {matchingStatus !== 'PENDING' && (
+                <div className="ticket-dashed-line"></div>
+            )}
+            
             <div className="ticket-notch left"></div>
             <div className="ticket-notch right"></div>
         </div>
@@ -221,25 +284,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         );
     };
 
-    // 예시 카드 데이터
-    const cards = [
-        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
-        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
-        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        // 추가 카드 데이터...
-    ];
+    
 
     return (
         <>
@@ -259,21 +304,23 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         </div>
                         <img src={ProfileMap[type]} className="festival-profile-img" alt="프로필" />
                     </div>
-                    <div className="festival-point-total-box" onClick={() => navigate('/mypage')}>
+                    <div className="festival-point-total-box" onClick={() => navigate(`/festival/${festivalId}/mypage`)}>
                         <img src={point_} alt="포인트" />
                         나의 잔여 포인트
-                        <span className="festival-point-total">{`${point}P >`}</span>
+                        <span className="festival-point-total">{`${point}P`}
+                            <img className="right-arrow" src={rightArrow} />
+                        </span>
                     </div>
                 </div>
                 <div className="divide-line"></div>
                 <div className="festival-bottom-container">
                     <div className="festival-matching-box">
                         <div>나의 매칭 현황!</div>
-                        <div className="matching-count">0/0</div>
+                        <div className="matching-count">0/{match.length}</div>
                     </div>
                     <div className="festival-matching-container-wrapper">
-                        {cards.length > 0 ? (
-                            <FestivalMatching cards={cards} />
+                        {match.length > 0 ? (
+                            <FestivalMatching cards={match} />
                         ) : (
                             <>
                                 <div className="festival-matching-content">

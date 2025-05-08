@@ -114,12 +114,20 @@
     justify-content: center;
     padding: 40px;
     width: 100%;
-    margin-bottom: 30%;
+    margin-bottom: 26px;
 }
 
 .profile-card {
     width: 100%;
     height: auto;
+}
+
+.profile-btn-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15%;
 }
 
 .insta-share {
@@ -138,7 +146,7 @@
     background-color: #ffffff;
     border: 1px solid var(--gray03);
     color: var(--gray07);
-    margin-bottom: 15%;
+
 }
 
 .toast-message {

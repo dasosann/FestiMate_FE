@@ -6,6 +6,10 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    overflow-y: auto;
+}
+.section-container::-webkit-scrollbar {
+    display: hidden;
 }
 
 .info-container {
@@ -16,7 +20,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 15px;
+    padding: 15px 15px;
 }
 
 .point-color {

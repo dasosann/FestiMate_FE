@@ -21,7 +21,7 @@ M.ParticipateDiv =styled.div`
 M.ProgressMenu = styled.div`
     display: flex;
     width: 100%;
-    margin-bottom: 23px;
+    margin-bottom: ${({isProgress})=>isProgress ? '2.83vh' : '0'};
 `
 M.ProgressDiv = styled.div`
     flex: 1;
@@ -103,7 +103,7 @@ M.SideDrawer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 7.39vh 16px;
+  padding: 12px 16px;
 `;
 
 
@@ -229,7 +229,7 @@ M.EndFestivalNotice = styled.div`
 M.FullWidthNoticeWrapper = styled.div`
   margin-left: -16px;
   margin-right: -16px;
-  margin-bottom: 1.85vh;
+  margin-bottom: 4px;
 `;
 M.NoticeSpan = styled.span`
   font-size: 11px;

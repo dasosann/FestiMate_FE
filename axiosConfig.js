@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios 기본 설정
 const instance = axios.create({
-    baseURL: "https://api.festimate.kr",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 // 요청 인터셉터 설정
@@ -40,21 +40,23 @@ instance.interceptors.response.use(
         const originalRequest = config;
 
         // 액세스 토큰 만료 (401, code: 4012)
-        if (status === 401 && data.code === 4012) {
+        if (status === 401 && (data.code === 4011 || data.code === 4012)) {
             const refreshToken = localStorage.getItem("refreshToken");
+            console.log("만료시 보낼 refreshToken",refreshToken)
+            const baseURL= import.meta.env.VITE_BACKEND_URL;
             if (refreshToken) {
                 try {
                     const refreshResponse = await axios.patch(
-                        "https://api.festimate.kr/v1/auth/reissue/token",
+                        `${baseURL}/v1/auth/reissue/token`, // baseURL은 instance에서 자동 적용
                         null,
                         {
                             headers: {
-                                "Authorization": `Bearer ${refreshToken}`,
                                 "Content-Type": "application/json",
+                                "Authorization": `Bearer ${refreshToken}`,
                             },
                         }
                     );
-                    console.log(refreshResponse);
+                    console.log("재발급받아온 정보",refreshResponse);
                     const newAccessToken = refreshResponse.data.data.accessToken;
                     const newRefreshToken = refreshResponse.data.data.refreshToken;
 
@@ -68,8 +70,6 @@ instance.interceptors.response.use(
                     return instance(originalRequest);
                 } catch (refreshError) {
                     console.error("Refresh token error:", refreshError.response?.data);
-                    localStorage.removeItem("jwtToken");
-                    localStorage.removeItem("refreshToken");
                     alert("세션이 만료되었습니다. 다시 로그인해 주세요.");
                     window.location.href = "/";
                     return Promise.reject(refreshError);
@@ -116,16 +116,15 @@ instance.interceptors.response.use(
         if (status === 401) {
             switch (data.code) {
                 case 4011:
-                    alert("액세스 토큰의 값이 올바르지 않습니다.");
+                    // alert("액세스 토큰의 값이 올바르지 않습니다.");
                     break;
                 case 4012:
                     alert("엑세스 토큰이 만료되었습니다.");
                     break;
                 case 4013:
-                    alert("초대코드가 만료되었습니다.");
                     break;
                 case 4014:
-                    alert("페스티벌 기간이 종료되었습니다.");
+                    alert("토큰 값이 올바르지 않습니다..");
                     break;
                 case 4015:
                     alert("토큰 값이 올바르지 않습니다.");
@@ -175,7 +174,8 @@ instance.interceptors.response.use(
                     alert("이미 존재하는 리소스입니다.");
                     break;
                 case 4091:
-                    alert("이미 존재하는 회원입니다.");
+                    //alert("이미 존재하는 회원입니다.");
+                    //alert 안 띄우고 ui로 처리하겠습니다. by 기훈 2025.05.01
                     break;
                 case 4092:
                     alert("이미 존재하는 참여자입니다.");

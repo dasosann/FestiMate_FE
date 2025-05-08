@@ -76,6 +76,10 @@
     color: var(--gray04);
 }
 
+.no-transactions{
+    margin: 15px;
+}
+
 .point-right {
     margin-left: auto;
 }

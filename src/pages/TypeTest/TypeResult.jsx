@@ -225,7 +225,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           <R.InputDiv>
             <R.InputBox
               type="text"
-              placeholder="연락 정보를 작성해주세요"
+              placeholder="ex) 난 인스타를 안 해서, 카카오톡 아이디 남길게 아이디는 @festimate야!"
               maxLength={49}
               onChange={onChange}
               value={contactInfo}

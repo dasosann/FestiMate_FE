@@ -1,16 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/InfoPage/FirstSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 
+const FirstSection = ({setCurrentPage, name, setName, phone, setPhone, isFirstSectionValid, setIsFirstSectionValid}) => {
+    const [nameError, setNameError] = useState('');
+    const [nameLen, setNameLen] = useState(0);
+    const [isValidName, setIsValidName] = useState(false);
+    const [isValidPhone, setIsValidPhone] = useState(false);
+    
+    // 이름과 전화번호가 모두 유효하고 채워졌는지 확인
+    const isBothFilled = isValidName && isValidPhone;
 
-const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
-    const isBothFilled = name.trim() !== '' && phone.trim() !== '';
+    // 페이지 진입 시 기존 데이터가 있을 경우 유효성 재검증
+    useEffect(() => {
+        // 이름과 전화번호가 있으면 유효성 검사 재실행
+        if (name) {
+            validateName(name);
+            setNameLen(name.length);
+        }
+        
+        if (phone) {
+            const phoneRegex = /^010-\d{4}-\d{4}$/;
+            setIsValidPhone(phoneRegex.test(phone));
+        }
+        
+        // 전체 섹션 유효성 업데이트
+        setIsFirstSectionValid(isValidName && isValidPhone);
+    }, [name, phone]);
+
+    // useEffect를 사용하여 isBothFilled 상태가 변경될 때마다 상위 컴포넌트에 알림
+    useEffect(() => {
+        setIsFirstSectionValid(isBothFilled);
+    }, [isBothFilled, setIsFirstSectionValid]);
 
     const handleNext = () => {
         if (isBothFilled) {
             setCurrentPage(prevPage => prevPage + 1);
             console.log('다음 페이지로 이동');
         }
+    };
+
+    // 이름 유효성 검사 함수
+    const validateName = (value) => {
+        const regex = /^[가-힣a-zA-Z]+$/; // 한글과 영어만 허용
+        
+        if (value.length < 2) {
+            setNameError('최소 2글자 이상 입력해주세요.');
+            setIsValidName(false);
+            return;
+        }
+        
+        if (value.length > 5) {
+            setNameError('최대 5글자까지 입력 가능합니다.');
+            setIsValidName(false);
+            return;
+        }
+        
+        if (!regex.test(value)) {
+            setNameError('한글과 영어만 입력 가능합니다.');
+            setIsValidName(false);
+            return;
+        }
+        
+        // 띄어쓰기 체크
+        if (/\s/.test(value)) {
+            setNameError('띄어쓰기는 입력할 수 없습니다.');
+            setIsValidName(false);
+            return;
+        }
+        
+        // 모든 조건 통과
+        setNameError('');
+        setIsValidName(true);
+    };
+
+    const handleNameChange = (e) => {
+        let value = e.target.value;
+        
+        // 최대 5글자로 제한
+        if (value.length > 5) {
+            value = value.substring(0, 5);
+        }
+        
+        setName(value);
+        setNameLen(value.length);
+        validateName(value);
     };
 
     function formatPhoneNumber(value) {
@@ -23,9 +97,13 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
         return digits;
     }
 
-    const handleChange = (e) => {
+    const handlePhoneChange = (e) => {
         const formatted = formatPhoneNumber(e.target.value);
         setPhone(formatted);
+        
+        // 전화번호 유효성 검사: 010-XXXX-XXXX 형식인지 확인
+        const phoneRegex = /^010-\d{4}-\d{4}$/;
+        setIsValidPhone(phoneRegex.test(formatted));
     };
 
     return (
@@ -48,11 +126,15 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                     <div className="info-input-wrapper">
                         <input
                         type="text"
-                        className="info-input"
+                        className={`info-input-nickname ${nameError ? 'warn' : ''} ${name.length > 0 ? 'hasContent' : ''}`}
                         placeholder="이름을 입력해주세요"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={handleNameChange}
                         />
+                    </div>
+                    <div className="nickname-meta">
+                        {nameError && <div className="nickname-warning">{nameError}</div>}
+                        <div className="nickname-len">{nameLen}/5</div>
                     </div>
                 </div>
 
@@ -60,11 +142,13 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone}) => {
                     <div className="info-input-title">연락처</div>
                     <div className="info-input-wrapper">
                         <input
-                        type="text"
-                        className="info-input"
+                        type="tel"
+                        inputMode="numeric"
+                        autoComplete="tel"
+                        className={`info-input ${phone.length > 0 ? 'hasContent' : ''}`}
                         placeholder="ex) 010-1234-5678"
                         value={phone}
-                        onChange={handleChange}
+                        onChange={handlePhoneChange}
                         />
                     </div>
                 </div>

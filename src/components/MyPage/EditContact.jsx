@@ -27,14 +27,15 @@ const EditContact = ({festivalId}) => {
             };
 
             const result = await instance.patch(`/v1/festivals/${festivalId}/me/message`, messageData);
-            navigate(`../myprofile`, { state: { edited: true, what: 'contact' } })
+            //navigate(`../myprofile`, { state: { edited: true, what: 'contact' } });
+            navigate(`../myprofile`);
         } catch (error) {
             console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
                 status: error.response?.status,
                 data: error.response?.data,
                 message: error.message,
             });
-            navigate(`../myprofile`, { state: { edited: false, what: 'contact' } })
+            navigate(`../myprofile`, { state: { edited: false, what: 'contact' } });
         }
     }
 
@@ -46,14 +47,16 @@ const EditContact = ({festivalId}) => {
                     <span className="point-color">연락 정보</span>를 작성해주세요
                 </div>
                 <div className="edit-top-sub-title">
-                    <img src={check} className="edit-check" alt="확인" />
+                    <div className="edit-check-container">
+                        <img src={check} className="edit-check" alt="확인" />
+                    </div>
                     인스타그램, 카카오톡 아이디, 전화번호 등<br />
                     Festimate가 당신을 찾는 데 필요한 정보를 적어주세요.
                 </div>
             </div>
-
+    
             <div className="edit-bottom-container">
-                <textarea 
+                <textarea
                     className="edit-contact-box"
                     value={contactInfo}
                     onChange={handleContactChange}
@@ -64,7 +67,7 @@ const EditContact = ({festivalId}) => {
                     {contactInfo.length}/50
                 </div>
             </div>
-
+    
             <div className="edit-contact-warning">
                 <div className="edit-warning-big">
                     꼭 읽어주세요!

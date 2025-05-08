@@ -5,29 +5,45 @@ import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
-    gender, setGender, year, setYear}) => {
+    gender, setGender, year, setYear, isSecondSectionValid, setIsSecondSectionValid}) => {
 
     const [nicknameError, setNicknameError] = useState('');
     const [isValidNickname, setIsValidNickname] = useState(false);
     const [nicknameLen, setNicknameLen] = useState(0);
     const [yearOption, setYearOption] = useState([]);
     const [canPass, setCanPass] = useState(false);
-    const isFilled = nickname && year && gender && isValidNickname && canPass;
     
+    // 초기 세팅 - 최초 진입 시 전부 입력하고, 중복확인까지 했다고 가정
+    useEffect(() => {
+        // 초기 진입 시에만 실행되는 코드
+        if (nickname) {
+            validateNickname(nickname);
+            setNicknameLen(nickname.length);
+            setCanPass(true); // 중복확인 완료 상태로 설정
+        }
+    }, []);
+
+    // 기본 연도 옵션 설정
     useEffect(() => {
         const startYear = 1970;
         const endYear = new Date().getFullYear();
         const tmp = [];
         for(let i = endYear; i>=startYear; i--) tmp.push(i);
         setYearOption(tmp);
-        setYear(tmp[0]);
+    }, []);
 
-        console.log(nicknameError, nickname);
-    },[]);
-
+    // canPass 상태가 변경될 때마다 버튼 활성화 상태 업데이트
+    // 조건 2: 허용되는 닉네임일 때, 나머지 필드도 채워져 있다면 isSecondSectionValid를 true로 설정
+    useEffect(() => {
+        if (canPass && nickname && year && gender) {
+            setIsSecondSectionValid(true);
+        } else {
+            setIsSecondSectionValid(false);
+        }
+    }, [canPass, nickname, year, gender, setIsSecondSectionValid]);
 
     const validateNickname = (value) => {
-        const regex = /^[가-힣a-zA-Z]+$/; // 한글만 허용
+        const regex = /^[가-힣a-zA-Z]+$/; // 한글과 영어만 허용
         if (!regex.test(value)) {
             setNicknameError('한글과 영어만 입력 가능합니다.');
             setIsValidNickname(false);
@@ -37,46 +53,52 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         }
     };
 
+    const isDuplicatedNickname = async () => {
+        const checkNickname = async () => {
+            try {
+                const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
+                console.log(result);
+                if(result.status==200) {
+                    setCanPass(true); // 닉네임 허용됨
+                }
+                else if(result.status==409) { 
+                    setCanPass(false);
+                    setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
+                }
+            } catch (error) {
+                console.error("[duplicate check API Error] GET /v1/users/validate-nickname:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        
+        checkNickname();
+    };
+
     const handleNicknameChange = (e) => {
         let value = e.target.value;
         if(nicknameLen >= 6) {
             value = value.substring(0, 6);
         }
+        
+        // 조건 4: 닉네임 중복 검증 후 닉네임이 수정되면 canPass와 isSecondSectionValid를 false로 설정
+        setCanPass(false);
+        setIsSecondSectionValid(false);
+        
         validateNickname(value);
         setNickname(value);
         setNicknameLen(value.length);
     };
 
+    // 조건 3: 다음 버튼 활성화 여부는 isSecondSectionValid를 통해 결정
     const handleNext = () => {
-        if (nickname && isValidNickname && year && gender && canPass) {
+        if (isSecondSectionValid) {
             setCurrentPage(prev => prev+1);
         }
     };
-    const isDuplicatedNickname = async () => {
-        try {
-            const response = await instance.post('/v1/users/validate-nickname', {}, {
-                params: { nickname: nickname }
-              });
-          console.log("중복응답",response)
-          const isAvailable = response.data?.code;
-          if (isAvailable===2000) {
-            setCanPass(true);
-            setNicknameError();
-          }
-          else if(isAvailable===4091){
-            setCanPass(false);
-            setNicknameError('이미 존재하는 닉네임입니다.');
-          }
-        } catch (error) {
-          console.error('[Nickname Validation API Error] POST /v1/users/validate-nickname:', {
-            status: error.response?.status,
-            data: error.response?.data,
-            message: error.message,
-          });
-          setCanPass(false);
-          setNicknameError('닉네임 확인 중 오류가 발생했습니다.');
-        } 
-      };
+    
     return (
         <div className="info-container">
             <div className="info-phrase">
@@ -92,7 +114,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <input 
                             type="text"
-                            className={`info-input-nickname ${nicknameError ? 'warn' : ''}`}
+                            className={`info-input-nickname ${nicknameError ? 'warn' : ''} ${nickname.length > 0 ? 'hasContent' : ''}`}
                             placeholder='닉네임을 입력해주세요'
                             value={nickname}
                             onChange={handleNicknameChange}/>
@@ -114,10 +136,10 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                     <div className="info-input-wrapper">
                         <select 
                             value={year}
-                            className="info-input"
+                            className={`info-input ${year ? 'year-selected hasContent' : 'year-empty'}`}
                             onChange={e => setYear(e.target.value)} 
                         >
-                            <option value="" style={{color: 'var(--gray03)'}}>연도 선택</option>
+                            <option value="">연도 선택</option>
                             {yearOption.map((yr,idx) => (
                                 <option key={`${yr}-${idx}`} value={yr}>
                                 {yr}
@@ -147,12 +169,12 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                         </label>
                     </div>
                 </div>
-                    <button
-                        className={`next-button ${isFilled ? 'active' : 'inactive'}`}
-                        onClick={handleNext}
-                    >
-                        다음
-                    </button>
+                <button
+                    className={`next-button ${isSecondSectionValid ? 'active' : 'inactive'}`}
+                    onClick={handleNext}
+                >
+                    다음
+                </button>
             </div>
         </div>
     );

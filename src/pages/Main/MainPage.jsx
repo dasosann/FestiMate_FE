@@ -19,27 +19,47 @@ const grayscaleCategoryImages = {
   DEFAULT: '/assets/Main/gray-school-logo.svg',
 };
 
-const ParticipateFestivalComponent = ({ category, title, startDate, endDate, selectedProgressMenu,festivalId }) => {
+const ParticipateFestivalComponent = ({ category, title, startDate, endDate, selectedProgressMenu, festivalId }) => {
   const navigate = useNavigate();
-  // selectedProgressMenu에 따라 적절한 이미지 매핑 객체 선택
-  const imageMap = selectedProgressMenu === '진행' ? colorCategoryImages : grayscaleCategoryImages;
 
-  // 카테고리에 맞는 이미지 선택, 없으면 DEFAULT 사용
+  // endDate가 현재 날짜로부터 7일 이내인지 확인 (종료 상태에서만 적용)
+  const isWithin7Days = selectedProgressMenu === '종료' ? (() => {
+    try {
+      // endDate 형식 (2025.04.30)을 2025-04-30으로 변환
+      const formattedEndDate = endDate.replace(/\./g, '-');
+      const end = new Date(formattedEndDate);
+      const now = new Date();
+      const diffMs = now - end;
+      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000; // 7일 (ms)
+      console.log(`Festival ${title}: endDate=${endDate}, formatted=${formattedEndDate}, diffMs=${diffMs}, within7Days=${diffMs <= sevenDaysMs}`);
+      return diffMs <= sevenDaysMs;
+    } catch (error) {
+      console.error(`Invalid endDate for festival ${title}: ${endDate}`, error);
+      return false; // 날짜 파싱 실패 시 접근 불가
+    }
+  })() : true; // 진행 중일 때는 항상 접근 가능
+
+  // 이미지 선택: 진행 중이거나 종료 7일 이내는 컬러, 종료 7일 초과는 그레이스케일
+  const imageMap = (selectedProgressMenu === '진행' || isWithin7Days) ? colorCategoryImages : grayscaleCategoryImages;
   const imageSrc = imageMap[category] || imageMap.DEFAULT;
 
-  // 예상치 못한 category 값 디버깅
   if (!imageMap[category]) {
     console.warn(`Unknown category: ${category}, using DEFAULT`);
   }
-  const navigateToFestivalInfo = () =>{
-    navigate(`/festival/${festivalId}`);
-  }
+
+  const navigateToFestivalInfo = () => {
+    if (isWithin7Days) {
+      console.log(`Navigating to festival/${festivalId}`);
+      navigate(`/festival/${festivalId}`);
+    }
+  };
+
   return (
-    <M.ComponentWrapper onClick={navigateToFestivalInfo}>
+    <M.ComponentWrapper onClick={isWithin7Days ? navigateToFestivalInfo : null} $isClickable={isWithin7Days}>
       <img
         src={imageSrc}
         alt="카테고리"
-        onError={(e) => (e.target.src = colorCategoryImages.DEFAULT)} // 이미지 로드 실패 시 폴백
+        onError={(e) => (e.target.src = colorCategoryImages.DEFAULT)}
       />
       <M.TextWrapper>
         <M.TitleText>{title}</M.TitleText>
@@ -48,7 +68,7 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
           <M.SubText>{startDate} - {endDate}</M.SubText>
         </div>
       </M.TextWrapper>
-      <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기"  />
+      {isWithin7Days && <M.ArrowImg src="/assets/Main/right-arrow.svg" alt="상세보기" />}
     </M.ComponentWrapper>
   );
 };
@@ -109,12 +129,12 @@ const MainPage = () => {
       <M.ParticipateDiv>
         <span style={{ color: '#ff6f61' }}>{nickname || '사용자'}</span>
         <span>님의 </span>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap:'5px' }}>
           페스티벌 참여 현황
-          <img src="/assets/Main/flag.svg" alt="깃발" />
+          <img src="/assets/Main/flag.svg" alt="깃발" style={{width:'24px',height:'24px',marginBottom:'7px'}} />
         </div>
       </M.ParticipateDiv>
-      <M.ProgressMenu>
+      <M.ProgressMenu $isProgress={selectedProgressMenu === '진행'}>
         <M.ProgressDiv
           $isActive={selectedProgressMenu === '진행'}
           onClick={() => setSelectedProgressMenu('진행')}
@@ -131,7 +151,7 @@ const MainPage = () => {
       <M.MainWrapper>
         <M.MainDiv>
           {loading ? (
-            <M.TotalFestivalDiv>로딩중...</M.TotalFestivalDiv>
+            <M.TotalFestivalDiv></M.TotalFestivalDiv>
           ) : festivals?.length === 0 ? (
             <div style={{ marginTop: '10.34vh' }}>
               <img src="/assets/Main/mainpage-background-logo.svg" alt="배경로고" />
@@ -172,12 +192,12 @@ const MainPage = () => {
         <M.CloseButton src="/assets/Main/close-button.svg" alt="닫기" onClick={() => setIsMenuOpen(false)} />
         <img src="/assets/Main/user-icon.svg" alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
         <M.DrawerUserName>{nickname || '사용자'}님</M.DrawerUserName>
-        <M.MenuComponent>
-          <span onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>문의하기</span>
+        <M.MenuComponent onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>
+          <span >문의하기</span>
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
         </M.MenuComponent>
-        <M.MenuComponent>
-          <span onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>개인정보처리방침</span>
+        <M.MenuComponent onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>
+          <span >개인정보처리방침</span>
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
         </M.MenuComponent>
       </M.SideDrawer>
