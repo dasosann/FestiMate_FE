@@ -122,7 +122,7 @@ const MainPage = () => {
 
   return (
     <div style={{ height: 'auto', minHeight: '100dvh', textAlign: 'left' }}>
-      <M.HeaderDiv>
+      <M.HeaderDiv style={{marginTop:'12px'}}>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
         <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={() => setIsMenuOpen(true)} />
       </M.HeaderDiv>
@@ -145,7 +145,7 @@ const MainPage = () => {
           $isActive={selectedProgressMenu === '종료'}
           onClick={() => setSelectedProgressMenu('종료')}
         >
-          종료
+          종료    
         </M.ProgressDiv>
       </M.ProgressMenu>
       <M.MainWrapper>
