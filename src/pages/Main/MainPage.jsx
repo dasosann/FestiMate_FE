@@ -202,7 +202,7 @@ const MainPage = () => {
         </M.MenuComponent>
       </M.SideDrawer>
       {/* {isLogoutModalOpen && <M.ModalOverlay onClick={() => setIsLogoutModalOpen(false)} />} */}
-      <M.LogoutModal $isOpen={isLogoutModalOpen}>
+      {/* <M.LogoutModal $isOpen={isLogoutModalOpen}>
         <M.LogoutConfirmP>로그아웃 하시겠습니까?</M.LogoutConfirmP>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <M.ConfirmLogoutButton
@@ -216,7 +216,7 @@ const MainPage = () => {
             확인
           </M.ConfirmLogoutButton>
         </div>
-      </M.LogoutModal>
+      </M.LogoutModal> */}
     </div>
   );
 };
