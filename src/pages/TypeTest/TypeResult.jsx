@@ -21,7 +21,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
   const [contactInfo, setContactInfo] = useState('');
   const [message, setMessage] = useState('');
   const [messageCount, setMessageCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [image, setImage] = useState(
     festivalType && festivalTypeImages[festivalType]
       ? festivalTypeImages[festivalType]
@@ -29,14 +28,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
   );
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
-  // 최소 1초 로딩 뷰 표시
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    },1000);
-
-    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
-  }, []);
+  
 
   const handleNext = async () => {
     if (step === 0) {
@@ -145,10 +137,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
 
   const isActive = count > 0;
 
-  // 로딩 뷰 렌더링
-  if (isLoading && step === 0) {
-    return <LoadingView/>;
-  }
+ 
 
   // Step 0: 결과 화면
   if (step === 0) {
