@@ -39,7 +39,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 setType(result.data.data.typeResult);
                 console.log(result);
             } catch (error) {
-                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:", {
+                console.error(`[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:`, {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,

@@ -19,11 +19,11 @@ import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
 import planProfile from '/assets/Profile/plan-type-profile.svg';
 import shotProfile from '/assets/Profile/shot-type-profile.svg';
 
-import newCard from '/assets/Card/new-card.svg';
-import healCard from '/assets/Card/healing-card.svg';
-import inssaCard from '/assets/Card/inssa-card.svg';
-import planCard from '/assets/Card/plan-card.svg';
-import shotCard from '/assets/Card/shot-card.svg';
+import newCard from '/assets/Festival/new-matching.svg';
+import healCard from '/assets/Festival/healing-matching.svg';
+import inssaCard from '/assets/Festival/inssa-matching.svg';
+import planCard from '/assets/Festival/plan-matching.svg';
+import shotCard from '/assets/Festival/shot-matching.svg';
 
 const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const navigate = useNavigate();
@@ -133,7 +133,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
-                <img src={newProfile} alt="캐릭터" className="ticket-image" />
+                <img src={matchingStatus === 'PENDING' ? noMatch : CardMap[typeresult]} alt="캐릭터" className="ticket-image" />
                 <div className="ticket-tags">
                     {/* tags?.map((tag, i) => (
                         <span key={i} className="ticket-tag">#{tag}</span>
@@ -142,15 +142,26 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             </div>
             <div className="ticket-bottom">
                 <div className="ticket-info">
-                    <div className="ticket-name">
-                        {name} <img src={gender === 'male' ? male : female} />
-                    </div>
-                    <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                    {matchingStatus === 'PENDING' ? (
+                        <div className="ticket-pending">
+                            이상형 조건에 맞는 <br/>
+                            festimate를 찾는 중이에요!
+                        </div>
+                    ) : (
+                        <>
+                        <div className="ticket-name">
+                            {nickname} <img src={gender === 'male' ? male : female} alt="성별" />
+                        </div>
+                        <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                        </>
+                    )}
                 </div>
             </div>
-            {/* 노치를 가로지르는 점선 */}
-            <div className="ticket-dashed-line"></div>
-            {/* 좌우 노치 */}
+
+            {matchingStatus !== 'PENDING' && (
+                <div className="ticket-dashed-line"></div>
+            )}
+            
             <div className="ticket-notch left"></div>
             <div className="ticket-notch right"></div>
         </div>
