@@ -56,7 +56,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       };
       try {
         const response = await instance.post(
-          `v1/festivals/${festivalId}/participants`,
+          `v1/festivals/${festivalId}/participants/type`,
           submitData
         );
         console.log('모든정보 입력 후 응답', response);
