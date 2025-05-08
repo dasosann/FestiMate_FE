@@ -131,6 +131,8 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             setPoint((prev) => prev - 1);
             alert('매칭이 추가되었습니다.');
             navigate('/mateLoading', { state : { name: "name" }});
+        } else {
+            navigate(`/festival/${festivalId}/mypage`);
         }
         setIsModalOpen(false);
     };

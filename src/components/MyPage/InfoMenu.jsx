@@ -31,17 +31,18 @@ const InfoMenu = ({festivalId}) => {
             'HEALING': healProfile,
             'INFLUENCER': inssaProfile,
             'PLANNER': planProfile,
+            'PHOTO': shotProfile
         };
 
     useEffect(() => {
         const getNickname = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}/me/type`);
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/profile`);
                 setName(result.data.data.nickname);
                 setType(result.data.data.typeResult);
                 console.log(result);
             } catch (error) {
-                console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
+                console.error("[Nickname API Error] GET /v1/users/participants/me/nickname:", {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,
@@ -51,7 +52,7 @@ const InfoMenu = ({festivalId}) => {
         const getFestival = async () => {
             try {
                 const result = await instance.get(`/v1/festivals/${festivalId}`);
-                setDate(result.data.data.festivalDate);
+                //setDate(result.data.data.festivalDate);
                 
                 const festivalDateRange = result.data.data.festivalDate;
                 if (festivalDateRange && festivalDateRange.includes('~')) {
