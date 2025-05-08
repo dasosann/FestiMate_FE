@@ -4,16 +4,15 @@ import styled from 'styled-components';
 import T from '../../styles/pages/TypeTest/TypeTestStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
-import instance from '../../../axiosConfig';
 
 const TypeTest = () => {
   const navigate = useNavigate();
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [festivalType, setFestivalType] = useState(null); // 축제 유형 상태 추가
-  const [festivalName, setFestivalName] = useState(''); // 축제 이름 상태 추가
   const location = useLocation(); // 라우터 상태에서 festivalId 추출
   const festivalId = location.state?.festivalId;
+  const festivalName = location.state?.festivalName;
   // 1) 컴포넌트가 처음 마운트될 때,  
   //    "현재" 히스토리 기록을 우리 상태({ started:false, completed:false })로 교체
   //    -> 뒤로가기 했을 때 e.state가 없거나 엉뚱한 값이 들어오는 것을 방지
@@ -24,30 +23,7 @@ const TypeTest = () => {
       '/festivaltype' // 주소 표시줄은 그냥 /festivaltype 으로
     );
   }, []);
-  useEffect(() => {
-    if (!festivalId) {
-      console.error('festivalId가 제공되지 않았습니다.');
-      setFestivalName('축제 이름 없음');
-      return;
-    }
-
-    const fetchFestivalName = async () => {
-      try {
-        const response = await instance.get(`/v1/festivals/${festivalId}`);
-        console.log('축제 데이터:', response.data);
-        setFestivalName(response.data.festivalName || '축제 이름 없음'); // festivalName 추출
-      } catch (error) {
-        console.error('[Festival Name API Error] GET /v1/festivals/:festivalId:', {
-          status: error.response?.status,
-          data: error.response?.data,
-          message: error.message,
-        });
-        setFestivalName('축제 이름 없음'); // 에러 시 대체 텍스트
-      }
-    };
-
-    fetchFestivalName();
-  }, [festivalId]);
+  
   // 2) started나 completed가 바뀔 때마다 pushState
   //    -> “이전 상태로 돌아갈 수 있는” 히스토리 스택을 계속 쌓는다.
   //       (뒤로가기를 누르면 popstate가 발생하고, e.state에는 pushState()로 넣었던 객체가 담김)

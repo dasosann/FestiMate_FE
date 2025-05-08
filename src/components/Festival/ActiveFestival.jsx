@@ -53,7 +53,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const faceMap = {
         'DOG': "강아지상",
         'CAT': "고양이상",
-        'BEAR': "곰상",
+        'BEAR': "      상",
         'BUNNY': "토끼상",
         'FOX': "여우상",
         'DINOSAUR': "공룡상"

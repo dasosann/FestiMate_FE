@@ -68,7 +68,7 @@ const InputCode = () => {
       // }catch(error){
       //   alert("페스티벌 아이디를 가져오는 중 오류가 발생했습니다.")
       // }
-      navigate('/festivaltype',{state:{festivalId}});
+      navigate('/festivaltype',{state:{festivalId,festivalName}});
     }
     return (
         <div style={{textAlign:'left',height:'calc(100dvh - env(safe-area-inset-bottom))'}}>
