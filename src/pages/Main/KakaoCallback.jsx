@@ -44,7 +44,12 @@ const KakaoCallback = () => {
                             console.log('Verified stored jwtToken:', storedToken);
                             const baseURL= import.meta.env.VITE_BACKEND_URL;
                             axios
-                                .get(`${baseURL}/v1/users/me/nickname`)
+                                .get(`${baseURL}/v1/users/me/nickname`,{
+                                    headers:{
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${storedToken}`, // Authorization 헤더 추가
+                                    }
+                                })
                                 .then((nicknameResponse) => {
                                     console.log("가져온 닉네임" , nicknameResponse.data.data)
                                     const nickname = nicknameResponse.data.data?.nickname;

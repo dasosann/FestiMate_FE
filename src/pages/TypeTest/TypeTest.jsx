@@ -74,6 +74,7 @@ const TypeTest = () => {
         setStarted={setStarted}
         setCompleted={setCompleted}
         setFestivalType={setFestivalType}
+        festivalId={festivalId}
       />
     );
   }
