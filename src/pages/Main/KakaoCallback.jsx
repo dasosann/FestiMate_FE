@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import instance from '../../../axiosConfig';
+import LoadingView from '../../components/LoadingView';
 
 const KakaoCallback = () => {
     const navigate = useNavigate();
@@ -86,7 +87,7 @@ const KakaoCallback = () => {
         }
     }, [location.search, navigate]);
 
-    return <div>로그인 처리 중...</div>;
+    return <LoadingView/>;
 };
 
 export default KakaoCallback;
