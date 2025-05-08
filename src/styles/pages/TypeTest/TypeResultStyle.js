@@ -29,7 +29,6 @@ R.HeaderDiv = styled.div`
     margin-bottom: 40px;
     padding: 0 16px;
     margin-top: 12px;
-    position: fixed;
 `
 R.Left = styled.div`
     flex: 1;
