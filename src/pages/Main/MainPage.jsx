@@ -19,25 +19,35 @@ const grayscaleCategoryImages = {
   DEFAULT: '/assets/Main/gray-school-logo.svg',
 };
 
+// appearanceType에 따른 아바타 이미지 매핑 객체
+const appearanceTypeImages = {
+  DOG: '/assets/Main/dog.svg',
+  CAT: '/assets/Main/cat.svg',
+  RABBIT: '/assets/Main/rabbit.svg',
+  FOX: '/assets/Main/fox.svg',
+  BEAR: '/assets/Main/bear.svg',
+  DINOSAUR: '/assets/Main/dinosaur.svg',
+  DEFAULT: '/assets/Main/cat.svg', // 기본 이미지
+};
+
 const ParticipateFestivalComponent = ({ category, title, startDate, endDate, selectedProgressMenu, festivalId }) => {
   const navigate = useNavigate();
 
   // endDate가 현재 날짜로부터 7일 이내인지 확인 (종료 상태에서만 적용)
   const isWithin7Days = selectedProgressMenu === '종료' ? (() => {
     try {
-      // endDate 형식 (2025.04.30)을 2025-04-30으로 변환
       const formattedEndDate = endDate.replace(/\./g, '-');
       const end = new Date(formattedEndDate);
       const now = new Date();
       const diffMs = now - end;
-      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000; // 7일 (ms)
+      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
       console.log(`Festival ${title}: endDate=${endDate}, formatted=${formattedEndDate}, diffMs=${diffMs}, within7Days=${diffMs <= sevenDaysMs}`);
       return diffMs <= sevenDaysMs;
     } catch (error) {
       console.error(`Invalid endDate for festival ${title}: ${endDate}`, error);
-      return false; // 날짜 파싱 실패 시 접근 불가
+      return false;
     }
-  })() : true; // 진행 중일 때는 항상 접근 가능
+  })() : true;
 
   // 이미지 선택: 진행 중이거나 종료 7일 이내는 컬러, 종료 7일 초과는 그레이스케일
   const imageMap = (selectedProgressMenu === '진행' || isWithin7Days) ? colorCategoryImages : grayscaleCategoryImages;
@@ -80,18 +90,9 @@ const MainPage = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [nickname, setNickname] = useState('');
   const [appearanceType, setAppearanceType] = useState('');
   const navigate = useNavigate();
-  const appearanceTypeImages = {
-    DOG: '/assets/Main/dog.svg',
-    CAT: '/assets/Main/cat.svg',
-    RABBIT: '/assets/Main/rabbit.svg',
-    FOX: '/assets/Main/fox.svg',
-    BEAR: '/assets/Main/bear.svg',
-    DINOSAUR: '/assets/Main/dinosaur.svg',
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,18 +131,21 @@ const MainPage = () => {
     fetchData();
   }, [selectedProgressMenu]);
 
+  // appearanceType에 따른 아바타 이미지 선택
+  const avatarImage = appearanceTypeImages[appearanceType] || appearanceTypeImages.DEFAULT;
+
   return (
     <div style={{ height: 'auto', minHeight: '100dvh', textAlign: 'left' }}>
-      <M.HeaderDiv style={{marginTop:'12px'}}>
+      <M.HeaderDiv style={{ marginTop: '12px' }}>
         <img src="/assets/Main/festimate-logo.svg" alt="로고" />
         <img src="/assets/Main/mainpage-menu.svg" alt="메뉴" onClick={() => setIsMenuOpen(true)} />
       </M.HeaderDiv>
       <M.ParticipateDiv>
         <span style={{ color: '#ff6f61' }}>{nickname || '사용자'}</span>
         <span>님의 </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap:'5px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           페스티벌 참여 현황
-          <img src="/assets/Main/flag.svg" alt="깃발" style={{width:'24px',height:'24px',marginBottom:'7px'}} />
+          <img src="/assets/Main/flag.svg" alt="깃발" style={{ width: '24px', height: '24px', marginBottom: '7px' }} />
         </div>
       </M.ParticipateDiv>
       <M.ProgressMenu $isProgress={selectedProgressMenu === '진행'}>
@@ -155,7 +159,7 @@ const MainPage = () => {
           $isActive={selectedProgressMenu === '종료'}
           onClick={() => setSelectedProgressMenu('종료')}
         >
-          종료    
+          종료
         </M.ProgressDiv>
       </M.ProgressMenu>
       <M.MainWrapper>
@@ -200,33 +204,22 @@ const MainPage = () => {
       {isMenuOpen && <M.Overlay onClick={() => setIsMenuOpen(false)} />}
       <M.SideDrawer $isOpen={isMenuOpen}>
         <M.CloseButton src="/assets/Main/close-button.svg" alt="닫기" onClick={() => setIsMenuOpen(false)} />
-        <img src={appearanceTypeImages[appearanceType]} alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
+        <img
+          src={avatarImage}
+          alt="사용자 아바타"
+          style={{ width: '60px', height: '60px' }}
+          onError={(e) => (e.target.src = appearanceTypeImages.DEFAULT)} // 이미지 로드 실패 시 기본 이미지
+        />
         <M.DrawerUserName>{nickname}님</M.DrawerUserName>
         <M.MenuComponent onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>
-          <span >문의하기</span>
-          <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
+          <span>문의하기</span>
+          <img src="/assets/Main/right-arrow.svg" alt="화살표" />
         </M.MenuComponent>
         <M.MenuComponent onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e481bcb46febaa6e5f80a5?pvs=4")}>
-          <span >개인정보처리방침</span>
-          <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
+          <span>개인정보처리방침</span>
+          <img src="/assets/Main/right-arrow.svg" alt="화살표" />
         </M.MenuComponent>
       </M.SideDrawer>
-      {/* {isLogoutModalOpen && <M.ModalOverlay onClick={() => setIsLogoutModalOpen(false)} />} */}
-      {/* <M.LogoutModal $isOpen={isLogoutModalOpen}>
-        <M.LogoutConfirmP>로그아웃 하시겠습니까?</M.LogoutConfirmP>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <M.ConfirmLogoutButton
-            $color="#7b7c87"
-            $backgroundColor="#E6E6EB"
-            onClick={() => setIsLogoutModalOpen(false)}
-          >
-            취소
-          </M.ConfirmLogoutButton>
-          <M.ConfirmLogoutButton $color="#fff" $backgroundColor="#3a3c42">
-            확인
-          </M.ConfirmLogoutButton>
-        </div>
-      </M.LogoutModal> */}
     </div>
   );
 };
