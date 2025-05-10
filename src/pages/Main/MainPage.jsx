@@ -82,7 +82,16 @@ const MainPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [nickname, setNickname] = useState('');
+  const [appearanceType, setAppearanceType] = useState('');
   const navigate = useNavigate();
+  const appearanceTypeImages = {
+    DOG: '/assets/Main/dog.svg',
+    CAT: '/assets/Main/cat.svg',
+    RABBIT: '/assets/Main/rabbit.svg',
+    FOX: '/assets/Main/fox.svg',
+    BEAR: '/assets/Main/bear.svg',
+    DINOSAUR: '/assets/Main/dinosaur.svg',
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,6 +100,7 @@ const MainPage = () => {
       try {
         const nicknameResponse = await instance.get('/v1/users/me/nickname');
         setNickname(nicknameResponse.data.data?.nickname || '');
+        setAppearanceType(nicknameResponse.data.data?.appearanceType || '');
       } catch (error) {
         console.error('[Nickname API Error] GET /v1/users/me/nickname:', {
           status: error.response?.status,
@@ -190,8 +200,8 @@ const MainPage = () => {
       {isMenuOpen && <M.Overlay onClick={() => setIsMenuOpen(false)} />}
       <M.SideDrawer $isOpen={isMenuOpen}>
         <M.CloseButton src="/assets/Main/close-button.svg" alt="닫기" onClick={() => setIsMenuOpen(false)} />
-        <img src="/assets/Main/user-icon.svg" alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
-        <M.DrawerUserName>{nickname || '사용자'}님</M.DrawerUserName>
+        <img src={appearanceTypeImages[appearanceType]} alt="사용자 아바타" style={{ width: '60px', height: '60px' }} />
+        <M.DrawerUserName>{nickname}님</M.DrawerUserName>
         <M.MenuComponent onClick={() => window.open("https://psychedelic-perigee-94e.notion.site/1cbaebccb8e4813dae70e4535a18228c?pvs=4")}>
           <span >문의하기</span>
           <img src="/assets/Main/right-arrow.svg" alt="사용자 아바타" />
