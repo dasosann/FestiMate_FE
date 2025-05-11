@@ -30,7 +30,7 @@ const TypeTest = () => {
   useEffect(() => {
     // pushState(상태객체, 제목, url)
     // 여기서 url을 '' 로 두면 주소는 그대로 /festivaltype 을 유지
-    window.history.pushState({ started, completed }, '', '/mainpage');
+    window.history.pushState({ started, completed }, '', '/festivaltype');
   }, [started, completed]);
 
   // 3) popstate 이벤트로 “하드웨어 뒤로가기” 제어하기
