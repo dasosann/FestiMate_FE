@@ -20,7 +20,7 @@ const TypeTest = () => {
     window.history.replaceState(
       { started: false, completed: false },
       '',
-      '/mainpage' // 주소 표시줄은 그냥 /festivaltype 으로
+      '/festivaltype' // 주소 표시줄은 그냥 /festivaltype 으로
     );
   }, []);
   
