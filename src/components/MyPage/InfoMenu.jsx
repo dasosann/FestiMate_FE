@@ -23,8 +23,6 @@ const InfoMenu = ({festivalId}) => {
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
-    const accountBank = "국민은행";
-    const accountNumber = "817202-04-045292";
 
     const ProfileMap = {
             'NEWBIE': newProfile, 
@@ -124,9 +122,11 @@ const InfoMenu = ({festivalId}) => {
                     <div className="info-name-box">
                         안녕하세요! <br /> <span className="point-color">{name}</span>님
                     </div>
+                    { isActive &&
                     <button className="info-modify-btn" onClick={() => navigate('./myprofile')}>
                         내 프로필
                     </button>
+                    }
                 </div>
                 {isActive ?
                     <div className="info-account-box">
