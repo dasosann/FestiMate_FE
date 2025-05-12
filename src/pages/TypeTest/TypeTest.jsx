@@ -1,88 +1,72 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import T from '../../styles/pages/TypeTest/TypeTestStyle';
+import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
-import I from '../../styles/pages/Main/InputCodeStyle';
-
-// 모달 스타일 정의
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  width: 80%;
-  max-width: 343px;
-`;
-
-const ModalText = styled.p`
-  font-size: 16px;
-  margin-bottom: 20px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ModalButton = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  color: ${(props) => props.$color || '#fff'};
-  background-color: ${(props) => props.$bgColor || '#3a3c42'};
-`;
 
 const TypeTest = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [festivalType, setFestivalType] = useState(null);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+  // 쿼리 파라미터 파싱
   const queryParams = new URLSearchParams(location.search);
   const festivalId = queryParams.get('festivalId');
-  const festivalName = decodeURIComponent(queryParams.get('festivalName') || '페스티벌');
+  const festivalName = decodeURIComponent(queryParams.get('festivalName') || '');
+
+  // 쿼리 파라미터 검증 및 리다이렉트
+  useEffect(() => {
+    if (!festivalId || !festivalName) {
+      console.log('Missing festivalId or festivalName, redirecting to /mainpage');
+      navigate('/mainpage', { replace: true });
+    }
+  }, [festivalId, festivalName, navigate]);
 
   // popstate 이벤트로 하드웨어 뒤로가기 제어
   useEffect(() => {
-    const handlePopState = () => {
+    const handlePopState = (e) => {
+      console.log('popstate triggered:', e.state);
+      e.preventDefault();
       setIsExitModalOpen(true);
+      window.history.pushState(
+        { page: 'festivaltype' },
+        '',
+        location.pathname + location.search
+      );
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [location.pathname, location.search]);
 
   // 모달 확인 버튼 핸들러
   const handleConfirmExit = () => {
+    console.log('Confirm exit to /mainpage');
     setIsExitModalOpen(false);
-    navigate('/mainpage');
+    navigate('/mainpage', { replace: true });
   };
 
   // 모달 취소 버튼 핸들러
   const handleCancelExit = () => {
+    console.log('Cancel exit, stay on /festivaltype');
     setIsExitModalOpen(false);
-    // 현재 페이지를 유지하기 위해 히스토리 스택에 푸시
-    window.history.pushState({}, '', '/festivaltype');
+    window.history.pushState(
+      { page: 'festivaltype' },
+      '',
+      location.pathname + location.search
+    );
   };
+
+  // 쿼리 파라미터 검증 후 렌더링
+  if (!festivalId || !festivalName) {
+    return null; // useEffect에서 리다이렉트 처리되므로 렌더링 생략
+  }
 
   if (completed) {
     return <TypeResult festivalType={festivalType} festivalId={festivalId} />;
@@ -105,7 +89,10 @@ const TypeTest = () => {
         <T.HeaderArrow
           src="/assets/Main/back-arrow.svg"
           alt="뒤로"
-          onClick={() => setIsExitModalOpen(true)}
+          onClick={() => {
+            console.log('Header back clicked');
+            setIsExitModalOpen(true);
+          }}
         />
         <T.HeaderText>{festivalName}</T.HeaderText>
       </T.HeaderDiv>
@@ -126,16 +113,29 @@ const TypeTest = () => {
         alt="한 번 완성된 페스티벌 유형은 변경이 어려워요"
       />
       {isExitModalOpen && (
-          <>
-              <I.ModalOverlay onClick={() => setIsExitModalOpen(false)} />
-              <I.ConfirmModal>
-                  <I.ModalTitle>메인페이지로 돌아가시겠습니까?</I.ModalTitle>
-                  <I.ModalButtonWrapper>
-                      <I.ModalButton border="1px solid #e6e6eb" color="#7b7c87" backgroundColor="#fff" onClick={handleCancelExit}>취소</I.ModalButton>
-                      <I.ModalButton color="#fff" backgroundColor="#3a3c42" onClick={handleConfirmExit}>확인</I.ModalButton>
-                  </I.ModalButtonWrapper>
-              </I.ConfirmModal>
-          </>
+        <>
+          <I.ModalOverlay onClick={() => setIsExitModalOpen(false)} />
+          <I.ConfirmModal>
+            <I.ModalTitle>메인페이지로 돌아가시겠습니까?</I.ModalTitle>
+            <I.ModalButtonWrapper>
+              <I.ModalButton
+                border="1px solid #e6e6eb"
+                color="#7b7c87"
+                backgroundColor="#fff"
+                onClick={handleCancelExit}
+              >
+                취소
+              </I.ModalButton>
+              <I.ModalButton
+                color="#fff"
+                backgroundColor="#3a3c42"
+                onClick={handleConfirmExit}
+              >
+                확인
+              </I.ModalButton>
+            </I.ModalButtonWrapper>
+          </I.ConfirmModal>
+        </>
       )}
     </div>
   );

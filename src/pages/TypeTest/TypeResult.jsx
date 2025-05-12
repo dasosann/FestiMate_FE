@@ -212,7 +212,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
             </span>
           </R.CheckDiv>
           <R.InputDiv>
-            <R.InputBox
+            <R.InputBox style={{padding:'0 24px 0 0'}}
               type="text"
               placeholder="ex) 난 인스타를 안 해서, 카카오톡 아이디 남길게 아이디는 @festimate야!"
               maxLength={49}
