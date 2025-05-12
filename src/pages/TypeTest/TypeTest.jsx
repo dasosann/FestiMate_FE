@@ -5,11 +5,6 @@ import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
 
-// Eruda 초기화 (Vite 환경)
-import eruda from 'eruda';
-if (import.meta.env.MODE === 'development') {
-  eruda.init();
-}
 
 const TypeTest = () => {
   const navigate = useNavigate();
