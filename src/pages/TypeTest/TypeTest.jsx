@@ -55,9 +55,9 @@ const TypeTest = () => {
   const [completed, setCompleted] = useState(false);
   const [festivalType, setFestivalType] = useState(null);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
-  const location = useLocation();
-  const festivalId = location.state?.festivalId;
-  const festivalName = location.state?.festivalName;
+  const queryParams = new URLSearchParams(location.search);
+  const festivalId = queryParams.get('festivalId');
+  const festivalName = decodeURIComponent(queryParams.get('festivalName') || '페스티벌');
 
   // popstate 이벤트로 하드웨어 뒤로가기 제어
   useEffect(() => {
