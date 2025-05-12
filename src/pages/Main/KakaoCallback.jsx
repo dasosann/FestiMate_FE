@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, replace } from 'react-router-dom';
 import axios from 'axios';
 import instance from '../../../axiosConfig';
 import LoadingView from '../../components/LoadingView';
@@ -55,7 +55,7 @@ const KakaoCallback = () => {
                                     console.log("가져온 닉네임" , nicknameResponse.data.data)
                                     const nickname = nicknameResponse.data.data?.nickname;
                                     console.log("저장한 닉네임", nickname)
-                                    navigate(nickname ? '/mainpage' : '/info');
+                                    navigate(nickname ? '/mainpage' : '/info',{replace: true});
                                 })
                                 .catch((error) => {
                                     console.error('[Nickname API Error] GET /v1/users/me/nickname:', {
@@ -64,7 +64,7 @@ const KakaoCallback = () => {
                                         message: error.message,
                                         code:error.code,
                                     });
-                                    navigate('/info');
+                                    navigate('/info',{replace:true});
                                 });
                         })
                         .catch((error) => {

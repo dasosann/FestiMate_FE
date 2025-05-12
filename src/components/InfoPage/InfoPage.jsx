@@ -73,7 +73,7 @@ const InfoPage = () => {
                 }
 
                 alert("정보가 성공적으로 제출되었습니다!");
-                navigate('/mainpage');
+                navigate('/mainpage',{replace:true});
             }
         } catch (error) {
             console.error("데이터 전송 실패:", error.response?.data || error.message);

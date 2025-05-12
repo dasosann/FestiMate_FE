@@ -26,7 +26,7 @@ R.HeaderDiv = styled.div`
     font-size: 15px;
     font-weight: 600;
     color: #000;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     padding: 0 16px;
     margin-top: 12px;
 `
