@@ -128,7 +128,7 @@ const TypeTest = () => {
       {isExitModalOpen && (
           <>
               <I.ModalOverlay onClick={() => setIsExitModalOpen(false)} />
-              <I.ConfirmModal style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+              <I.ConfirmModal>
                   <I.ModalTitle>메인페이지로 돌아가시겠습니까?</I.ModalTitle>
                   <I.ModalButtonWrapper>
                       <I.ModalButton border="1px solid #e6e6eb" color="#7b7c87" backgroundColor="#fff" onClick={handleCancelExit}>취소</I.ModalButton>
