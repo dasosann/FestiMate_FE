@@ -4,11 +4,6 @@ import T from '../../styles/pages/TypeTest/TypeTestStyle';
 import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
-import eruda from 'eruda';
-
-if (process.env.NODE_ENV === 'development') {
-  eruda.init();
-}
 
 const TypeTest = () => {
   const navigate = useNavigate();
@@ -37,14 +32,12 @@ const TypeTest = () => {
 
   // 모바일/브라우저 뒤로가기 가로채기
   useEffect(() => {
-    // 현재 URL 히스토리에 한 번 더 쌓기
     window.history.pushState(null, '', window.location.href);
 
     const onPopState = (e) => {
       if (allowExit.current) return;
       e.preventDefault();
       setIsExitModalOpen(true);
-      // 히스토리 복원
       window.history.pushState(null, '', window.location.href);
     };
 
@@ -64,60 +57,61 @@ const TypeTest = () => {
     setIsExitModalOpen(false);
   };
 
-  if (!festivalId || isNaN(festivalId) || !festivalName) return null;
-
-  if (completed) {
-    return (
-      <TypeResult
-        festivalType={festivalType}
-        festivalId={festivalId}
-        setIsExitModalOpen={setIsExitModalOpen}
-      />
-    );
-  }
-
-  if (started) {
-    return (
-      <TypeQuestionSelect
-        setStarted={setStarted}
-        setCompleted={setCompleted}
-        setFestivalType={setFestivalType}
-        festivalId={festivalId}
-        setIsExitModalOpen={setIsExitModalOpen}
-      />
-    );
+  // 파라미터 오류 시
+  if (!festivalId || isNaN(festivalId) || !festivalName) {
+    return null;
   }
 
   return (
-    <div style={{ position: 'relative' }}>
-      <T.HeaderDiv>
-        <T.HeaderArrow
-          src="/assets/Main/back-arrow.svg"
-          alt="뒤로"
-          onClick={() => setIsExitModalOpen(true)}
+    <>
+      {/* 화면 분기 */}
+      {completed ? (
+        <TypeResult
+          festivalType={festivalType}
+          festivalId={festivalId}
+          setIsExitModalOpen={setIsExitModalOpen}
         />
-        <T.HeaderText>{festivalName}</T.HeaderText>
-      </T.HeaderDiv>
-      <T.MainBody>
-        <T.MainDiv>
-          페스티메이트 매칭을 위해<br />먼저 페스티벌 유형을 확인할게요!
-        </T.MainDiv>
-        <T.SubDiv>
-          나의 유형과 찰떡궁합의 페스티메이트를 찾아드려요!
-        </T.SubDiv>
-        <T.MainImg
-          src="/assets/TypeTest/MainImg.svg"
-          alt="메인이미지"
+      ) : started ? (
+        <TypeQuestionSelect
+          setStarted={setStarted}
+          setCompleted={setCompleted}
+          setFestivalType={setFestivalType}
+          festivalId={festivalId}
+          setIsExitModalOpen={setIsExitModalOpen}
         />
-      </T.MainBody>
-      <T.StartButton onClick={() => setStarted(true)}>
-        시작하기
-      </T.StartButton>
-      <T.BalloonImg
-        src="/assets/TypeTest/balloon.svg"
-        alt="한 번 완성된 페스티벌 유형은 변경이 어려워요"
-      />
+      ) : (
+        <div style={{ position: 'relative' }}>
+          <T.HeaderDiv>
+            <T.HeaderArrow
+              src="/assets/Main/back-arrow.svg"
+              alt="뒤로"
+              onClick={() => setIsExitModalOpen(true)}
+            />
+            <T.HeaderText>{festivalName}</T.HeaderText>
+          </T.HeaderDiv>
+          <T.MainBody>
+            <T.MainDiv>
+              페스티메이트 매칭을 위해<br />먼저 페스티벌 유형을 확인할게요!
+            </T.MainDiv>
+            <T.SubDiv>
+              나의 유형과 찰떡궁합의 페스티메이트를 찾아드려요!
+            </T.SubDiv>
+            <T.MainImg
+              src="/assets/TypeTest/MainImg.svg"
+              alt="메인이미지"
+            />
+          </T.MainBody>
+          <T.StartButton onClick={() => setStarted(true)}>
+            시작하기
+          </T.StartButton>
+          <T.BalloonImg
+            src="/assets/TypeTest/balloon.svg"
+            alt="한 번 완성된 페스티벌 유형은 변경이 어려워요"
+          />
+        </div>
+      )}
 
+      {/* 모달: 항상 렌더링 */}
       {isExitModalOpen && (
         <>
           <I.ModalOverlay onClick={handleCancelExit} />
@@ -143,7 +137,7 @@ const TypeTest = () => {
           </I.ConfirmModal>
         </>
       )}
-    </div>
+    </>
   );
 };
 
