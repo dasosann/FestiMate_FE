@@ -4,11 +4,7 @@ import T from '../../styles/pages/TypeTest/TypeTestStyle';
 import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
-import eruda from 'eruda';
 
-if (process.env.NODE_ENV === 'development') {
-  eruda.init();
-}
 
 const TypeTest = () => {
   const navigate = useNavigate();
