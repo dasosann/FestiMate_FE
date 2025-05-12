@@ -5,10 +5,15 @@ import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
 
+// Eruda 초기화 (Vite 환경)
+import eruda from 'eruda';
+if (import.meta.env.MODE === 'development') {
+  eruda.init();
+}
+
 const TypeTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [festivalType, setFestivalType] = useState(null);
@@ -25,6 +30,7 @@ const TypeTest = () => {
   // 파라미터 검증
   useEffect(() => {
     if (!festivalId || isNaN(festivalId) || !festivalName) {
+      console.log('Invalid festivalId or festivalName, redirecting to /mainpage');
       alert('잘못된 접근입니다.');
       navigate('/mainpage', { replace: true });
     }
@@ -32,10 +38,9 @@ const TypeTest = () => {
 
   // 모바일/브라우저 뒤로가기 가로채기
   useEffect(() => {
-    window.history.pushState(null, '', window.location.href);
-
     const onPopState = (e) => {
       if (allowExit.current) return;
+      console.log('popstate triggered');
       e.preventDefault();
       setIsExitModalOpen(true);
       window.history.pushState(null, '', window.location.href);
@@ -43,10 +48,11 @@ const TypeTest = () => {
 
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, []);
+  }, [location.pathname, location.search]);
 
   // 모달 확인
   const handleConfirmExit = () => {
+    console.log('Confirm exit to /mainpage');
     allowExit.current = true;
     setIsExitModalOpen(false);
     navigate('/mainpage', { replace: true });
@@ -54,7 +60,9 @@ const TypeTest = () => {
 
   // 모달 취소
   const handleCancelExit = () => {
+    console.log('Cancel exit, stay on /festivaltype');
     setIsExitModalOpen(false);
+    window.history.pushState(null, '', window.location.href);
   };
 
   // 파라미터 오류 시
@@ -85,7 +93,10 @@ const TypeTest = () => {
             <T.HeaderArrow
               src="/assets/Main/back-arrow.svg"
               alt="뒤로"
-              onClick={() => setIsExitModalOpen(true)}
+              onClick={() => {
+                console.log('Header back clicked');
+                setIsExitModalOpen(true);
+              }}
             />
             <T.HeaderText>{festivalName}</T.HeaderText>
           </T.HeaderDiv>
@@ -114,8 +125,8 @@ const TypeTest = () => {
       {/* 모달: 항상 렌더링 */}
       {isExitModalOpen && (
         <>
-          <I.ModalOverlay onClick={handleCancelExit} />
-          <I.ConfirmModal>
+          <I.ModalOverlay style={{ zIndex: 1000, position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.5)' }} onClick={handleCancelExit} />
+          <I.ConfirmModal style={{ zIndex: 1001, position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: '#fff', padding: '20px', borderRadius: '8px' }}>
             <I.ModalTitle>메인페이지로 돌아가시겠습니까?</I.ModalTitle>
             <I.ModalButtonWrapper>
               <I.ModalButton
