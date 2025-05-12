@@ -90,7 +90,7 @@ const InfoMenu = ({festivalId}) => {
     }, [festivalId]);
 
     const copyAccountNumber = () => {
-        const textToCopy = accountBank + " " + accountNumber;
+        const textToCopy = "카카오뱅크 3333-18-89015";
         navigator.clipboard.writeText(textToCopy)
             .then(() => {
                 setToastMessage("계좌번호가 복사되었습니다.");
