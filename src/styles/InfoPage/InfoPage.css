@@ -21,6 +21,8 @@
     align-items: center;
     text-align: center;
     padding: 15px 15px;
+    overflow-y: auto;
+    margin-bottom: 70px;
 }
 
 .point-color {

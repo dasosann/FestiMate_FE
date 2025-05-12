@@ -150,8 +150,8 @@ const ThirdSection = ({ setCurrentPage, submitData, isLoading, setIsThirdSection
                                 곰상
                             </button>
                             <button
-                                className={`face-box ${localAnimal === 'bunny' ? 'selected' : ''}`}
-                                onClick={() => setLocalAnimal('bunny')}
+                                className={`face-box ${localAnimal === 'rabbit' ? 'selected' : ''}`}
+                                onClick={() => setLocalAnimal('rabbit')}
                             >
                                 <img src={bunny} alt="토끼상" />
                                 토끼상
