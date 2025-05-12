@@ -5,11 +5,31 @@ import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
 
-// Eruda 초기화 (개발 환경에서만)
+// Eruda 초기화
 import eruda from 'eruda';
 if (process.env.NODE_ENV === 'development') {
   eruda.init();
 }
+
+// useBlocker 커스텀 훅 (v6)
+const useBlocker = (when) => {
+  const navigate = useNavigate();
+  const [isBlocked, setIsBlocked] = useState(when);
+
+  useEffect(() => {
+    if (!when) return;
+
+    const unblock = window.history.block((tx) => {
+      console.log('Blocker triggered: attempting to leave /festivaltype');
+      setIsBlocked(true);
+      return false;
+    });
+
+    return () => unblock();
+  }, [when]);
+
+  return [isBlocked, () => setIsBlocked(false)];
+};
 
 const TypeTest = () => {
   const navigate = useNavigate();
@@ -21,85 +41,20 @@ const TypeTest = () => {
 
   // 쿼리 파라미터 파싱
   const queryParams = new URLSearchParams(location.search);
-  const festivalId = queryParams.get('festivalId');
+  const festivalId = parseInt(queryParams.get('festivalId'), 10);
   const festivalName = decodeURIComponent(queryParams.get('festivalName') || '');
 
   // 쿼리 파라미터 검증 및 리다이렉트
   useEffect(() => {
-    if (!festivalId || !festivalName) {
-      console.log('Missing festivalId or festivalName, redirecting to /mainpage');
+    if (!festivalId || isNaN(festivalId) || !festivalName) {
+      console.log('Invalid festivalId or festivalName, redirecting to /mainpage');
       alert('잘못된 접근입니다.');
       navigate('/mainpage', { replace: true });
     }
   }, [festivalId, festivalName, navigate]);
 
-  // 히스토리 스택 유지
-  useEffect(() => {
-    // 초기 상태 설정
-    window.history.replaceState(
-      { page: 'festivaltype', started, completed },
-      '',
-      location.pathname + location.search
-    );
-
-    // 상태 변경 시 히스토리 푸시
-    window.history.pushState(
-      { page: 'festivaltype', started, completed },
-      '',
-      location.pathname + location.search
-    );
-
-    // 주기적 푸시로 스택 유지
-    const pushStateInterval = setInterval(() => {
-      window.history.pushState(
-        { page: 'festivaltype', started, completed },
-        '',
-        location.pathname + location.search
-      );
-      console.log('Pushed history state:', window.history.state);
-    }, 1000);
-
-    return () => clearInterval(pushStateInterval);
-  }, [started, completed, location.pathname, location.search]);
-
-  // popstate 이벤트로 하드웨어 뒤로가기 제어
-  useEffect(() => {
-    const handlePopState = (e) => {
-      console.log('popstate triggered:', e.state);
-      e.preventDefault();
-      setIsExitModalOpen(true);
-      window.history.pushState(
-        { page: 'festivaltype', started, completed },
-        '',
-        location.pathname + location.search
-      );
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [started, completed, location.pathname, location.search]);
-
-  // beforeunload 이벤트로 추가 방어
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      console.log('beforeunload triggered');
-      e.preventDefault();
-      setIsExitModalOpen(true);
-      e.returnValue = '';
-      window.history.pushState(
-        { page: 'festivaltype', started, completed },
-        '',
-        location.pathname + location.search
-      );
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [started, completed, location.pathname, location.search]);
+  // 라우트 이탈 차단
+  useBlocker(true);
 
   // 모달 확인 버튼 핸들러
   const handleConfirmExit = () => {
@@ -112,20 +67,20 @@ const TypeTest = () => {
   const handleCancelExit = () => {
     console.log('Cancel exit, stay on /festivaltype');
     setIsExitModalOpen(false);
-    window.history.pushState(
-      { page: 'festivaltype', started, completed },
-      '',
-      location.pathname + location.search
-    );
   };
 
+  // 모달 렌더링 로그
+  useEffect(() => {
+    console.log('Modal open state:', isExitModalOpen);
+  }, [isExitModalOpen]);
+
   // 쿼리 파라미터 검증 후 렌더링
-  if (!festivalId || !festivalName) {
+  if (!festivalId || isNaN(festivalId) || !festivalName) {
     return null;
   }
 
   if (completed) {
-    return <TypeResult festivalType={festivalType} festivalId={festivalId} />;
+    return <TypeResult festivalType={festivalType} festivalId={festivalId} setIsExitModalOpen={setIsExitModalOpen} />;
   }
 
   if (started) {
@@ -135,6 +90,7 @@ const TypeTest = () => {
         setCompleted={setCompleted}
         setFestivalType={setFestivalType}
         festivalId={festivalId}
+        setIsExitModalOpen={setIsExitModalOpen}
       />
     );
   }
