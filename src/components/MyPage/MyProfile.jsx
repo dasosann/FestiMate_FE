@@ -12,6 +12,12 @@ import instance from '../../../axiosConfig';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
 
+import newProfile from '/assets/Profile/new-type-profile.svg';
+import healProfile from '/assets/Profile/healing-type-profile.svg';
+import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
+import planProfile from '/assets/Profile/plan-type-profile.svg';
+import shotProfile from '/assets/Profile/shot-type-profile.svg';
+
 import newCard from '/assets/Card/new-card.svg';
 import healCard from '/assets/Card/healing-card.svg';
 import inssaCard from '/assets/Card/inssa-card.svg';
@@ -44,6 +50,13 @@ const MyProfile = ({festivalId}) => {
         'INFLUENCER': inssaCard,
         'PLANNER': planCard,
         'PHOTO': shotCard
+    };
+    const ProfileMap = {
+        'NEWBIE': newProfile,
+        'HEALING': healProfile,
+        'INFLUENCER': inssaProfile,
+        'PLANNER': planProfile,
+        'PHOTO': shotProfile
     };
 
     const handleInstagramShare = async () => {

@@ -169,7 +169,7 @@
 .divide-line {
     flex-shrink: 0;
     height: 10px;
-    width: 100vw;
+    width: 100%;
     background-color: var(--gray01);
 }
 
