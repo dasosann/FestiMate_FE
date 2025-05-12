@@ -20,7 +20,7 @@
 .divide-line {
     flex-shrink: 0;
     height: 10px;
-    width: 100vw;
+    width: 100%;
     background-color: var(--gray01);
 }
 
@@ -73,6 +73,7 @@
     color: var(--main-coral);
     font-weight: var(--semibold);
     font-size: 13px;
+    line-height: 140%;
 }
 
 .profile-message-box {
@@ -112,7 +113,7 @@
 .profile-card-container {
     display: flex;
     justify-content: center;
-    padding: 40px;
+    padding: 26px 40px 0px 40px;
     width: 100%;
     margin-bottom: 26px;
 }
@@ -128,24 +129,30 @@
     flex-direction: column;
     gap: 12px;
     margin-bottom: 15%;
+    align-content: center;
 }
 
 .insta-share {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 3px;
+
 }
 
 .insta-btn {
     display: flex;
-    align-items: center;
+    gap: 3px;
+    align-content: center;
     padding: 10px 20px;
     border-radius: 20px;
-    background-color: #ffffff;
+    background-color: white;
     border: 1px solid var(--gray03);
     color: var(--gray07);
+
+    font-size: 13px;
+    font-weight: var(--semibold);
+    line-height: 140%;
 
 }
 

@@ -52,6 +52,8 @@
     border: 0px solid transparent;
     border-radius: 3px;
     font-size: 11px;
+    line-height: 140%;
+    font-style: normal;
     font-weight: var(--semibold);
     margin-left: auto;
 }
@@ -106,6 +108,7 @@
     z-index: 100;
     text-align: center;
     animation: fadeIn 0.3s ease;
+    line-height: 140%;
 }
 
 .warning-tooltip::after {
@@ -169,7 +172,7 @@
 .divide-line {
     flex-shrink: 0;
     height: 10px;
-    width: 100vw;
+    width: 100%;
     background-color: var(--gray01);
 }
 
@@ -189,6 +192,10 @@
     align-items: center;
     cursor: pointer;
     margin-bottom: 10px;
+    line-height: 140%;
+    font-weight: var(--semibold);
+    font-size: 15px;
+    color: var(--gray07);
 }
 
 .info-arrow {

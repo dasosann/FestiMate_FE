@@ -19,7 +19,6 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         if (nickname) {
             validateNickname(nickname);
             setNicknameLen(nickname.length);
-            setCanPass(true); // 중복확인 완료 상태로 설정
         }
     }, []);
 

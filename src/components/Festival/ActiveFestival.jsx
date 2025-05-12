@@ -10,6 +10,7 @@ import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
 import rightArrow from '/assets/Festival/arrow-right.svg';
+import plus from '/assets/Festival/plus.svg';
 import CustomModal from './CustomModal';
 import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
@@ -54,7 +55,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         'DOG': "강아지상",
         'CAT': "고양이상",
         'BEAR': "곰상",
-        'BUNNY': "토끼상",
+        'RABBIT': "토끼상",
         'FOX': "여우상",
         'DINOSAUR': "공룡상"
     };
@@ -146,7 +147,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
     const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
-        <div className="ticket-card">
+        <div className="ticket-card" onClick={() => navigate(`/festival/${festivalId}/${matchingId}`)}>
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
@@ -171,7 +172,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         <div className="ticket-name">
                             {nickname} <img src={gender === 'WOMAN' ? female : male} alt="성별" />
                         </div>
-                        <img src={profileArrow} alt="화살표" className="ticket-arrow" onClick={() => navigate(`/festival/${festivalId}/${matchingId}`)}/>
+                        <img src={profileArrow} alt="화살표" className="ticket-arrow" />
                         </>
                     )}
                 </div>
@@ -364,7 +365,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         )}               
                     </div>
                     <button className="matching-plus-button" onClick={() => handleMatching()}>
-                        + 매칭 추가하기
+                        <img src={plus} /> 매칭 추가하기
                     </button>
                 </div>
             </div>

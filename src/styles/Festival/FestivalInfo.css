@@ -214,10 +214,11 @@
 }
 
 .matching-plus-button {
-    margin-left:auto;
-
+    position: fixed;
+    bottom: 55px;
+    right: 16px;
+    z-index: 1000;
     padding: 15px 16px;
-    margin: 30px 20px 30px auto;
     background-color: var(--main-coral);
     color: white;
     font-size: 15px;
@@ -225,6 +226,10 @@
     border: none;   
     border-radius: 50px;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 5px;
 }
 
 .festival-arrow {

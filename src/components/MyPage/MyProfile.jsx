@@ -12,6 +12,12 @@ import instance from '../../../axiosConfig';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
 
+import newProfile from '/assets/Profile/new-type-profile.svg';
+import healProfile from '/assets/Profile/healing-type-profile.svg';
+import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
+import planProfile from '/assets/Profile/plan-type-profile.svg';
+import shotProfile from '/assets/Profile/shot-type-profile.svg';
+
 import newCard from '/assets/Card/new-card.svg';
 import healCard from '/assets/Card/healing-card.svg';
 import inssaCard from '/assets/Card/inssa-card.svg';
@@ -34,7 +40,7 @@ const MyProfile = ({festivalId}) => {
         'DOG': "강아지상",
         'CAT': "고양이상",
         'BEAR': "곰상",
-        'BUNNY': "토끼상",
+        'RABBIT': "토끼상",
         'FOX': "여우상",
         'DINOSAUR': "공룡상"
     };
@@ -44,6 +50,13 @@ const MyProfile = ({festivalId}) => {
         'INFLUENCER': inssaCard,
         'PLANNER': planCard,
         'PHOTO': shotCard
+    };
+    const ProfileMap = {
+        'NEWBIE': newProfile,
+        'HEALING': healProfile,
+        'INFLUENCER': inssaProfile,
+        'PLANNER': planProfile,
+        'PHOTO': shotProfile
     };
 
     const handleInstagramShare = async () => {
@@ -103,43 +116,31 @@ const MyProfile = ({festivalId}) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = CardMap[type];
-            
+
             img.onload = async () => {
-                // 패딩 없이 이미지 원본 크기 그대로 사용
+                // 고해상도 저장을 위한 배율 (예: 3배)
+                const scale = 3;
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
                 const ctx = canvas.getContext('2d');
-                
-                // 배경 없이 이미지만 그리기
-                ctx.drawImage(img, 0, 0);
-                
-                // 이미지를 데이터 URL로 변환 (PNG는 투명도 지원)
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
                 const dataUrl = canvas.toDataURL('image/png');
-                
-                // 다운로드 링크 생성
                 const link = document.createElement('a');
                 link.href = dataUrl;
                 link.download = '페스티메이트_카드.png';
-                
-                // 링크를 클릭하여 다운로드 시작
                 document.body.appendChild(link);
                 link.click();
-                
-                // 링크 요소 제거
                 setTimeout(() => {
                     document.body.removeChild(link);
-                    URL.revokeObjectURL(dataUrl);
-                    console.log('카드 이미지 다운로드 완료');
                 }, 100);
             };
-            
+
             img.onerror = (error) => {
-                console.error('이미지 로드 실패:', error);
                 alert('카드 이미지를 불러오는 데 실패했습니다.');
             };
         } catch (error) {
-            console.error('카드 이미지 다운로드 중 오류 발생:', error);
             alert('카드 이미지 다운로드 중 오류가 발생했습니다.');
         }
     };
@@ -267,4 +268,3 @@ const MyProfile = ({festivalId}) => {
 };
 
 export default MyProfile;
-``
