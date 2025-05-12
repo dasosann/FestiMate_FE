@@ -22,6 +22,7 @@ const TypeTest = () => {
   useEffect(() => {
     if (!festivalId || !festivalName) {
       console.log('Missing festivalId or festivalName, redirecting to /mainpage');
+      alert("잘못된 접근입니다.");
       navigate('/mainpage', { replace: true });
     }
   }, [festivalId, festivalName, navigate]);
