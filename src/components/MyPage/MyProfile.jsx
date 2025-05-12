@@ -116,43 +116,31 @@ const MyProfile = ({festivalId}) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = CardMap[type];
-            
+
             img.onload = async () => {
-                // 패딩 없이 이미지 원본 크기 그대로 사용
+                // 고해상도 저장을 위한 배율 (예: 3배)
+                const scale = 3;
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
                 const ctx = canvas.getContext('2d');
-                
-                // 배경 없이 이미지만 그리기
-                ctx.drawImage(img, 0, 0);
-                
-                // 이미지를 데이터 URL로 변환 (PNG는 투명도 지원)
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
                 const dataUrl = canvas.toDataURL('image/png');
-                
-                // 다운로드 링크 생성
                 const link = document.createElement('a');
                 link.href = dataUrl;
                 link.download = '페스티메이트_카드.png';
-                
-                // 링크를 클릭하여 다운로드 시작
                 document.body.appendChild(link);
                 link.click();
-                
-                // 링크 요소 제거
                 setTimeout(() => {
                     document.body.removeChild(link);
-                    URL.revokeObjectURL(dataUrl);
-                    console.log('카드 이미지 다운로드 완료');
                 }, 100);
             };
-            
+
             img.onerror = (error) => {
-                console.error('이미지 로드 실패:', error);
                 alert('카드 이미지를 불러오는 데 실패했습니다.');
             };
         } catch (error) {
-            console.error('카드 이미지 다운로드 중 오류 발생:', error);
             alert('카드 이미지 다운로드 중 오류가 발생했습니다.');
         }
     };
@@ -280,4 +268,3 @@ const MyProfile = ({festivalId}) => {
 };
 
 export default MyProfile;
-``
