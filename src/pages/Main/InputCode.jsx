@@ -62,7 +62,7 @@ const InputCode = () => {
       festivalId: festivalId.toString(),
       festivalName: encodeURIComponent(festivalName), // 특수 문자 인코딩
     }).toString();
-    navigate(`/festivaltype?${queryParams}`);
+    navigate(`/festivaltype?${queryParams}`,{replace:true});
   };
 
   return (
