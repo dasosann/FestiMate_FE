@@ -192,6 +192,10 @@
     align-items: center;
     cursor: pointer;
     margin-bottom: 10px;
+    line-height: 140%;
+    font-weight: var(--semibold);
+    font-size: 15px;
+    color: var(--gray07);
 }
 
 .info-arrow {
