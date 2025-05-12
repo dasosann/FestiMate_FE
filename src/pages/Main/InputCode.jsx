@@ -68,7 +68,7 @@ const InputCode = () => {
   return (
     <div style={{ textAlign: 'left', height: 'calc(100dvh - env(safe-area-inset-bottom))' }}>
       <I.HeaderDiv>
-        <img src="/assets/Main/back-arrow.svg" alt="뒤로" onClick={() => navigate('/mainpage')} />
+        <img src="/assets/Main/back-arrow.svg" alt="뒤로" onClick={() => navigate('/mainpage',{replace:true})} />
       </I.HeaderDiv>
       <I.BodyDiv>
         <I.TitleDiv>페스티벌 입장하기</I.TitleDiv>
