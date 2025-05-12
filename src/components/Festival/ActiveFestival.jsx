@@ -10,6 +10,7 @@ import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
 import rightArrow from '/assets/Festival/arrow-right.svg';
+import plus from '/assets/Festival/plus.svg';
 import CustomModal from './CustomModal';
 import instance from '../../../axiosConfig';
 import Navbar from './Navbar';
@@ -364,7 +365,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         )}               
                     </div>
                     <button className="matching-plus-button" onClick={() => handleMatching()}>
-                        + 매칭 추가하기
+                        <img src={plus} /> 매칭 추가하기
                     </button>
                 </div>
             </div>
