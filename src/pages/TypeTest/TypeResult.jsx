@@ -28,8 +28,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
   );
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
-  
-
   const handleNext = async () => {
     if (step === 0) {
       setStep(1);
@@ -52,7 +50,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           submitData
         );
         console.log('모든정보 입력 후 응답', response);
-        navigate(`/festival/${festivalId}`,{replace:true});
+        navigate(`/festival/${festivalId}`, { replace: true });
       } catch (error) {
         console.error('사용자 정보 전송 실패, 축제 프로필 생성 실패', error);
         alert('프로필 제출 중 오류가 발생했습니다. 다시 시도해주세요');
@@ -76,53 +74,23 @@ const TypeResult = ({ festivalType, festivalId }) => {
     }
   };
 
+  // 원본 이미지를 fetch해서 공유하도록 변경
   const handleInstagramShare = async () => {
     try {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = image;
+      const response = await fetch(image, { mode: 'cors' });
+      const blob = await response.blob();
+      const file = new File([blob], 'result.png', { type: blob.type });
 
-      img.onload = async () => {
-        const padding = 20;
-        const canvasWidth = img.width + 2 * padding;
-        const canvasHeight = img.height + 2 * padding;
-
-        const canvas = document.createElement('canvas');
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
-        const ctx = canvas.getContext('2d');
-
-        ctx.fillStyle = '#f3f3f6';
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        ctx.drawImage(img, padding, padding);
-
-        canvas.toBlob(async (blob) => {
-          if (!blob) {
-            console.error('Blob 생성 실패');
-            return;
-          }
-          const file = new File([blob], 'shared-image.png', { type: blob.type });
-
-          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                files: [file],
-                title: '내 페스티메이트 결과',
-                text: '내 매칭 타입 결과를 확인해보세요!',
-              });
-              console.log('공유 성공');
-            } catch (error) {
-              console.error('공유 실패:', error);
-            }
-          } else {
-            alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
-          }
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: '내 페스티메이트 결과',
+          text: '내 매칭 타입 결과를 확인해보세요!',
         });
-      };
-
-      img.onerror = (error) => {
-        console.error('이미지 로드 실패:', error);
-      };
+        console.log('공유 성공');
+      } else {
+        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+      }
     } catch (error) {
       console.error('이미지 공유 중 오류 발생:', error);
     }
@@ -136,8 +104,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
   };
 
   const isActive = count > 0;
-
- 
 
   // Step 0: 결과 화면
   if (step === 0) {
