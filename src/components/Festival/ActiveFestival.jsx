@@ -129,11 +129,19 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const handleConfirmModal = async () => {
         // 매칭 추가 로직 수행 및 포인트 차감
         if(isAble) {
-            setPoint((prev) => prev - 1);
-            const result = await instance.post(`/v1/festivals/${festivalId}/matchings`);
-            if (result.status !== 500) {
-                alert('매칭이 추가되었습니다.');
-                navigate('/mateLoading', { state : { name: "name" }});
+            try {
+                setPoint((prev) => prev - 1);
+                const result = await instance.post(`/v1/festivals/${festivalId}/matchings`);
+                if (result.status !== 500) {
+                    //alert('매칭이 추가되었습니다.');
+                    navigate('/mateLoading', { state : { name: "name" }});
+                    }
+            } catch (error) {
+                console.error("[handleConfirmModal API Error] POST /v1/festivals/${festivalId}/matchings:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
             }
         } else {
             navigate(`/festival/${festivalId}/mypage`);

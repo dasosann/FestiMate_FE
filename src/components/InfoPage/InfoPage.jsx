@@ -26,6 +26,8 @@ const InfoPage = () => {
 
     const [flag, setFlag] = useState(1);
 
+    const [canPass, setCanPass] = useState(false);
+
     // 데이터 전송 함수
     const submitData = async (mbtiFromThird, animalFromThird) => {
         // 유효성 검사
@@ -111,6 +113,8 @@ const InfoPage = () => {
                     flag={flag}
                     setIsSecondSectionValid={setIsSecondSectionValid}
                     isSecondSectionValid={isSecondSectionValid}
+                    canPass={canPass}
+                    setCanPass={setCanPass}
                 />
             )}
             {currentPage === 3 && (

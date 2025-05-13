@@ -5,13 +5,12 @@ import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
-    gender, setGender, year, setYear, isSecondSectionValid, setIsSecondSectionValid}) => {
+    gender, setGender, year, setYear, isSecondSectionValid, setIsSecondSectionValid, canPass, setCanPass}) => {
 
     const [nicknameError, setNicknameError] = useState('');
     const [isValidNickname, setIsValidNickname] = useState(false);
     const [nicknameLen, setNicknameLen] = useState(0);
     const [yearOption, setYearOption] = useState([]);
-    const [canPass, setCanPass] = useState(false);
     
     // 초기 세팅 - 최초 진입 시 전부 입력하고, 중복확인까지 했다고 가정
     useEffect(() => {
@@ -19,6 +18,10 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         if (nickname) {
             validateNickname(nickname);
             setNicknameLen(nickname.length);
+            // 닉네임이 있고, canPass가 true면 isSecondSectionValid도 true로 복원
+            if (canPass && year && gender) {
+                setIsSecondSectionValid(true);
+            }
         }
     }, []);
 
@@ -81,11 +84,11 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         if(nicknameLen >= 6) {
             value = value.substring(0, 6);
         }
-        
-        // 조건 4: 닉네임 중복 검증 후 닉네임이 수정되면 canPass와 isSecondSectionValid를 false로 설정
-        setCanPass(false);
-        setIsSecondSectionValid(false);
-        
+        // 닉네임이 기존 값과 다를 때만 canPass와 isSecondSectionValid를 false로 설정
+        if (value !== nickname) {
+            setCanPass(false);
+            setIsSecondSectionValid(false);
+        }
         validateNickname(value);
         setNickname(value);
         setNicknameLen(value.length);

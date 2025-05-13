@@ -10,6 +10,7 @@ body, html {
   "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
 }
 *, *::before, *::after {
   box-sizing: inherit;

@@ -43,6 +43,9 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
         if(isMyProfile) {
             navigate(`/festival/${festivalId}/mypage`);
         }
+        else if(isMainPage) {
+            navigate(`/festival/${festivalId}`);
+        }
         else {
             navigate(-1);           
         }
