@@ -132,7 +132,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             setPoint((prev) => prev - 1);
             const result = await instance.post(`/v1/festivals/${festivalId}/matchings`);
             if (result.status !== 500) {
-                alert('매칭이 추가되었습니다.');
+                //alert('매칭이 추가되었습니다.');
                 navigate('/mateLoading', { state : { name: "name" }});
             }
         } else {
