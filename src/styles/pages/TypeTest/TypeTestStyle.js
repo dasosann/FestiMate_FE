@@ -1,11 +1,17 @@
 import styled from "styled-components";
 const T = {};
 T.HeaderDiv = styled.div`
-    width: 100%;
-    height: 43px;
-    display: flex;
-    align-items: center;
-    position: relative;
+  width: 100%;
+  max-width: 430px; /* 모바일 반응형 */
+  height: 43px;
+  display: flex;
+  align-items: center;
+  position: fixed; /* 화면 상단 고정 */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* 중앙 정렬 */
+  background-color: #fff; /* 배경색 추가 */
+  z-index: 1000; /* 다른 요소 위에 표시 */
 `
 T.HeaderText = styled.span`
     color: #000;
