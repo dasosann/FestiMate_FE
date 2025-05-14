@@ -136,7 +136,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       } else {
         alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
       }
-    }wab catch (error) {
+    }catch (error) {
       console.error('이미지 공유 중 오류 발생:', error);
       alert('이미지 공유 중 오류가 발생했습니다.');
     }
