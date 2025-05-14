@@ -89,83 +89,112 @@ const TypeResult = ({ festivalType, festivalId }) => {
   };
 
   // 캔버스를 사용해 3/2 크기 PNG로 공유 (214x319px)
-  const handleInstagramShare = async () => {
-  try {
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.src = image; // SVG 사용
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-    });
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 214; // 공유용 작은 크기
-    canvas.height = 319;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgb(243, 243, 246)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    const blob = await new Promise((resolve) => {
-      canvas.toBlob(resolve, 'image/png', 1.0);
-    });
-
-    const file = new File([blob], 'result.png', { type: 'image/png' });
-    if (navigator.share && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        files: [file],
-        title: '내 페스티메이트 결과',
-        text: '내 매칭 타입 결과를 확인해보세요!',
+    const handleInstagramShare = async () => {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.src = image; // SVG 사용
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
       });
-      console.log('공유 성공');
-    } else {
-      alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+
+      const canvas = document.createElement('canvas');
+      const scale = 2; // 2x 스케일
+      canvas.width = 321 * scale; // 642px
+      canvas.height = 479 * scale; // 958px
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false; // 선명도 유지
+      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, 321, 479);
+
+      /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제
+      const canvas = document.createElement('canvas');
+      const scale = 2;
+      canvas.width = 1080 * scale; // 2160px
+      canvas.height = 1620 * scale; // 3240px
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      const aspectRatio = 321 / 479;
+      const newHeight = 1620;
+      const newWidth = newHeight * aspectRatio; // 약 724px
+      const offsetX = (1080 - newWidth) / 2; // 중앙 정렬
+      const offsetY = 0;
+      ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+      */
+
+      console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
+      console.log('공유 이미지 출력 크기:', 321, 'x', 479);
+
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/png', 1.0);
+      });
+
+      const file = new File([blob], 'result.png', { type: 'image/png' });
+      console.log('공유 파일 크기:', file.size, '바이트');
+
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: '내 페스티메이트 결과',
+          text: '내 매칭 타입 결과를 확인해보세요!',
+        });
+        console.log('공유 성공');
+      } else {
+        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+      }
+    } catch (error) {
+      console.error('이미지 공유 중 오류 발생:', error);
+      alert('이미지 공유 중 오류가 발생했습니다.');
     }
-  } catch (error) {
-    console.error('이미지 공유 중 오류 발생:', error);
-    alert('이미지 공유 중 오류가 발생했습니다.');
-  }
-};
+  };
 
-  // 다운로드 (원본 PNG Blob으로 다운로드)
+  // 다운로드 (SVG 기반 고해상도 PNG)
   const handleDownloadClick = async () => {
-  try {
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.src = image; // SVG 사용
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-    });
+    try {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.src = image; // SVG 사용
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
 
-    const scale = 2;
-    const originalWidth = 321;
-    const originalHeight = 479;
-    const canvas = document.createElement('canvas');
-    canvas.width = originalWidth * scale; // 642
-    canvas.height = originalHeight * scale; // 958
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgb(243, 243, 246)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const scale = 2;
+      const originalWidth = 321;
+      const originalHeight = 479;
+      const canvas = document.createElement('canvas');
+      canvas.width = originalWidth * scale; // 642
+      canvas.height = originalHeight * scale; // 958
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false; // 선명도 유지
+      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, originalWidth, originalHeight);
 
-    const dataUrl = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = 'mate-card.png';
-    link.click();
+      console.log('다운로드 캔버스 크기:', canvas.width, 'x', canvas.height);
 
-    setShowDownloadModal(true);
-    setTimeout(() => {
-      setShowDownloadModal(false);
-    }, 1000);
-  } catch (error) {
-    console.error('다운로드 오류:', error);
-    alert('다운로드 중 오류가 발생했습니다.');
-  }
-};
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'mate-card.png';
+      link.click();
 
+      setShowDownloadModal(true);
+      setTimeout(() => {
+        setShowDownloadModal(false);
+      }, 1300); // 애니메이션(0.3초) + 표시(1초)
+    } catch (error) {
+      console.error('다운로드 오류:', error);
+      alert('다운로드 중 오류가 발생했습니다.');
+    }
+  };
   const isActive = count > 0;
 
   // Step 0: 결과 화면
