@@ -34,7 +34,7 @@ R.HeaderDiv = styled.div`
     margin-bottom: 30px;
     padding: 0 16px;
     margin-top: 12px;
-
+    background-color:#f3f3f6 ;
 `
 R.Left = styled.div`
     flex: 1;
