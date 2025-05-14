@@ -88,98 +88,64 @@ const TypeResult = ({ festivalType, festivalId }) => {
     }
   };
 
-  // 캔버스를 사용해 고해상도 PNG로 공유
+  // 캔버스를 사용해 고해상도 PNG로 공유 (이미지 크기에 맞춘 캔버스)
   const handleInstagramShare = async () => {
-  try {
-    // PNG 이미지 로드
-    const img = new Image();
-    img.crossOrigin = 'Anonymous'; // CORS 이슈 방지
-    img.src = shareImage;
+    try {
+      // PNG 이미지 로드
+      const img = new Image();
+      img.crossOrigin = 'Anonymous'; // CORS 이슈 방지
+      img.src = shareImage;
 
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-    });
-
-    // 캔버스 생성 (고정 크기 1080x1080, 2x 스케일)
-    const canvas = document.createElement('canvas');
-    const scale = 2; // 2x 해상도
-    canvas.width = 1080 * scale;
-    canvas.height = 1080 * scale;
-    const ctx = canvas.getContext('2d');
-
-    // 배경색 설정 (RGB(243, 243, 246))
-    ctx.fillStyle = 'rgb(243, 243, 246)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 이미지 중앙 배치 (321x479px)
-    ctx.scale(scale, scale);
-    const offsetX = (1080 - 321) / 2; // 중앙 X 좌표
-    const offsetY = (1080 - 479) / 2; // 중앙 Y 좌표
-    ctx.drawImage(img, offsetX, offsetY, 321, 479);
-
-    // 캔버스를 PNG Blob으로 변환
-    const blob = await new Promise((resolve) => {
-      canvas.toBlob(resolve, 'image/png', 1.0); // 최대 품질
-    });
-
-    const file = new File([blob], 'result.png', { type: 'image/png' });
-
-    if (navigator.share && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        files: [file],
-        title: '내 페스티메이트 결과',
-        text: '내 매칭 타입 결과를 확인해보세요!',
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
       });
-      console.log('공유 성공');
-    } else {
-      alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+
+      // 캔버스 생성 (이미지 크기 321x479, 2x 스케일)
+      const canvas = document.createElement('canvas');
+      const scale = 2; // 2x 해상도
+      canvas.width = 321 * scale;
+      canvas.height = 479 * scale;
+      const ctx = canvas.getContext('2d');
+
+      // 배경색 설정 (RGB(243, 243, 246))
+      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 이미지 그리기 (캔버스 크기에 맞게)
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, 321, 479);
+
+      // 캔버스를 PNG Blob으로 변환
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/png', 1.0); // 최대 품질
+      });
+
+      const file = new File([blob], 'result.png', { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: '내 페스티메이트 결과',
+          text: '내 매칭 타입 결과를 확인해보세요!',
+        });
+        console.log('공유 성공');
+      } else {
+        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+      }
+    } catch (error) {
+      console.error('이미지 공유 중 오류 발생:', error);
+      alert('이미지 공유 중 오류가 발생했습니다.');
     }
-  } catch (error) {
-    console.error('이미지 공유 중 오류 발생:', error);
-    alert('이미지 공유 중 오류가 발생했습니다.');
-  }
-};
+  };
 
-// 다운로드 시 동일한 배경색 적용
-const handleDownloadClick = async () => {
-  try {
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.src = shareImage;
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-    });
-
-    const canvas = document.createElement('canvas');
-    const scale = 2;
-    canvas.width = 1080 * scale;
-    canvas.height = 1080 * scale;
-    const ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = 'rgb(243, 243, 246)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.scale(scale, scale);
-    const offsetX = (1080 - 321) / 2;
-    const offsetY = (1080 - 479) / 2;
-    ctx.drawImage(img, offsetX, offsetY, 321, 479);
-
-    const dataUrl = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = 'mate-card.png';
-    link.click();
-
+  // 다운로드 (원본 PNG 직접 다운로드)
+  const handleDownloadClick = () => {
     setShowDownloadModal(true);
     setTimeout(() => {
       setShowDownloadModal(false);
     }, 1000);
-  } catch (error) {
-    console.error('다운로드 오류:', error);
-    alert('이미지 다운로드 중 오류가 발생했습니다.');
-  }
-};
+  };
 
   const isActive = count > 0;
 
