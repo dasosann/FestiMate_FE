@@ -117,7 +117,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       canvas.height = 1620 * scale; // 3240px
       const ctx = canvas.getContext('2d');
       ctx.imageSmoothingEnabled = false;
-      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillStyle = '#fff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.scale(scale, scale);
       const aspectRatio = 321 / 479;
