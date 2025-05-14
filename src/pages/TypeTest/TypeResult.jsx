@@ -223,9 +223,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
               zIndex: 1000,
               width: '343px',
               opacity: showDownloadModal ? 1 : 0,
-              transform: showDownloadModal
-                ? 'translateX(-50%) translateY(0)'
-                : 'translateX(-50%) translateY(10px)',
               transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
             }}
