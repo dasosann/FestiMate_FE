@@ -6,6 +6,15 @@ import instance from '../../../axiosConfig';
 import LoadingView from '../../components/LoadingView';
 
 const festivalTypeImages = {
+  INFLUENCER: '/assets/Card/inside-type-card.svg',
+  NEWBIE: '/assets/Card/newbie-type-card.svg',
+  PHOTO: '/assets/Card/photoshot-type-card.svg',
+  PLANNER: '/assets/Card/plan-card.svg',
+  HEALING: '/assets/Card/healing-type-card.svg',
+  DEFAULT: '/assets/Card/newbie-type-card.svg',
+};
+
+const festivalTypeImagesPng = {
   INFLUENCER: '/assets/Card/inside-type-card.png',
   NEWBIE: '/assets/Card/newbie-type-card.png',
   PHOTO: '/assets/Card/photoshot-type-card.png',
@@ -25,6 +34,11 @@ const TypeResult = ({ festivalType, festivalId }) => {
     festivalType && festivalTypeImages[festivalType]
       ? festivalTypeImages[festivalType]
       : festivalTypeImages.DEFAULT
+  );
+  const [shareImage, setShareImage] = useState(
+    festivalType && festivalTypeImagesPng[festivalType]
+      ? festivalTypeImagesPng[festivalType]
+      : festivalTypeImagesPng.DEFAULT
   );
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
@@ -77,10 +91,10 @@ const TypeResult = ({ festivalType, festivalId }) => {
   // 캔버스를 사용해 고해상도 PNG로 공유
   const handleInstagramShare = async () => {
     try {
-      // 이미지 로드
+      // PNG 이미지 로드
       const img = new Image();
       img.crossOrigin = 'Anonymous'; // CORS 이슈 방지
-      img.src = image;
+      img.src = shareImage;
 
       await new Promise((resolve, reject) => {
         img.onload = resolve;
@@ -137,7 +151,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           <R.Center>유형 테스트 결과</R.Center>
           <R.Right>
             <a
-              href={image} // 동적 이미지 다운로드
+              href={shareImage} // PNG 이미지 다운로드
               download="mate-card.png"
               onClick={handleDownloadClick}
             >
@@ -145,8 +159,8 @@ const TypeResult = ({ festivalType, festivalId }) => {
             </a>
           </R.Right>
         </R.HeaderDiv>
-        <R.BodyWrapper affirmingWrapper style={{ paddingBottom: '71px' }}>
-          <R.CardImg src={image} alt="매칭타입" />
+        <R.BodyWrapper style={{ paddingBottom: '71px' }}>
+          <R.CardImg src={image} alt="매칭타입" /> {/* SVG 이미지 표시 */}
           <R.InstagramShare onClick={handleInstagramShare}>
             <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
             <div>인스타로 공유하기</div>
