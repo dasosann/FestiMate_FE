@@ -90,93 +90,81 @@ const TypeResult = ({ festivalType, festivalId }) => {
 
   // 캔버스를 사용해 3/2 크기 PNG로 공유 (214x319px)
   const handleInstagramShare = async () => {
-    try {
-      // PNG 이미지 로드
-      const img = new Image();
-      img.crossOrigin = 'Anonymous'; // CORS 이슈 방지
-      img.src = shareImage;
+  try {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = image; // SVG 사용
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+    });
 
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
+    const canvas = document.createElement('canvas');
+    canvas.width = 214; // 공유용 작은 크기
+    canvas.height = 319;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgb(243, 243, 246)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const blob = await new Promise((resolve) => {
+      canvas.toBlob(resolve, 'image/png', 1.0);
+    });
+
+    const file = new File([blob], 'result.png', { type: 'image/png' });
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: '내 페스티메이트 결과',
+        text: '내 매칭 타입 결과를 확인해보세요!',
       });
-
-      // 캔버스 생성 (3/2 크기 214x319, 2x 스케일로 선명도 유지)
-      const canvas = document.createElement('canvas');
-      const scale = 2; // 2x 스케일
-      canvas.width = 214 * scale; // 428px
-      canvas.height = 319 * scale; // 638px
-      const ctx = canvas.getContext('2d');
-
-      // 이미지 스무딩 비활성화 (선명도 유지)
-      ctx.imageSmoothingEnabled = false;
-
-      // 배경색 설정 (RGB(243, 243, 246))
-      ctx.fillStyle = 'rgb(243, 243, 246)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // 이미지 그리기 (3/2 크기)
-      ctx.scale(scale, scale);
-      ctx.drawImage(img, 0, 0, 214, 319);
-
-      // 디버깅 로그
-      console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
-      console.log('공유 이미지 출력 크기:', 214, 'x', 319);
-
-      // 캔버스를 PNG Blob으로 변환
-      const blob = await new Promise((resolve) => {
-        canvas.toBlob(resolve, 'image/png', 1.0); // 최대 품질
-      });
-
-      const file = new File([blob], 'result.png', { type: 'image/png' });
-      console.log('공유 파일 크기:', file.size, '바이트');
-
-      if (navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: '내 페스티메이트 결과',
-          text: '내 매칭 타입 결과를 확인해보세요!',
-        });
-        console.log('공유 성공');
-      } else {
-        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
-      }
-    } catch (error) {
-      console.error('이미지 공유 중 오류 발생:', error);
-      alert('이미지 공유 중 오류가 발생했습니다.');
+      console.log('공유 성공');
+    } else {
+      alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
     }
-  };
+  } catch (error) {
+    console.error('이미지 공유 중 오류 발생:', error);
+    alert('이미지 공유 중 오류가 발생했습니다.');
+  }
+};
 
   // 다운로드 (원본 PNG Blob으로 다운로드)
   const handleDownloadClick = async () => {
-    try {
-      // PNG 이미지 fetch
-      const response = await fetch(shareImage, { mode: 'cors' });
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+  try {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = image; // SVG 사용
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+    });
 
-      // 다운로드 링크 생성
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'mate-card.png';
-      link.click();
+    const scale = 2;
+    const originalWidth = 321;
+    const originalHeight = 479;
+    const canvas = document.createElement('canvas');
+    canvas.width = originalWidth * scale; // 642
+    canvas.height = originalHeight * scale; // 958
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgb(243, 243, 246)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // URL 해제
-      URL.revokeObjectURL(url);
+    const dataUrl = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = 'mate-card.png';
+    link.click();
 
-      // 디버깅 로그
-      console.log('다운로드 이미지:', shareImage);
-      console.log('다운로드 파일 크기:', blob.size, '바이트');
-
-      setShowDownloadModal(true);
-      setTimeout(() => {
-        setShowDownloadModal(false);
-      }, 1300); // 애니메이션(0.3초) + 표시(1초)
-    } catch (error) {
-      console.error('다운로드 오류:', error);
-      alert('다운로드 중 오류가 발생했습니다.');
-    }
-  };
+    setShowDownloadModal(true);
+    setTimeout(() => {
+      setShowDownloadModal(false);
+    }, 1000);
+  } catch (error) {
+    console.error('다운로드 오류:', error);
+    alert('다운로드 중 오류가 발생했습니다.');
+  }
+};
 
   const isActive = count > 0;
 
