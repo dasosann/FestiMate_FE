@@ -158,7 +158,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           <R.Center>유형 테스트 결과</R.Center>
           <R.Right>
             <a
-              href={shareImage} // PNG 이미지 다운로드
+              href={image} // PNG 이미지 다운로드
               download="mate-card.png"
               onClick={handleDownloadClick}
             >
