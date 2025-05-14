@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import R from '../../styles/pages/TypeTest/TypeResultStyle';
-import { useNavigate } from 'react-router-dom';
+import { replace, useNavigate } from 'react-router-dom';
 import T from '../../styles/components/TypeQuestionStyle';
 import instance from '../../../axiosConfig';
 import LoadingView from '../../components/LoadingView';
@@ -67,7 +67,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
         navigate(`/festival/${festivalId}`, { replace: true });
       } catch (error) {
         console.error('사용자 정보 전송 실패, 축제 프로필 생성 실패', error);
-        alert('프로필 제출 중 오류가 발생했습니다. 다시 시도해주세요');
+        navigate('/mainpage',{replace:true})
       }
     }
   };
