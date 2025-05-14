@@ -42,7 +42,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       const submitData = {
         typeResult: festivalType,
         introduction: contactInfo,
-        message: message,
+        message: message, 
       };
       try {
         const response = await instance.post(
