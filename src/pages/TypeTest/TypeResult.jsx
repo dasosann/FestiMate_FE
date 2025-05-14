@@ -88,7 +88,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
     }
   };
 
-  // 캔버스를 사용해 원본 크기 PNG로 공유 (스케일링 제거)
+  // 캔버스를 사용해 3/2 크기 PNG로 공유 (214x319px)
   const handleInstagramShare = async () => {
     try {
       // PNG 이미지 로드
@@ -101,22 +101,27 @@ const TypeResult = ({ festivalType, festivalId }) => {
         img.onerror = reject;
       });
 
-      // 캔버스 생성 (원본 크기 321x479, 1x 스케일)
+      // 캔버스 생성 (3/2 크기 214x319, 2x 스케일로 선명도 유지)
       const canvas = document.createElement('canvas');
-      canvas.width = 321;
-      canvas.height = 479;
+      const scale = 2; // 2x 스케일
+      canvas.width = 214 * scale; // 428px
+      canvas.height = 319 * scale; // 638px
       const ctx = canvas.getContext('2d');
+
+      // 이미지 스무딩 비활성화 (선명도 유지)
+      ctx.imageSmoothingEnabled = false;
 
       // 배경색 설정 (RGB(243, 243, 246))
       ctx.fillStyle = 'rgb(243, 243, 246)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // 이미지 그리기 (원본 크기 유지)
-      ctx.drawImage(img, 0, 0, 321, 479);
+      // 이미지 그리기 (3/2 크기)
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, 214, 319);
 
       // 디버깅 로그
       console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
-      console.log('공유 이미지 크기:', img.width, 'x', img.height);
+      console.log('공유 이미지 출력 크기:', 214, 'x', 319);
 
       // 캔버스를 PNG Blob으로 변환
       const blob = await new Promise((resolve) => {
@@ -136,7 +141,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       } else {
         alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
       }
-    }catch (error) {
+    } catch (error) {
       console.error('이미지 공유 중 오류 발생:', error);
       alert('이미지 공유 중 오류가 발생했습니다.');
     }
@@ -149,13 +154,13 @@ const TypeResult = ({ festivalType, festivalId }) => {
       const response = await fetch(shareImage, { mode: 'cors' });
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      
+
       // 다운로드 링크 생성
       const link = document.createElement('a');
       link.href = url;
       link.download = 'mate-card.png';
       link.click();
-      
+
       // URL 해제
       URL.revokeObjectURL(url);
 
@@ -166,7 +171,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       setShowDownloadModal(true);
       setTimeout(() => {
         setShowDownloadModal(false);
-      }, 1000);
+      }, 1300); // 애니메이션(0.3초) + 표시(1초)
     } catch (error) {
       console.error('다운로드 오류:', error);
       alert('다운로드 중 오류가 발생했습니다.');
@@ -217,6 +222,12 @@ const TypeResult = ({ festivalType, festivalId }) => {
               borderRadius: '5px',
               zIndex: 1000,
               width: '343px',
+              opacity: showDownloadModal ? 1 : 0,
+              transform: showDownloadModal
+                ? 'translateX(-50%) translateY(0)'
+                : 'translateX(-50%) translateY(10px)',
+              transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
             }}
           >
             이미지가 저장되었습니다
