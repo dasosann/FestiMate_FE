@@ -145,7 +145,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
             </a>
           </R.Right>
         </R.HeaderDiv>
-        <R.Body affirmingWrapper style={{ paddingBottom: '71px' }}>
+        <R.BodyWrapper affirmingWrapper style={{ paddingBottom: '71px' }}>
           <R.CardImg src={image} alt="매칭타입" />
           <R.InstagramShare onClick={handleInstagramShare}>
             <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
