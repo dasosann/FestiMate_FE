@@ -22,13 +22,19 @@ R.HeaderDiv = styled.div`
     height: 43px;
     display: flex;
     align-items: center;
+    position: fixed;
     justify-content: space-between;
     font-size: 15px;
+     top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* 중앙 정렬 */
+  z-index: 1000;
     font-weight: 600;
     color: #000;
     margin-bottom: 30px;
     padding: 0 16px;
     margin-top: 12px;
+
 `
 R.Left = styled.div`
     flex: 1;
