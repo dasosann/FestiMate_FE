@@ -150,7 +150,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
       }
     } catch (error) {
       console.error('이미지 공유 중 오류 발생:', error);
-      alert('이미지 공유 중 오류가 발생했습니다.');
     }
   };
 
