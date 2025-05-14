@@ -99,18 +99,18 @@ const TypeResult = ({ festivalType, festivalId }) => {
         img.onerror = reject;
       });
 
-      const canvas = document.createElement('canvas');
-      const scale = 2; // 2x 스케일
-      canvas.width = 321 * scale; // 642px
-      canvas.height = 479 * scale; // 958px
-      const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingEnabled = false; // 선명도 유지
-      ctx.fillStyle = 'rgb(243, 243, 246)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(scale, scale);
-      ctx.drawImage(img, 0, 0, 321, 479);
+      // const canvas = document.createElement('canvas');
+      // const scale = 2; // 2x 스케일
+      // canvas.width = 321 * scale; // 642px
+      // canvas.height = 479 * scale; // 958px
+      // const ctx = canvas.getContext('2d');
+      // ctx.imageSmoothingEnabled = false; // 선명도 유지
+      // ctx.fillStyle = 'rgb(243, 243, 246)';
+      // ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // ctx.scale(scale, scale);
+      // ctx.drawImage(img, 0, 0, 321, 479);
 
-      /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제
+      /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제 */
       const canvas = document.createElement('canvas');
       const scale = 2;
       canvas.width = 1080 * scale; // 2160px
@@ -126,7 +126,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       const offsetX = (1080 - newWidth) / 2; // 중앙 정렬
       const offsetY = 0;
       ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
-      */
+      
 
       console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
       console.log('공유 이미지 출력 크기:', 321, 'x', 479);
