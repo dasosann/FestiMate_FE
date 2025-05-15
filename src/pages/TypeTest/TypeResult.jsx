@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import R from '../../styles/pages/TypeTest/TypeResultStyle';
-import { useNavigate } from 'react-router-dom';
+import { replace, useNavigate } from 'react-router-dom';
 import T from '../../styles/components/TypeQuestionStyle';
 import instance from '../../../axiosConfig';
 import LoadingView from '../../components/LoadingView';
@@ -9,9 +9,18 @@ const festivalTypeImages = {
   INFLUENCER: '/assets/Card/inside-type-card.svg',
   NEWBIE: '/assets/Card/newbie-type-card.svg',
   PHOTO: '/assets/Card/photoshot-type-card.svg',
-  PLANNER: '/assets/Card/planning-type-card.svg',
+  PLANNER: '/assets/Card/plan-card.svg',
   HEALING: '/assets/Card/healing-type-card.svg',
   DEFAULT: '/assets/Card/newbie-type-card.svg',
+};
+
+const festivalTypeImagesPng = {
+  INFLUENCER: '/assets/Card/inside-type-card.png',
+  NEWBIE: '/assets/Card/newbie-type-card.png',
+  PHOTO: '/assets/Card/photoshot-type-card.png',
+  PLANNER: '/assets/Card/plan-card.png',
+  HEALING: '/assets/Card/healing-type-card.png',
+  DEFAULT: '/assets/Card/newbie-type-card.png',
 };
 
 const TypeResult = ({ festivalType, festivalId }) => {
@@ -25,6 +34,11 @@ const TypeResult = ({ festivalType, festivalId }) => {
     festivalType && festivalTypeImages[festivalType]
       ? festivalTypeImages[festivalType]
       : festivalTypeImages.DEFAULT
+  );
+  const [shareImage, setShareImage] = useState(
+    festivalType && festivalTypeImagesPng[festivalType]
+      ? festivalTypeImagesPng[festivalType]
+      : festivalTypeImagesPng.DEFAULT
   );
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
@@ -42,7 +56,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       const submitData = {
         typeResult: festivalType,
         introduction: contactInfo,
-        message: message, 
+        message: message,
       };
       try {
         const response = await instance.post(
@@ -53,7 +67,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
         navigate(`/festival/${festivalId}`, { replace: true });
       } catch (error) {
         console.error('사용자 정보 전송 실패, 축제 프로필 생성 실패', error);
-        alert('프로필 제출 중 오류가 발생했습니다. 다시 시도해주세요');
+        navigate('/mainpage',{replace:true})
       }
     }
   };
@@ -74,12 +88,55 @@ const TypeResult = ({ festivalType, festivalId }) => {
     }
   };
 
-  // 원본 이미지를 fetch해서 공유하도록 변경
-  const handleInstagramShare = async () => {
+  // 캔버스를 사용해 3/2 크기 PNG로 공유 (214x319px)
+    const handleInstagramShare = async () => {
     try {
-      const response = await fetch(image, { mode: 'cors' });
-      const blob = await response.blob();
-      const file = new File([blob], 'result.png', { type: blob.type });
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.src = image; // SVG 사용
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+
+      // const canvas = document.createElement('canvas');
+      // const scale = 2; // 2x 스케일
+      // canvas.width = 321 * scale; // 642px
+      // canvas.height = 479 * scale; // 958px
+      // const ctx = canvas.getContext('2d');
+      // ctx.imageSmoothingEnabled = false; // 선명도 유지
+      // ctx.fillStyle = 'rgb(243, 243, 246)';
+      // ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // ctx.scale(scale, scale);
+      // ctx.drawImage(img, 0, 0, 321, 479);
+
+      /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제 */
+      const canvas = document.createElement('canvas');
+      const scale = 2;
+      canvas.width = 1080 * scale; // 2160px
+      canvas.height = 1620 * scale; // 3240px
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      const aspectRatio = 321 / 479;
+      const newHeight = 1620;
+      const newWidth = newHeight * aspectRatio; // 약 724px
+      const offsetX = (1080 - newWidth) / 2; // 중앙 정렬
+      const offsetY = 0;
+      ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+      
+
+      console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
+      console.log('공유 이미지 출력 크기:', 321, 'x', 479);
+
+      const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, 'image/png', 1.0);
+      });
+
+      const file = new File([blob], 'result.png', { type: 'image/png' });
+      console.log('공유 파일 크기:', file.size, '바이트');
 
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({
@@ -96,13 +153,47 @@ const TypeResult = ({ festivalType, festivalId }) => {
     }
   };
 
-  const handleDownloadClick = () => {
-    setShowDownloadModal(true);
-    setTimeout(() => {
-      setShowDownloadModal(false);
-    }, 1000);
-  };
+  // 다운로드 (SVG 기반 고해상도 PNG)
+  const handleDownloadClick = async () => {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.src = image; // SVG 사용
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
 
+      const scale = 2;
+      const originalWidth = 321;
+      const originalHeight = 479;
+      const canvas = document.createElement('canvas');
+      canvas.width = originalWidth * scale; // 642
+      canvas.height = originalHeight * scale; // 958
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false; // 선명도 유지
+      ctx.fillStyle = 'rgb(243, 243, 246)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, originalWidth, originalHeight);
+
+      console.log('다운로드 캔버스 크기:', canvas.width, 'x', canvas.height);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'mate-card.png';
+      link.click();
+
+      setShowDownloadModal(true);
+      setTimeout(() => {
+        setShowDownloadModal(false);
+      }, 1300); // 애니메이션(0.3초) + 표시(1초)
+    } catch (error) {
+      console.error('다운로드 오류:', error);
+      alert('다운로드 중 오류가 발생했습니다.');
+    }
+  };
   const isActive = count > 0;
 
   // Step 0: 결과 화면
@@ -114,7 +205,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           <R.Center>유형 테스트 결과</R.Center>
           <R.Right>
             <a
-              href="/assets/TypeTest/mate-card.png"
+              href={shareImage} // PNG 이미지 다운로드
               download="mate-card.png"
               onClick={handleDownloadClick}
             >
@@ -123,7 +214,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
           </R.Right>
         </R.HeaderDiv>
         <R.BodyWrapper style={{ paddingBottom: '71px' }}>
-          <R.CardImg src={image} alt="매칭타입" />
+          <R.CardImg src={image} alt="매칭타입" /> {/* SVG 이미지 표시 */}
           <R.InstagramShare onClick={handleInstagramShare}>
             <img src="/assets/TypeTest/instagram-logo.svg" alt="insta" />
             <div>인스타로 공유하기</div>
@@ -147,6 +238,9 @@ const TypeResult = ({ festivalType, festivalId }) => {
               borderRadius: '5px',
               zIndex: 1000,
               width: '343px',
+              opacity: showDownloadModal ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
             }}
           >
             이미지가 저장되었습니다
@@ -178,7 +272,8 @@ const TypeResult = ({ festivalType, festivalId }) => {
             </span>
           </R.CheckDiv>
           <R.InputDiv>
-            <R.InputBox style={{padding:'0 24px 0 0'}}
+            <R.InputBox
+              style={{ padding: '0 24px 0 0' }}
               type="text"
               placeholder="ex) 난 인스타를 안 해서, 카카오톡 아이디 남길게 아이디는 @festimate야!"
               maxLength={49}
@@ -216,7 +311,14 @@ const TypeResult = ({ festivalType, festivalId }) => {
           <R.TitleText>
             상대방에게 전달할 <br /> <R.RedSpan>메시지</R.RedSpan>를 작성해주세요
           </R.TitleText>
-          <R.CheckDiv style={{ display: 'flex', alignItems: 'center', height: '20px', marginBottom: '4.07vh' }}>
+          <R.CheckDiv
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '20px',
+              marginBottom: '4.07vh',
+            }}
+          >
             <R.CheckedContainer>
               <img src="/assets/TypeTest/red-check.svg" alt="쳌" />
             </R.CheckedContainer>
@@ -243,7 +345,10 @@ const TypeResult = ({ festivalType, festivalId }) => {
             이점 유의해 작성해주세요!
           </span>
         </R.PleaseReadDiv>
-        <T.NextButton onClick={handleNext} style={{ backgroundColor: '#ff6f61' }}>
+        <T.NextButton
+          onClick={handleNext}
+          style={{ backgroundColor: '#ff6f61' }}
+        >
           프로필 완성하기
         </T.NextButton>
       </div>
