@@ -142,6 +142,7 @@
     scroll-snap-type: x mandatory;   /* 스크롤 스냅 활성화 */
     -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
     padding: 0 10vw;                /* 좌우 여백: 화면 너비의 10%씩 */
+    margin-top: 20px;
 }
 
 /* 첫 번째 카드의 왼쪽 마진 */
