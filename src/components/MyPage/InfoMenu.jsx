@@ -158,7 +158,7 @@ const InfoMenu = ({festivalId}) => {
                                 오전 09:00 ~ 20:00
                             </div>
                         </div>
-                        <button className="account-confirm-btn" onClick={() => window.open('http://pf.kakao.com/_sQUwn')}>
+                        <button className="account-confirm-btn" onClick={() => window.open('https://open.kakao.com/o/g9JOe6vh')}>
                             입금 후 연락하러 가기
                         </button>
                     </div>

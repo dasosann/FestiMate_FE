@@ -148,7 +148,7 @@ instance.interceptors.response.use(
                     alert("대상을 찾을 수 없습니다.");
                     break;
                 case 4041:
-                    alert("존재하지 않는 회원입니다.");
+                    //alert("존재하지 않는 회원입니다.");
                     break;
                 case 4042:
                     // 축제 id가 올바르지 않을때

@@ -28,6 +28,22 @@ const InfoPage = () => {
 
     const [canPass, setCanPass] = useState(false);
 
+    useEffect(() => {
+        const check = async () => {
+            try {
+                const result = await instance.get('/v1/users/me/nickname');
+                if(result.status==200) {
+                    alert("이미 정보를 입력하셨습니다.");
+                    navigate('/mainpage');
+                }
+                console.log(result);
+            } catch (error) {
+                
+            }
+        }
+        check();
+    }, []);
+
     // 데이터 전송 함수
     const submitData = async (mbtiFromThird, animalFromThird) => {
         // 유효성 검사
