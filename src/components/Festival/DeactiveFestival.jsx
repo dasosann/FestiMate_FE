@@ -22,6 +22,8 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
 
     const [point, setPoint] = useState('');
     const [type, setType] = useState('');
+    const [match, setMatch] = useState([]);
+
 
     const ProfileMap = {
         'NEWBIE': newProfile,
@@ -48,6 +50,195 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
         getInfo();
     }, [festivalId]);
+
+    // useEffect 바깥에 선언
+    const getMatching = async () => {
+        try {
+            const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
+            setMatch(result.data.data.matchingList);
+            console.log(result);
+        } catch (error) {
+            console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
+        }
+    };
+
+    useEffect(() => {
+        getMatching();
+    }, [festivalId]);
+
+    const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
+        <div className="ticket-card" onClick={() => navigate(`/festival/${festivalId}/${matchingId}`)}>
+            {/* 전체 solid 테두리를 위한 요소 */}
+            <div className="ticket-border"></div>
+            <div className="ticket-top">
+                <img src={matchingStatus === 'PENDING' ? noMatch : CardMap[typeResult]} alt="캐릭터" className={matchingStatus === 'PENDING' ? "ticket-image" : "matching-ticket-image"} />
+                {matchingStatus !== 'PENDING' && (
+                <div className="ticket-tags">
+                        <span className="ticket-tag">#{birthYear.toString().slice(2, 4)+"년생"}</span>
+                        <span className="ticket-tag">#{mbti}</span>
+                        <span className="ticket-tag">#{faceMap[appearance]}</span>
+                    </div>
+                )}
+            </div>
+            <div className="ticket-bottom">
+                <div className="ticket-info">
+                    {matchingStatus === 'PENDING' ? (
+                        <div className="ticket-pending">
+                            이상형 조건에 맞는 <br/>
+                            festimate를 찾는 중이에요!
+                        </div>
+                    ) : (
+                        <>
+                        <div className="ticket-name">
+                            {nickname} <img src={gender === 'WOMAN' ? female : male} alt="성별" />
+                        </div>
+                        <img src={profileArrow} alt="화살표" className="ticket-arrow" />
+                        </>
+                    )}
+                </div>
+            </div>
+
+            {matchingStatus !== 'PENDING' && (
+                <div className="ticket-dashed-line"></div>
+            )}
+            
+            <div className="ticket-notch left"></div>
+            <div className="ticket-notch right"></div>
+        </div>
+    );
+
+    // 인디케이터 컴포넌트 (dots) - 도트 크기를 동적으로 계산하고, 트랜지션 적용
+    const DotsIndicator = ({ currentIndex, totalCount }) => {
+        const maxDots = 7;
+        const dots = [];
+
+        if (totalCount <= maxDots) {
+            for (let i = 0; i < totalCount; i++) {
+                dots.push(i);
+            }
+        } else {
+            if (currentIndex < 3) {
+                for (let i = 0; i < 4; i++) {
+                    dots.push(i);
+                }
+                dots.push('right-ellipsis');
+                dots.push(totalCount - 1);
+            } else if (currentIndex > totalCount - 4) {
+                dots.push(0);
+                dots.push('left-ellipsis');
+                for (let i = totalCount - 4; i < totalCount; i++) {
+                    dots.push(i);
+                }
+            } else {
+                dots.push(0);
+                dots.push('left-ellipsis');
+                dots.push(currentIndex - 1);
+                dots.push(currentIndex);
+                dots.push(currentIndex + 1);
+                dots.push('right-ellipsis');
+                dots.push(totalCount - 1);
+            }
+        }
+
+        // 도트 크기를 현재 인덱스와의 차이에 따라 결정 (차이가 클수록 작게)
+        /*
+        const getDotSize = (dotIndex) => {
+            const maxSize = 10; // active일 때 최대 크기
+            const midSize = 8;
+            const nearSize = 6;
+            const minSize = 4;
+            const diff = Math.abs(currentIndex - dotIndex);
+            if (diff === 0) return maxSize;
+            else if (diff === 1) return midSize;
+            else if (diff === 2) return nearSize;
+            else return minSize;
+        };
+        */
+        const getDotSize = (dotIndex) => {
+            const maxSize = 7; // active일 때 최대 크기
+            const midSize = 7;
+            const nearSize = 7;
+            const minSize = 7;
+            const diff = Math.abs(currentIndex - dotIndex);
+            if (diff === 0) return maxSize;
+            else if (diff === 1) return midSize;
+            else if (diff === 2) return nearSize;
+            else return minSize;
+        };
+        return (
+            <div className="pagination-dots">
+                {dots.map((item, idx) =>
+                    item === 'left-ellipsis' || item === 'right-ellipsis' ? (
+                        <div
+                            key={idx}
+                            className="dot ellipsis"
+                            style={{
+                                width: '4px',
+                                height: '4px',
+                                transition: 'all 0.3s ease'
+                            }}
+                        ></div>
+                    ) : (
+                        <div
+                            key={idx}
+                            className={`dot ${currentIndex === item ? 'active' : ''}`}
+                            style={{
+                                width: `${getDotSize(item)}px`,
+                                height: `${getDotSize(item)}px`,
+                                transition: 'all 0.3s ease'
+                            }}
+                        ></div>
+                    )
+                )}
+            </div>
+        );
+    };
+
+    // 슬라이드 컨테이너: ticket-card의 margin: 0 7%과 flex: 0 0 auto는 그대로 유지
+    // 컨테이너 중앙과 각 카드 중앙의 거리를 비교하여 가장 가까운 카드를 현재 인덱스로 선택
+    const FestivalMatching = ({ cards }) => {
+        const containerRef = useRef(null);
+        const [currentIndex, setCurrentIndex] = useState(0);
+
+        const handleScroll = () => {
+            if (containerRef.current) {
+                const containerRect = containerRef.current.getBoundingClientRect();
+                const containerCenter = containerRect.left + containerRect.width / 2;
+                const children = containerRef.current.children;
+                let closestIndex = 0;
+                let minDistance = Infinity;
+                for (let i = 0; i < children.length; i++) {
+                    const childRect = children[i].getBoundingClientRect();
+                    const childCenter = childRect.left + childRect.width / 2;
+                    const distance = Math.abs(childCenter - containerCenter);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestIndex = i;
+                    }
+                }
+                setCurrentIndex(closestIndex);
+            }
+        };
+
+        return (
+            <div>
+                <div
+                    className="festival-matching-container"
+                    ref={containerRef}
+                    onScroll={handleScroll}
+                >
+                    {cards.map((card, i) => (
+                        <TicketCard key={i} {...card} />
+                    ))}
+                </div>
+                <DotsIndicator currentIndex={currentIndex} totalCount={cards.length} />
+            </div>
+        );
+    };
 
     return (
         <>
@@ -84,12 +275,20 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 </div>
             
                 <div className="festival-bottom-container">
-                    <div className="festival-matching-container-wrapper">
-                        <div className="festival-matching-content">
-                            <img src={endFestival} alt="No Match" />
-                        </div>            
+                { match.length !== 0 ? (
+                <div className="festival-matching-box">
+                    <div>나의 매칭 현황!</div>
+                    <div className="matching-count">
+                        <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
+                        <span className="matching-count-black">/{match.length}</span>                   
                     </div>
                 </div>
+                ) : (
+                    <div className="festival-matching-content">
+                        <img src={endFestival} alt="No Match" />
+                    </div>
+                )}            
+                </div> 
                 <button
                         className='refund-button'
                         onClick={() => window.open('https://forms.gle/SBXiEfs7s45HwFQ49')}
