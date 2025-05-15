@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '/src/styles/Festival/FestivalInfo.css';
-import defaultProfile from '/assets/MyPage/default-profile.svg';
+
 import date from '/assets/Festival/date.svg';
 import point_ from '/assets/Festival/point.svg';
 import noMatch from '/assets/Festival/no-match.svg';
@@ -98,7 +98,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
     }, [festivalId]);
 
     const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
-        <div className="ticket-card" onClick={() => navigate(`/festival/${festivalId}/${matchingId}`)}>
+        <div className="ticket-card" onClick={matchingStatus === 'PENDING' ? undefined : () => navigate(`/festival/${festivalId}/${matchingId}`)}>
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
@@ -171,20 +171,6 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
             }
         }
 
-        // 도트 크기를 현재 인덱스와의 차이에 따라 결정 (차이가 클수록 작게)
-        /*
-        const getDotSize = (dotIndex) => {
-            const maxSize = 10; // active일 때 최대 크기
-            const midSize = 8;
-            const nearSize = 6;
-            const minSize = 4;
-            const diff = Math.abs(currentIndex - dotIndex);
-            if (diff === 0) return maxSize;
-            else if (diff === 1) return midSize;
-            else if (diff === 2) return nearSize;
-            else return minSize;
-        };
-        */
         const getDotSize = (dotIndex) => {
             const maxSize = 7; // active일 때 최대 크기
             const midSize = 7;
@@ -303,29 +289,18 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
             
                 <div className="festival-bottom-container">
                 { match.length !== 0 ? (
-                <div className="festival-matching-box">
-                    <div>나의 매칭 현황</div>
-                    <div className="matching-count">
-                        <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
-                        <span className="matching-count-black">/{match.length}</span>                   
+                <>
+                    <div className="festival-matching-box">
+                        <div>나의 매칭 현황</div>
+                        <div className="matching-count">
+                            <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
+                            <span className="matching-count-black">/{match.length}</span>                   
+                        </div>
                     </div>
                     <div className="festival-matching-container-wrapper">
-                        {match.length > 0 ? (
-                            <FestivalMatching cards={match} />
-                        ) : (
-                            <>
-                                <div className="festival-matching-content">
-                                    <img src={blank} alt="No Match" />
-                                    { isStart ? 
-                                        <>아직 추가한 매칭이 없어요<br/>매칭을 추가해보세요!</>
-                                        : 
-                                        <>페스티벌이 시작되면<br/>매칭하기 버튼이 활성화 돼요!</>
-                                    }
-                                </div>
-                            </>
-                        )}               
+                        <FestivalMatching cards={match} />
                     </div>
-                </div>
+                </>
                 ) : (
                     <div className="festival-matching-content">
                         <img src={endFestival} alt="No Match" />
