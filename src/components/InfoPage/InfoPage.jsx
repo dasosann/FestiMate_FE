@@ -30,13 +30,13 @@ const InfoPage = () => {
 
     useEffect(() => {
         const check = async () => {
-            try {
-                const result = await instance.get('/v1/users/me/nickname');
-                if(result.status==200) {
+            try {/*
+                const result = await instance.post('/v1/auth/login');
+                if(result.data.userId !== null) {
                     alert("이미 정보를 입력하셨습니다.");
                     navigate('/mainpage');
                 }
-                console.log(result);
+                console.log(result);*/
             } catch (error) {
                 
             }
