@@ -69,6 +69,7 @@
     cursor: pointer;
     border: 1px solid var(--gray02);
     border-radius: 7px;
+    font-weight: var(--semibold);
 }
 
 .modal-confirm-btn {
@@ -84,6 +85,8 @@
     cursor: pointer;
     border: 1px solid var(--gray02);
     border-radius: 7px;
+    font-weight: var(--semibold);
+
 
 }
 
