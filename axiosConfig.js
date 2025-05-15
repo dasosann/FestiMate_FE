@@ -70,6 +70,8 @@ instance.interceptors.response.use(
                     return instance(originalRequest);
                 } catch (refreshError) {
                     console.error("Refresh token error:", refreshError.response?.data);
+                    localStorage.removeItem("jwtToken");
+                    localStorage.removeItem("refreshToken");
                     alert("세션이 만료되었습니다. 다시 로그인해 주세요.");
                     window.location.href = "/";
                     return Promise.reject(refreshError);
