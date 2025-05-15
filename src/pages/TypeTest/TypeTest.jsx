@@ -57,11 +57,6 @@ const TypeTest = () => {
     setIsExitModalOpen(false);
   };
 
-  // 파라미터 오류 시
-  if (!festivalId || isNaN(festivalId) || !festivalName) {
-    return null;
-  }
-
   return (
     <>
       {/* 화면 분기 */}

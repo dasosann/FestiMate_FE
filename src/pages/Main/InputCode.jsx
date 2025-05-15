@@ -48,7 +48,11 @@ const InputCode = () => {
       } else if (code === 4013) {
         setIsError(true);
         setErrorMessage('초대 코드가 만료되었습니다.');
-      } else {
+      } else if (code === 4092 ){
+        setIsError(true);
+        setErrorMessage('이미 참여하는 축제입니다.')
+      }
+       else {
         setIsError(true);
       }
     } catch (error) {
