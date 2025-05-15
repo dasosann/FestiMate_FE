@@ -5,23 +5,39 @@ import I from '../../styles/pages/Main/InputCodeStyle';
 import TypeQuestionSelect from '../../components/TypeTest/TypeQuestionSelect';
 import TypeResult from './TypeResult';
 
-
 const TypeTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [started, setStarted] = useState(false);
-  const [completed, setCompleted] = useState(false);
-  const [festivalType, setFestivalType] = useState(null);
-  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
-
-  // 뒤로가기 허용 플래그
-  const allowExit = useRef(false);
-
-  // 쿼리 파라미터
+  // Extract query parameters
   const queryParams = new URLSearchParams(location.search);
   const festivalId = parseInt(queryParams.get('festivalId'), 10);
   const festivalName = decodeURIComponent(queryParams.get('festivalName') || '');
+
+  // Initialize states with values from session storage
+  const [started, setStarted] = useState(false);
+  const [completed, setCompleted] = useState(() => {
+    const saved = sessionStorage.getItem(`typeTestCompleted_${festivalId}`);
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [festivalType, setFestivalType] = useState(() => {
+    const saved = sessionStorage.getItem(`festivalType_${festivalId}`);
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+  // Save completed to session storage whenever it changes
+  useEffect(() => {
+    sessionStorage.setItem(`typeTestCompleted_${festivalId}`, JSON.stringify(completed));
+  }, [completed, festivalId]);
+
+  // Save festivalType to session storage whenever it changes
+  useEffect(() => {
+    sessionStorage.setItem(`festivalType_${festivalId}`, JSON.stringify(festivalType));
+  }, [festivalType, festivalId]);
+
+  // 뒤로가기 허용 플래그
+  const allowExit = useRef(false);
 
   // 파라미터 검증
   useEffect(() => {
