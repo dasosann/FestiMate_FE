@@ -151,6 +151,8 @@ instance.interceptors.response.use(
                     break;
                 case 4041:
                     alert("존재하지 않는 회원입니다.");
+                    localStorage.removeItem("jwtToken");
+                    localStorage.removeItem("refreshToken");
                     window.location.href="/"
                     break;
                 case 4042:
