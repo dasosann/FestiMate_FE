@@ -277,7 +277,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 <div className="festival-bottom-container">
                 { match.length !== 0 ? (
                 <div className="festival-matching-box">
-                    <div>나의 매칭 현황!</div>
+                    <div>나의 매칭 현황</div>
                     <div className="matching-count">
                         <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
                         <span className="matching-count-black">/{match.length}</span>                   

@@ -85,7 +85,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             const currentDate = new Date();
             setIsStart(currentDate >= startDate);
         }
-    }, [festivalDate]);
+    }, [festivalDate, location.pathname]);
 
     // useEffect 바깥에 선언
     const getMatching = async () => {
@@ -105,26 +105,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     useEffect(() => {
         getMatching();
     }, [festivalId]);
-
-    // 예시 카드 데이터
-    const cards = [
-        { imageSrc: newProfile, tags: ['01년생', 'INFP', '강아지상'], name: '연하공대훈', gender: 'male' },
-        { imageSrc: newProfile, tags: ['02년생', 'ENTP', '고양이상'], name: '홍길동', gender: 'male' },
-        { imageSrc: newProfile, tags: ['03년생', 'INFJ', '강아지상'], name: '이영희', gender: 'female' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        { imageSrc: newProfile, tags: ['04년생', 'ISTJ', '강아지상'], name: '김철수', gender: 'male' },
-        // 추가 카드 데이터...
-    ];
 
     const handleMatching = async () => {
         if (point > 0) {
@@ -369,7 +349,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 <div className="divide-line"></div>
                 <div className="festival-bottom-container">
                     <div className="festival-matching-box">
-                        <div>나의 매칭 현황!</div>
+                        <div>나의 매칭 현황</div>
                         <div className="matching-count">
                             {match.length === 0 ? (
                                 <>{match.filter(m => m.matchingStatus === 'COMPLETED').length}/{match.length}</>
