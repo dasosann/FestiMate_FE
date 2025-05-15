@@ -167,7 +167,7 @@ const MainPage = () => {
           {loading ? (
             <M.TotalFestivalDiv></M.TotalFestivalDiv>
           ) : festivals?.length === 0 ? (
-            <div style={{ marginTop: '10.34vh',display:'flex',justifyContent:'center' }}>
+            <div style={{ marginTop: '10.34vh',display:'flex',flexDirection:'column',alignItems:'center' }}>
               <img src="/assets/Main/mainpage-background-logo.svg" alt="배경로고" />
               {selectedProgressMenu === '진행' ? (
                 <M.ProgressNoFestivalDiv>아직 참여하고 있는 페스티벌이 없어요</M.ProgressNoFestivalDiv>

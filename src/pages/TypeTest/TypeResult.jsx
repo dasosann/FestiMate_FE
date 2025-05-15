@@ -113,7 +113,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
       /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제 */
       const canvas = document.createElement('canvas');
       const scale = 2;
-      canvas.width = 1080 * scale; // 2160px
+      canvas.width = 1080 * scale; // 2160px 
       canvas.height = 1620 * scale; // 3240px
       const ctx = canvas.getContext('2d');
       ctx.imageSmoothingEnabled = false;
