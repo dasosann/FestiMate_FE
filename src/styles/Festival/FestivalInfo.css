@@ -195,6 +195,7 @@
     font-weight: var(--semibold);
     color: var(--gray04);
     align-items: center;
+    text-align: center;
 }
 
 .matching-plus-button-backup {
@@ -220,6 +221,25 @@
     z-index: 1000;
     padding: 15px 16px;
     background-color: var(--main-coral);
+    color: white;
+    font-size: 15px;
+    font-weight: var(--bold);
+    border: none;   
+    border-radius: 50px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 5px;
+}
+
+.matching-plus-button-disabled {
+    position: fixed;
+    bottom: 30px;
+    right: 16px;
+    z-index: 1000;
+    padding: 15px 16px;
+    background-color: var(--gray03);
     color: white;
     font-size: 15px;
     font-weight: var(--bold);

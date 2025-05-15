@@ -119,7 +119,7 @@ const MyProfile = ({festivalId}) => {
 
             img.onload = async () => {
                 // 고해상도 저장을 위한 배율 (예: 3배)
-                const scale = 3;
+                const scale = 9;
                 const canvas = document.createElement('canvas');
                 canvas.width = img.width * scale;
                 canvas.height = img.height * scale;

@@ -6,6 +6,7 @@ import date from '/assets/Festival/date.svg';
 import point_ from '/assets/Festival/point.svg';
 import noMatch from '/assets/Festival/no-match.svg';
 import blank from '/assets/Festival/blank.svg';
+import notyet from '/assets/Festival/notyet.svg';
 import profileArrow from '/assets/Festival/profile-arrow.svg';
 import male from '/assets/Festival/male.svg';
 import female from '/assets/Festival/female.svg';
@@ -36,6 +37,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [match, setMatch] = useState([]);
     const [isRotating, setIsRotating] = useState(false);
+    const [isStart, setIsStart] = useState(false);
 
     const CardMap = {
         'NEWBIE': newCard,
@@ -76,6 +78,14 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
         getInfo();
     }, [festivalId]);
+
+    useEffect(() => {
+        if (festivalDate) {
+            const startDate = new Date(festivalDate.split(' ~ ')[0]);
+            const currentDate = new Date();
+            setIsStart(currentDate >= startDate);
+        }
+    }, [festivalDate]);
 
     // useEffect 바깥에 선언
     const getMatching = async () => {
@@ -367,14 +377,24 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                             <>
                                 <div className="festival-matching-content">
                                     <img src={blank} alt="No Match" />
-                                    아직 추가한 매칭이 없어요
+                                    { isStart ? 
+                                        <>아직 추가한 매칭이 없어요<br/>매칭을 추가해보세요!</>
+                                        : 
+                                        <>페스티벌이 시작되면<br/>매칭하기 버튼이 활성화 돼요!</>
+                                    }
                                 </div>
                             </>
                         )}               
                     </div>
-                    <button className="matching-plus-button" onClick={() => handleMatching()}>
-                        <img src={plus} /> 매칭 추가하기
-                    </button>
+                    {isStart ? (
+                        <button className="matching-plus-button" onClick={() => handleMatching()}>
+                            <img src={plus} /> 매칭 추가하기
+                        </button>
+                    ) : (
+                        <button className="matching-plus-button-disabled" >
+                            <img src={plus} /> 매칭 추가하기
+                        </button>
+                    )}
                 </div>
             </div>
             <CustomModal
