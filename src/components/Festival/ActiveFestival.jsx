@@ -239,6 +239,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         }
 
         // 도트 크기를 현재 인덱스와의 차이에 따라 결정 (차이가 클수록 작게)
+        /*
         const getDotSize = (dotIndex) => {
             const maxSize = 10; // active일 때 최대 크기
             const midSize = 8;
@@ -250,7 +251,18 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             else if (diff === 2) return nearSize;
             else return minSize;
         };
-
+        */
+        const getDotSize = (dotIndex) => {
+            const maxSize = 7; // active일 때 최대 크기
+            const midSize = 7;
+            const nearSize = 7;
+            const minSize = 7;
+            const diff = Math.abs(currentIndex - dotIndex);
+            if (diff === 0) return maxSize;
+            else if (diff === 1) return midSize;
+            else if (diff === 2) return nearSize;
+            else return minSize;
+        };
         return (
             <div className="pagination-dots">
                 {dots.map((item, idx) =>

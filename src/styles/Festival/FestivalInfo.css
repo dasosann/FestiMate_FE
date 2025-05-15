@@ -423,8 +423,8 @@
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: var(--gray02);
     margin: 0 4px;
@@ -432,9 +432,9 @@
 }
 
 .dot.active {
-    background-color: var(--main-coral);
-    width: 10px;
-    height: 10px;
+    background-color: var(--gray07);
+    width: 7px;
+    height: 7px;
 }
 
 .dot.ellipsis {
