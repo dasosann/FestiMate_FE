@@ -66,7 +66,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
-                console.log(result);
+             
             } catch (error) {
                 console.error(`[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:`, {
                     status: error.response?.status,
@@ -83,7 +83,7 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
         try {
             const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
             setMatch(result.data.data.matchingList);
-            console.log(result);
+    
         } catch (error) {
             console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
                 status: error.response?.status,

@@ -15,7 +15,7 @@ const FestivalInfo = () => {
     const [status, setStatus] = useState('');
 
     useEffect(() => {
-        console.log(festivalId);
+        
         const getFestival = async () => {
             try {
                 const result = await instance.get(`/v1/festivals/${festivalId}`);
@@ -35,7 +35,7 @@ const FestivalInfo = () => {
     }, [festivalId]);
 
     useEffect(() => {
-        console.log(festivalId);
+        
         const getFestivalStatus = async () => {
             try {
                 const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
@@ -47,7 +47,7 @@ const FestivalInfo = () => {
                     setIsActive(true);
                 }
                 
-                console.log(result);
+                
             } catch (error) {
                 console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
                     status: error.response?.status,

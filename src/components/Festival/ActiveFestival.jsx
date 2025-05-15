@@ -92,7 +92,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         try {
             const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
             setMatch(result.data.data.matchingList);
-            console.log(result);
         } catch (error) {
             console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
                 status: error.response?.status,

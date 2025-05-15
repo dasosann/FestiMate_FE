@@ -39,7 +39,7 @@ const Point = ({festivalId}) => {
                 
                 setTransactions(historiesWithCumulative);
                 setTotal(totalPoint);
-                console.log(result);
+                
             } catch (error) {
                 console.error(`[point API Error] GET /v1/festivals/${festivalId}/me/points:`, {
                     status: error.response?.status,

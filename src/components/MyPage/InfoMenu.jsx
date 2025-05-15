@@ -38,7 +38,7 @@ const InfoMenu = ({festivalId}) => {
                 const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/profile`);
                 setName(result.data.data.nickname);
                 setType(result.data.data.typeResult);
-                console.log(result);
+                
             } catch (error) {
                 console.error("[Nickname API Error] GET /v1/users/participants/me/nickname:", {
                     status: error.response?.status,
@@ -73,7 +73,7 @@ const InfoMenu = ({festivalId}) => {
                     }
                 }
                 
-                console.log(result);
+                
             } catch (error) {
                 console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
                     status: error.response?.status,

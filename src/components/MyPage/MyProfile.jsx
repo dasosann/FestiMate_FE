@@ -93,7 +93,7 @@ const MyProfile = ({festivalId}) => {
                                 title: '내 페스티메이트 결과',
                                 text: '내 매칭 타입 결과를 확인해보세요!',
                             });
-                            console.log('공유 성공');
+                            
                         } catch (error) {
                             console.error('공유 실패:', error);
                         }
@@ -182,7 +182,7 @@ const MyProfile = ({festivalId}) => {
                 setContact(tmp.introduction);
                 setMessage(tmp.message);
                 setType(tmp.typeResult);
-                console.log(result);
+                
             } catch (error) {
                 console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
                     status: error.response?.status,
