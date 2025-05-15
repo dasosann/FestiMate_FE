@@ -66,18 +66,13 @@ const MyProfile = ({festivalId}) => {
             img.src = CardMap[type];
     
             img.onload = async () => {
-                const padding = 20;
-                const canvasWidth = img.width + 2 * padding;
-                const canvasHeight = img.height + 2 * padding;
-    
+                // 고해상도 저장을 위한 배율 (예: 9배)
+                const scale = 9;
                 const canvas = document.createElement('canvas');
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
                 const ctx = canvas.getContext('2d');
-    
-                ctx.fillStyle = '#f3f3f6';
-                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-                ctx.drawImage(img, padding, padding);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     
                 canvas.toBlob(async (blob) => {
                     if (!blob) {
