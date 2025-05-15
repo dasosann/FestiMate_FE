@@ -282,6 +282,22 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
                         <span className="matching-count-coral">{match.filter(m => m.matchingStatus === 'COMPLETED').length}</span>
                         <span className="matching-count-black">/{match.length}</span>                   
                     </div>
+                    <div className="festival-matching-container-wrapper">
+                        {match.length > 0 ? (
+                            <FestivalMatching cards={match} />
+                        ) : (
+                            <>
+                                <div className="festival-matching-content">
+                                    <img src={blank} alt="No Match" />
+                                    { isStart ? 
+                                        <>아직 추가한 매칭이 없어요<br/>매칭을 추가해보세요!</>
+                                        : 
+                                        <>페스티벌이 시작되면<br/>매칭하기 버튼이 활성화 돼요!</>
+                                    }
+                                </div>
+                            </>
+                        )}               
+                    </div>
                 </div>
                 ) : (
                     <div className="festival-matching-content">
