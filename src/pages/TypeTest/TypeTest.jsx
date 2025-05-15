@@ -16,28 +16,11 @@ const TypeTest = () => {
 
   // Initialize states with values from session storage
   const [started, setStarted] = useState(false);
-  const [completed, setCompleted] = useState(() => {
-    const saved = sessionStorage.getItem(`typeTestCompleted_${festivalId}`);
-    return saved ? JSON.parse(saved) : false;
-  });
-  const [festivalType, setFestivalType] = useState(() => {
-    const saved = sessionStorage.getItem(`festivalType_${festivalId}`);
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [completed, setCompleted] = useState(false);
+  const [festivalType, setFestivalType] = useState(null);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
-
-  // Save completed to session storage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem(`typeTestCompleted_${festivalId}`, JSON.stringify(completed));
-  }, [completed, festivalId]);
-
-  // Save festivalType to session storage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem(`festivalType_${festivalId}`, JSON.stringify(festivalType));
-  }, [festivalType, festivalId]);
-
-  // 뒤로가기 허용 플래그
-  const allowExit = useRef(false);
+  
+   const allowExit = useRef(false);
 
   // 파라미터 검증
   useEffect(() => {
@@ -132,8 +115,9 @@ const TypeTest = () => {
       {isExitModalOpen && (
         <>
           <I.ModalOverlay onClick={handleCancelExit} />
-          <I.ConfirmModal>
-            <I.ModalTitle>메인페이지로 돌아가시겠습니까?</I.ModalTitle>
+          <I.ConfirmModal style={{height:'136px'}}>
+            <I.ModalTitle style={{marginTop:'13px'}}>페스티벌 입장을 중단하시겠습니까?</I.ModalTitle>
+            <I.SubTitle>입장 중단 시 입력 내용은 저장되지 않습니다</I.SubTitle>
             <I.ModalButtonWrapper>
               <I.ModalButton
                 border="1px solid #e6e6eb"
