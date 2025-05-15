@@ -48,15 +48,7 @@ const InfoPage = () => {
     const submitData = async (mbtiFromThird, animalFromThird) => {
         // 유효성 검사
         if (!name || !phone || !nickname || !gender || !year || !mbtiFromThird || !animalFromThird) {
-            console.log("유효성 검사 실패:", {
-                name,
-                phone,
-                nickname,
-                gender,
-                year,
-                mbti: mbtiFromThird,
-                animal: animalFromThird
-            });
+            
             alert("모든 필수 정보를 입력해 주세요.");
             return;
         }
@@ -79,7 +71,7 @@ const InfoPage = () => {
         
         try {
             const response = await instance.post('/v1/users/signup', data);
-            console.log("데이터 전송 성공:", response.data);
+            
             if (response.data.code === 2010) {
                 // 새로운 토큰 저장
                 const { accessToken, refreshToken } = response.data.data;

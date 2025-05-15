@@ -66,18 +66,30 @@ const MyProfile = ({festivalId}) => {
             img.src = CardMap[type];
     
             img.onload = async () => {
-                const padding = 20;
-                const canvasWidth = img.width + 2 * padding;
-                const canvasHeight = img.height + 2 * padding;
-    
+                const scale = 9;
                 const canvas = document.createElement('canvas');
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
                 const ctx = canvas.getContext('2d');
-    
-                ctx.fillStyle = '#f3f3f6';
-                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-                ctx.drawImage(img, padding, padding);
+                
+                // 이미지를 그린 후
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                // 각 픽셀을 순회하면서 테두리만 남기기
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    const a = data[i + 3];
+                    
+                    // 배경색이 아닌 경우에만 테두리로 간주
+                    if (r > 240 && g > 240 && b > 240) {
+                        data[i + 3] = 0; // 투명하게 만들기
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
     
                 canvas.toBlob(async (blob) => {
                     if (!blob) {
@@ -93,7 +105,7 @@ const MyProfile = ({festivalId}) => {
                                 title: '내 페스티메이트 결과',
                                 text: '내 매칭 타입 결과를 확인해보세요!',
                             });
-                            console.log('공유 성공');
+                            
                         } catch (error) {
                             console.error('공유 실패:', error);
                         }
@@ -118,7 +130,6 @@ const MyProfile = ({festivalId}) => {
             img.src = CardMap[type];
 
             img.onload = async () => {
-                // 고해상도 저장을 위한 배율 (예: 3배)
                 const scale = 9;
                 const canvas = document.createElement('canvas');
                 canvas.width = img.width * scale;
@@ -182,7 +193,7 @@ const MyProfile = ({festivalId}) => {
                 setContact(tmp.introduction);
                 setMessage(tmp.message);
                 setType(tmp.typeResult);
-                console.log(result);
+                
             } catch (error) {
                 console.error("[Nickname API Error] GET /v1/users/me/nickname:", {
                     status: error.response?.status,

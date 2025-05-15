@@ -59,7 +59,7 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
         const checkNickname = async () => {
             try {
                 const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
-                console.log(result);
+                
                 if(result.status==200) {
                     setCanPass(true); // 닉네임 허용됨
                 }

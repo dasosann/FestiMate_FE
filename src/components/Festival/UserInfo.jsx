@@ -61,7 +61,7 @@ const UserInfo = () => {
                 setContact(tmp.introduction);
                 setMessage(tmp.message);
                 setType(tmp.typeResult);
-                console.log(result);
+                
             } catch (error) {
                 console.error(`/v1/festivals/${festivalId}/matchings/${matchingId}`, {
                     status: error.response?.status,

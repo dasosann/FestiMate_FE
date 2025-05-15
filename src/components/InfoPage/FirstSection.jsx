@@ -36,7 +36,7 @@ const FirstSection = ({setCurrentPage, name, setName, phone, setPhone, isFirstSe
     const handleNext = () => {
         if (isBothFilled) {
             setCurrentPage(prevPage => prevPage + 1);
-            console.log('다음 페이지로 이동');
+            
         }
     };
 

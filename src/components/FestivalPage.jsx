@@ -14,7 +14,7 @@ const FestivalPage = () => {
     const handleNext = () => {
         //TODO 백으로 코드 던져서 검증 추가
         if (inviteCode) {
-          console.log('다음 페이지로 이동');
+          
           navigate('/info');
         }
       };

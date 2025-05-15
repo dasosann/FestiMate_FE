@@ -92,7 +92,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
         try {
             const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
             setMatch(result.data.data.matchingList);
-            console.log(result);
         } catch (error) {
             console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
                 status: error.response?.status,
@@ -145,7 +144,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
     const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
-        <div className="ticket-card" onClick={matchingStatus === 'PENDING' ? () => navigate(`/festival/${festivalId}/${matchingId}`) : undefined}>
+        <div className="ticket-card" onClick={matchingStatus === 'PENDING' ? undefined : () => navigate(`/festival/${festivalId}/${matchingId}`)}>
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">
@@ -218,20 +217,6 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             }
         }
 
-        // 도트 크기를 현재 인덱스와의 차이에 따라 결정 (차이가 클수록 작게)
-        /*
-        const getDotSize = (dotIndex) => {
-            const maxSize = 10; // active일 때 최대 크기
-            const midSize = 8;
-            const nearSize = 6;
-            const minSize = 4;
-            const diff = Math.abs(currentIndex - dotIndex);
-            if (diff === 0) return maxSize;
-            else if (diff === 1) return midSize;
-            else if (diff === 2) return nearSize;
-            else return minSize;
-        };
-        */
         const getDotSize = (dotIndex) => {
             const maxSize = 7; // active일 때 최대 크기
             const midSize = 7;
