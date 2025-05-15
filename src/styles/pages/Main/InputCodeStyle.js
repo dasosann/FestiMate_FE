@@ -85,14 +85,13 @@ I.ConfirmModal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: 305px;
   background: #fff;
-  padding: 13px 13px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  padding: 13px 11px;
   z-index: 2000; 
   border-radius: 13px;
   text-align: center;
-  height: 188px;
+  height:215px;
 `;
 
 I.ModalTitle = styled.p`
@@ -102,7 +101,12 @@ I.ModalTitle = styled.p`
   margin-bottom: 4px;
   margin-top: 4px;
 `;
-
+I.SubTitle=styled.p`
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 140%;
+    color: #575A63;
+`
 I.ModalContent = styled.p`
   font-size: 15px;
   color: #575a63;
