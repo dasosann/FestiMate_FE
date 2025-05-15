@@ -91,7 +91,7 @@ I.ConfirmModal = styled.div`
   z-index: 2000; 
   border-radius: 13px;
   text-align: center;
-  height:215px;
+  height:188px;
 `;
 
 I.ModalTitle = styled.p`
@@ -105,7 +105,8 @@ I.SubTitle=styled.p`
     font-size: 15px;
     font-weight: 500;
     line-height: 140%;
-    color: #575A63;
+    color: #575a63;
+    margin-bottom: 13px;
 `
 I.ModalContent = styled.p`
   font-size: 15px;

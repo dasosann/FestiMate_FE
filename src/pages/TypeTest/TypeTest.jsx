@@ -115,8 +115,8 @@ const TypeTest = () => {
       {isExitModalOpen && (
         <>
           <I.ModalOverlay onClick={handleCancelExit} />
-          <I.ConfirmModal>
-            <I.ModalTitle>페스티벌 입장을 중단하시겠습니까?</I.ModalTitle>
+          <I.ConfirmModal style={{height:'136px'}}>
+            <I.ModalTitle style={{marginTop:'13px'}}>페스티벌 입장을 중단하시겠습니까?</I.ModalTitle>
             <I.SubTitle>입장 중단 시 입력 내용은 저장되지 않습니다</I.SubTitle>
             <I.ModalButtonWrapper>
               <I.ModalButton
