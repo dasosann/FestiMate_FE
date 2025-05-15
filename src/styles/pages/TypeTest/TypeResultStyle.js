@@ -29,17 +29,17 @@ R.HeaderDiv = styled.div`
   height: 43px;
   display: flex;
   align-items: center;
-  position: fixed;
+  /* position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 1000; */
   justify-content: space-between;
   font-size: 15px;
   font-weight: 600;
   color: #000;
   padding: 0 16px;
-  background-color: #f3f3f6;
+  /* background-color: #f3f3f6; */
 `;
 
 R.Left = styled.div`
