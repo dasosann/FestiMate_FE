@@ -145,7 +145,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
 
     // 티켓 카드 컴포넌트 (노치, 점선 등 포함)
     const TicketCard = ({ matchingId, matchingStatus, nickname, gender, birthYear, mbti, appearance, typeResult }) => (
-        <div className="ticket-card" onClick={matchingStatus === 'PENDING' ? () => navigate(`/festival/${festivalId}/${matchingId}`) : undefined}>
+        <div className="ticket-card" onClick={matchingStatus === 'PENDING' ? undefined : () => navigate(`/festival/${festivalId}/${matchingId}`)}>
             {/* 전체 solid 테두리를 위한 요소 */}
             <div className="ticket-border"></div>
             <div className="ticket-top">

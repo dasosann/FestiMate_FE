@@ -12,6 +12,7 @@ const FestivalInfo = () => {
     const festivalId = useParams().festivalId;
     const [date, setDate] = useState('');
     const [festivalName, setFestivalName] = useState('');
+    const [status, setStatus] = useState('');
 
     useEffect(() => {
         console.log(festivalId);
@@ -21,26 +22,29 @@ const FestivalInfo = () => {
                 setDate(result.data.data.festivalDate);
                 setFestivalName(result.data.data.festivalName);
                 
-                // 현재 날짜와 축제 종료일 비교하여 isFinished 설정
-                const festivalDateRange = result.data.data.festivalDate;
-                if (festivalDateRange && festivalDateRange.includes('~')) {
-                    const endDateStr = festivalDateRange.split('~')[1].trim();
-                    const endDateParts = endDateStr.split('.');
-                    const endDate = new Date(
-                        parseInt(endDateParts[0]),
-                        parseInt(endDateParts[1]) - 1, // 월은 0부터 시작하므로 -1
-                        parseInt(endDateParts[2])
-                    );
-                    
-                    const currentDate = new Date();
-                    
-                    // 종료일이 현재 날짜보다 이전이면 축제가 종료된 것
-                    if (endDate < currentDate) {
-                        setIsActive(false);
 
-                    } else {            
-                        setIsActive(true);
-                    }
+            } catch (error) {
+                console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        }
+        getFestival();
+    }, [festivalId]);
+
+    useEffect(() => {
+        console.log(festivalId);
+        const getFestivalStatus = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
+                
+                if(result.data.data.status === 'BEFORE' || result.data.data.status === 'REFUND') {
+                    setIsActive(false);
+                } 
+                else {
+                    setIsActive(true);
                 }
                 
                 console.log(result);
@@ -53,7 +57,7 @@ const FestivalInfo = () => {
                 setIsActive(false);
             }
         }
-        getFestival();
+        getFestivalStatus();
     }, [festivalId]);
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '/src/styles/Festival/FestivalInfo.css';
 import defaultProfile from '/assets/MyPage/default-profile.svg';
@@ -10,11 +10,21 @@ import rightArrow from '/assets/Festival/arrow-right.svg';
 import info from '/assets/Festival/info-btn.svg';
 import instance from '../../../axiosConfig';
 
+import male from '/assets/Festival/male.svg';
+import female from '/assets/Festival/female.svg';
+import profileArrow from '/assets/Festival/profile-arrow.svg';
+
 import newProfile from '/assets/Profile/new-type-profile.svg';
 import healProfile from '/assets/Profile/healing-type-profile.svg';
 import inssaProfile from '/assets/Profile/inssa-type-profile.svg';
 import planProfile from '/assets/Profile/plan-type-profile.svg';
 import shotProfile from '/assets/Profile/shot-type-profile.svg';
+
+import newCard from '/assets/Festival/new-matching.svg';
+import healCard from '/assets/Festival/healing-matching.svg';
+import inssaCard from '/assets/Festival/inssa-matching.svg';
+import planCard from '/assets/Festival/plan-matching.svg';
+import shotCard from '/assets/Festival/shot-matching.svg';
 
 
 const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
@@ -31,6 +41,23 @@ const DeactiveFestival = ({festivalName, festivalDate, festivalId}) => {
         'INFLUENCER': inssaProfile,
         'PLANNER': planProfile,
         'PHOTO': shotProfile
+    };
+
+    const CardMap = {
+        'NEWBIE': newCard,
+        'HEALING': healCard,
+        'INFLUENCER': inssaCard,
+        'PLANNER': planCard,
+        'PHOTO': shotCard
+    };
+
+    const faceMap = {
+        'DOG': "강아지상",
+        'CAT': "고양이상",
+        'BEAR': "곰상",
+        'RABBIT': "토끼상",
+        'FOX': "여우상",
+        'DINOSAUR': "공룡상"
     };
 
     useEffect(() => {
