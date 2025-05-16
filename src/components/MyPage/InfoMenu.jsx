@@ -88,7 +88,7 @@ const InfoMenu = ({festivalId}) => {
     }, [festivalId]);
 
     const copyAccountNumber = () => {
-        const textToCopy = "카카오뱅크 3333-18-89015";
+        const textToCopy = "카카오뱅크 7942-17-77721";
         navigator.clipboard.writeText(textToCopy)
             .then(() => {
                 setToastMessage("계좌번호가 복사되었습니다.");
@@ -148,7 +148,7 @@ const InfoMenu = ({festivalId}) => {
                                 )}
                             </div>
                             <div className="account-num">
-                                카카오뱅크 3333-18-89015
+                                카카오뱅크 7942-17-77721
                                 <img src={copyBtn} onClick={copyAccountNumber} alt="복사 버튼" />
                             </div>
                             <div className="account-time">
