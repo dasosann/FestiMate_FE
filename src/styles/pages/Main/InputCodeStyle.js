@@ -85,23 +85,23 @@ I.ConfirmModal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-height: 136px
+  height:auto;
   width: 305px;
   background: #fff;
   padding: 13px 11px;
   z-index: 2000; 
   border-radius: 13px;
   text-align: center;
-  height:auto;
 `;
 
-I.ModalTitle = styled.p`
+I.ModalTitle = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: #000;
   margin-bottom: 4px;
-  margin-top: 4px;
 `;
-I.SubTitle=styled.p`
+I.SubTitle=styled.div`
     font-size: 15px;
     font-weight: 500;
     line-height: 140%;
