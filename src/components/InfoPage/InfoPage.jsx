@@ -78,8 +78,6 @@ const InfoPage = () => {
                 if (accessToken && refreshToken) {
                     localStorage.setItem('jwtToken', accessToken);
                     localStorage.setItem('refreshToken', refreshToken);
-                    console.log('Updated jwtToken:', accessToken);
-                    console.log('Updated refreshToken:', refreshToken);
                 }
 
                 alert("정보가 성공적으로 제출되었습니다!");

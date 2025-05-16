@@ -52,7 +52,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
       }
       setStep(2);
     } else if (step === 2) {
-      console.log('제출 데이터:', { contactInfo, message, festivalId, festivalType });
       const submitData = {
         typeResult: festivalType,
         introduction: contactInfo,
@@ -63,7 +62,6 @@ const TypeResult = ({ festivalType, festivalId }) => {
           `v1/festivals/${festivalId}/participants`,
           submitData
         );
-        console.log('모든정보 입력 후 응답', response);
         navigate(`/festival/${festivalId}`, { replace: true });
       } catch (error) {
         console.error('사용자 정보 전송 실패, 축제 프로필 생성 실패', error);

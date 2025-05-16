@@ -59,7 +59,6 @@ const ParticipateFestivalComponent = ({ category, title, startDate, endDate, sel
 
   const navigateToFestivalInfo = () => {
     if (isWithin7Days) {
-      console.log(`Navigating to festival/${festivalId}`);
       navigate(`/festival/${festivalId}`);
     }
   };
