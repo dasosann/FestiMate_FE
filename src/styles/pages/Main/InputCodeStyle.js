@@ -96,6 +96,9 @@ I.ConfirmModal = styled.div`
 `;
 
 I.ModalTitle = styled.div`
+  height: 25px;
+  display: flex;
+  align-items:center;
   font-size: 18px;
   font-weight: 700;
   color: #000;
