@@ -91,7 +91,7 @@ I.ConfirmModal = styled.div`
   z-index: 2000; 
   border-radius: 13px;
   text-align: center;
-  height:188px;
+  height:auto;
 `;
 
 I.ModalTitle = styled.p`
