@@ -45,9 +45,7 @@ const FestivalInfo = () => {
                 } 
                 else {
                     setIsActive(true);
-                }
-                
-                
+                }                
             } catch (error) {
                 console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
                     status: error.response?.status,

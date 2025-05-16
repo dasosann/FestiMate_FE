@@ -68,6 +68,12 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
                 const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
                 setPoint(result.data.data.point)
                 setType(result.data.data.typeResult);
+                if(result.data.data.status === 'BEFORE') {
+                    setIsStart(false);
+                } 
+                else {
+                    setIsStart(true);
+                }
             } catch (error) {
                 console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:", {
                     status: error.response?.status,
@@ -77,15 +83,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             }
         }
         getInfo();
-    }, [festivalId]);
-
-    useEffect(() => {
-        if (festivalDate) {
-            const startDate = new Date(festivalDate.split(' ~ ')[0]);
-            const currentDate = new Date();
-            setIsStart(currentDate >= startDate);
-        }
-    }, [festivalDate, location.pathname]);
+    }, [festivalId, location.pathname]);
 
     // useEffect 바깥에 선언
     const getMatching = async () => {
