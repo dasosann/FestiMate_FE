@@ -39,8 +39,8 @@ const FestivalInfo = () => {
         const getFestivalStatus = async () => {
             try {
                 const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
-                
-                if(result.data.data.status === 'BEFORE' || result.data.data.status === 'REFUND') {
+                console.log("응답 결과", result);
+                if(result.data.data.status === 'REFUND') {
                     setIsActive(false);
                 } 
                 else {
