@@ -61,7 +61,6 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType, festiva
 
     if (currentQuestionIndex === questions.length - 1) {
       setIsLoading(true); // 로딩 시작
-      console.log("제출 데이터:", answers);
       const submitData = {
         q1: answers[0],
         q2: answers[1],
@@ -75,7 +74,6 @@ const TypeQuestionSelect = ({ setStarted, setCompleted, setFestivalType, festiva
         const minLoadingTime = new Promise(resolve => setTimeout(resolve, 1000));
         const response = await instance.post(`/v1/festivals/${festivalId}/participants/type`, submitData);
         await minLoadingTime; // 요청과 최소 1초 대기 병렬 처리
-        console.log('서버 응답:', response.data);
         setFestivalType(response.data.data.typeResult);
         setCompleted(true);
       } catch (error) {

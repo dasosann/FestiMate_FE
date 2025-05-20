@@ -37,7 +37,6 @@ const InputCode = () => {
       const response = await instance.post('/v1/festivals/verify', {
         inviteCode: codeValue,
       });
-      console.log('페스티벌 코드 응답', response);
       const { code, data } = response.data;
 
       if (code === 2000) {

@@ -164,6 +164,7 @@ const InfoMenu = ({festivalId}) => {
                     </div>
                     : null
                 }
+                
             </div>
             <div className="divide-line"></div>
             <div className="info-bottom-container">
