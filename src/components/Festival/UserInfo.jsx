@@ -30,6 +30,7 @@ const UserInfo = () => {
     const [contact, setContact] = useState('');
     const [message, setMessage] = useState('');
     const [type, setType] = useState('');
+    const [match, setMatch] = useState([]);
 
     const festivalId = useParams().festivalId;
     const matchingId = useParams().matchingId;
@@ -70,8 +71,29 @@ const UserInfo = () => {
                 });
             }
         }
-        getInfo();
-    }, [location.state]);
+
+        const getMatching = async () => {
+            try {
+                const result = await instance.get(`/v1/festivals/${festivalId}/matchings`);
+                const matchingList = result.data.data.matchingList;
+                setMatch(matchingList);
+                
+                // 매칭 ID가 리스트에 있는지 확인
+                const matchingExists = matchingList.some(matching => matching.matchingId === parseInt(matchingId));
+                if (!matchingExists) {
+                    navigate(-1); // 이전 페이지로 이동
+                }
+                getInfo();
+            } catch (error) {
+                console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    message: error.message,
+                });
+            }
+        };
+        getMatching();
+    }, [location.state, matchingId]);
 
     return (
         <>
