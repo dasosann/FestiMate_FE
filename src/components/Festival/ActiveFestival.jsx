@@ -83,7 +83,7 @@ const ActiveFestival = ({festivalName, festivalDate, festivalId}) => {
             }
         }
         getInfo();
-    }, [festivalId, location.pathname]);
+    }, [location.pathname]);
 
     // useEffect 바깥에 선언
     const getMatching = async () => {

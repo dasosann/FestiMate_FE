@@ -67,15 +67,22 @@ const MyProfile = ({festivalId}) => {
     
             img.onload = async () => {
                 const scale = 9;
+                const padding = 1.5; // 이미지 주변 여백을 위한 패딩 배수
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width * scale;
-                canvas.height = img.height * scale;
+                canvas.width = img.width * scale * padding;
+                canvas.height = img.height * scale * padding;
                 const ctx = canvas.getContext('2d');
                 
-                // 배경을 투명하게 설정
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                // 이미지 그리기
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // 흰색 배경 설정
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 이미지를 중앙에 배치
+                const x = (canvas.width - img.width * scale) / 2;
+                const y = (canvas.height - img.height * scale) / 2;
+                
+                // 이미지 그리기 (원본 비율 유지)
+                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
     
                 canvas.toBlob(async (blob) => {
                     if (!blob) {
