@@ -91,7 +91,7 @@ const TypeResult = ({ festivalType, festivalId }) => {
     try {
         const img = new Image();
         img.crossOrigin = 'anonymous';
-        img.src = CardMap[type];
+        img.src = image;
 
         img.onload = async () => {
             const scale = 9;
