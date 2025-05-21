@@ -82,8 +82,9 @@ const UserInfo = () => {
                 const matchingExists = matchingList.some(matching => matching.matchingId === parseInt(matchingId));
                 if (!matchingExists) {
                     navigate(-1); // 이전 페이지로 이동
+                }else {
+                    getInfo();
                 }
-                getInfo();
             } catch (error) {
                 console.error("[getMatching API Error] GET /v1/festivals/${festivalId}/matchings:", {
                     status: error.response?.status,
