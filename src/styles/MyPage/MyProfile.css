@@ -108,6 +108,7 @@
     font-weight: var(--semibold);
     color: var(--gray07);
     text-align: left;
+    white-space: pre-wrap;
 }
 
 .profile-card-container {
@@ -116,6 +117,14 @@
     padding: 26px 40px 0px 40px;
     width: 100%;
     margin-bottom: 26px;
+}
+
+.matching-profile-card-container {
+    display: flex;
+    justify-content: center;
+    padding: 26px 40px 0px 40px;
+    width: 100%;
+    margin-bottom: 100px;
 }
 
 .profile-card {

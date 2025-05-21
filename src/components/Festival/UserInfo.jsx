@@ -118,7 +118,7 @@ const UserInfo = () => {
 
             <div className="divide-line"></div>
 
-            <div className="profile-card-container">
+            <div className="matching-profile-card-container">
                 <img src={CardMap[type]} className="profile-card" alt="카드" />
             </div>
             <div className="profile-btn-container"></div>

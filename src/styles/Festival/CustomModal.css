@@ -89,8 +89,3 @@
 
 
 }
-
-/* 버튼 hover 시 색상 변경 */
-.modal-buttons button:hover {
-    background-color: #0056b3;
-}
