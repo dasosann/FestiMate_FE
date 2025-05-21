@@ -87,69 +87,62 @@ const TypeResult = ({ festivalType, festivalId }) => {
   };
 
   // 캔버스를 사용해 3/2 크기 PNG로 공유 (214x319px)
-    const handleInstagramShare = async () => {
+  const handleInstagramShare = async () => {
     try {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.src = image; // SVG 사용
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      });
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = CardMap[type];
 
-      // const canvas = document.createElement('canvas');
-      // const scale = 2; // 2x 스케일
-      // canvas.width = 321 * scale; // 642px
-      // canvas.height = 479 * scale; // 958px
-      // const ctx = canvas.getContext('2d');
-      // ctx.imageSmoothingEnabled = false; // 선명도 유지
-      // ctx.fillStyle = 'rgb(243, 243, 246)';
-      // ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // ctx.scale(scale, scale);
-      // ctx.drawImage(img, 0, 0, 321, 479);
+        img.onload = async () => {
+            const scale = 9;
+            const padding = 1.5; // 이미지 주변 여백을 위한 패딩 배수
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width * scale * padding;
+            canvas.height = img.height * scale * padding;
+            const ctx = canvas.getContext('2d');
+            
+            // 흰색 배경 설정
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 이미지를 중앙에 배치
+            const x = (canvas.width - img.width * scale) / 2;
+            const y = (canvas.height - img.height * scale) / 2;
+            
+            // 이미지 그리기 (원본 비율 유지)
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 
-      /* 인스타그램 스토리 최적화 (1080x1620px) - 필요 시 주석 해제 */
-      const canvas = document.createElement('canvas');
-      const scale = 2;
-      canvas.width = 1080 * scale; // 2160px 
-      canvas.height = 1620 * scale; // 3240px
-      const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingEnabled = false;
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(scale, scale);
-      const aspectRatio = 321 / 479;
-      const newHeight = 1620;
-      const newWidth = newHeight * aspectRatio; // 약 724px
-      const offsetX = (1080 - newWidth) / 2; // 중앙 정렬
-      const offsetY = 0;
-      ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
-      
+            canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    console.error('Blob 생성 실패');
+                    return;
+                }
+                const file = new File([blob], 'shared-image.png', { type: blob.type });
 
-      console.log('공유 캔버스 크기:', canvas.width, 'x', canvas.height);
-      console.log('공유 이미지 출력 크기:', 321, 'x', 479);
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: '내 페스티메이트 결과',
+                            text: '내 매칭 타입 결과를 확인해보세요!',
+                        });
+                        
+                    } catch (error) {
+                        console.error('공유 실패:', error);
+                    }
+                } else {
+                    alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
+                }
+            });
+        };
 
-      const blob = await new Promise((resolve) => {
-        canvas.toBlob(resolve, 'image/png', 1.0);
-      });
-
-      const file = new File([blob], 'result.png', { type: 'image/png' });
-      console.log('공유 파일 크기:', file.size, '바이트');
-
-      if (navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: '내 페스티메이트 결과',
-          text: '내 매칭 타입 결과를 확인해보세요!',
-        });
-        console.log('공유 성공');
-      } else {
-        alert('이 기능은 해당 브라우저에서 지원되지 않습니다.');
-      }
+        img.onerror = (error) => {
+            console.error('이미지 로드 실패:', error);
+        };
     } catch (error) {
-      console.error('이미지 공유 중 오류 발생:', error);
+        console.error('이미지 공유 중 오류 발생:', error);
     }
-  };
+};
 
   // 다운로드 (SVG 기반 고해상도 PNG)
   const handleDownloadClick = async () => {
