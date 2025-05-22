@@ -47,44 +47,27 @@ const InfoMenu = ({festivalId}) => {
                 });
             }
         }
-        const getFestival = async () => {
+        const getInfo = async () => {
             try {
-                const result = await instance.get(`/v1/festivals/${festivalId}`);
-                //setDate(result.data.data.festivalDate);
-                
-                const festivalDateRange = result.data.data.festivalDate;
-                if (festivalDateRange && festivalDateRange.includes('~')) {
-                    const endDateStr = festivalDateRange.split('~')[1].trim();
-                    const endDateParts = endDateStr.split('.');
-                    const endDate = new Date(
-                        parseInt(endDateParts[0]),
-                        parseInt(endDateParts[1]) - 1, // 월은 0부터 시작하므로 -1
-                        parseInt(endDateParts[2])
-                    );
-                    
-                    const currentDate = new Date();
-                    
-                    // 종료일이 현재 날짜보다 이전이면 축제가 종료된 것
-                    if (endDate < currentDate) {
-                        setIsActive(false);
-
-                    } else {            
-                        setIsActive(true);
-                    }
+                const result = await instance.get(`/v1/festivals/${festivalId}/participants/me/summary`);
+                setType(result.data.data.typeResult);
+                if(result.data.data.status === 'REFUND') {
+                    setIsActive(false);
+                } 
+                else {
+                    setIsActive(true);
                 }
-                
-                
             } catch (error) {
-                console.error("[festival API Error] GET /v1/festivals/${festivalId}:", {
+                console.error("[getInfo API Error] GET /v1/festivals/${festivalId}/participants/me/summary:", {
                     status: error.response?.status,
                     data: error.response?.data,
                     message: error.message,
                 });
-                setIsActive(false);
             }
         }
+        getInfo();
         getNickname();
-        getFestival();
+        
     }, [festivalId]);
 
     const copyAccountNumber = () => {
