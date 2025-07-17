@@ -6,6 +6,7 @@ import ThirdSection from './ThirdSection';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import instance from '../../../axiosConfig';
+import axios from 'axios';
 
 const InfoPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -70,13 +71,12 @@ const InfoPage = () => {
         };  
         
         try {
-    const response = await instance.post('/v1/users/signup', data, {
+    const response = await axios.post('/v1/users/signup', data, {
         headers: {
-            Authorization: localStorage.getItem('jwtToken') || ''  // Bearer 접두사를 따로 제거하지 않음
+            Authorization: localStorage.getItem('jwtToken')
         }
         });
-   
-            
+        console.log("회원가입 응답",response);
             if (response.data.code === 2010) {
                 // 새로운 토큰 저장
                 const { accessToken, refreshToken } = response.data.data;
