@@ -70,7 +70,12 @@ const InfoPage = () => {
         };  
         
         try {
-            const response = await instance.post('/v1/users/signup', data);
+    const response = await instance.post('/v1/users/signup', data, {
+        headers: {
+            Authorization: localStorage.getItem('jwtToken') || ''  // Bearer 접두사를 따로 제거하지 않음
+        }
+        });
+   
             
             if (response.data.code === 2010) {
                 // 새로운 토큰 저장
