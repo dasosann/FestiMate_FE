@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import '/src/styles/InfoPage/SecondSection.css';
 import check from '/assets/InfoPage/check-coral.svg';
 import instance from '../../../axiosConfig';
+import axios from 'axios';
 
 const SecondSection = ({setCurrentPage, nickname, setNickname, 
     gender, setGender, year, setYear, isSecondSectionValid, setIsSecondSectionValid, canPass, setCanPass}) => {
@@ -54,11 +55,17 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
             setIsValidNickname(true);
         }
     };
-
+    // 헤더가 필요 없는 API용 인스턴스
+const publicInstance = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_URL, // 환경 변수에서 baseURL 가져옴
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
     const isDuplicatedNickname = async () => {
         const checkNickname = async () => {
             try {
-                const result = await instance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
+                const result = await publicInstance.post(`/v1/users/validate-nickname?nickname=${nickname}`);
                 
                 if(result.status==200) {
                     setCanPass(true); // 닉네임 허용됨
