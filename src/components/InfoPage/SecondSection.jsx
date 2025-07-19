@@ -75,6 +75,10 @@ const publicInstance = axios.create({
                     setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
                 }
             } catch (error) {
+                if(result.status==409) { 
+                    setCanPass(false);
+                    setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
+                }
                 console.error("[duplicate check API Error] GET /v1/users/validate-nickname:", {
                     status: error.response?.status,
                     data: error.response?.data,
