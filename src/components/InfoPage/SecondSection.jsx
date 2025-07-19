@@ -63,7 +63,8 @@ const SecondSection = ({setCurrentPage, nickname, setNickname,
                 if(result.status==200) {
                     setCanPass(true); // 닉네임 허용됨
                 }
-                else if(result.status==409) { 
+                //else if(result.status==409) { 
+                else{
                     setCanPass(false);
                     setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
                 }
