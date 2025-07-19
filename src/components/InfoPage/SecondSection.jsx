@@ -75,7 +75,7 @@ const publicInstance = axios.create({
                     setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
                 }
             } catch (error) {
-                if(result.status==409) { 
+                if(error.status==409) { 
                     setCanPass(false);
                     setNicknameError("중복된 닉네임입니다. 다시 입력해주세요.");
                 }
