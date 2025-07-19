@@ -27,7 +27,7 @@ const App = () => {
   // });
 
   return (
-    <div>
+    <div translate="no" className="notranslate">
       <OpenExternalBrowser/>
         <BrowserRouter>
           <Routes>
